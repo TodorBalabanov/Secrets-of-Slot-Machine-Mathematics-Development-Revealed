@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<parcel language="Java" xmlns:parcel="scripting.dtd">
+  <script language="Java">
+    <locale lang="en">
+      <displayname value="Bingo Tropical Hot Simulator" />
+      <description>Run simulation of Bingo Tropical Hot slot machine.</description>
+    </locale>
+    <functionname value="eu.veldsoft.bths.Simulator.simulate"/>
+    <logicalname value="eu.veldsoft.bths.Simulator.simulate"/>
+    <languagedepprops>
+      <prop name="classpath" value="Bingo-Tropical-Hot-Simulator.jar"/>
+    </languagedepprops>
+  </script>
+</parcel>
