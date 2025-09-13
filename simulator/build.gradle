@@ -1,0 +1,69 @@
+plugins {
+    id 'java'
+}
+
+group = 'eu.veldsoft.bths'
+version = '1.0.0'
+
+/**
+ * Detect LibreOffice classes folder on different OSes
+ */
+def detectLibreOfficeClassesDir() {
+    def candidates = []
+
+    if (System.properties['os.name'].toLowerCase().contains('win')) {
+        candidates << "${System.getenv('ProgramFiles')}\\LibreOffice\\program\\classes"
+        candidates << "${System.getenv('ProgramFiles(x86)')}\\LibreOffice\\program\\classes"
+    } else if (System.properties['os.name'].toLowerCase().contains('mac')) {
+        candidates << "/Applications/LibreOffice.app/Contents/Resources/java"
+    } else {
+        // Assume Linux/Unix-like
+        candidates << "/usr/lib/libreoffice/program/classes"
+        candidates << "/usr/share/libreoffice/program/classes"
+    }
+
+    return candidates.find { new File(it, "libreoffice.jar").exists() }
+}
+
+def libreOfficeClassesDir = detectLibreOfficeClassesDir()
+
+if (libreOfficeClassesDir == null) {
+    throw new GradleException("Could not find libreoffice.jar — please install LibreOffice or set LIBREOFFICE_HOME.")
+}
+
+repositories {
+    flatDir {
+        dirs libreOfficeClassesDir
+    }
+}
+
+dependencies {
+    implementation name: 'libreoffice'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+jar {
+    archiveBaseName = 'Bingo-Tropical-Hot-Simulator'
+    from sourceSets.main.output
+    manifest {
+        attributes(
+            'Main-Class': 'eu.veldsoft.bths.Simulator'
+        )
+    }
+}
+
+tasks.register('deploy', Copy) {
+    dependsOn jar
+    from("${buildDir}/libs/${jar.archiveFileName.get()}")
+    from("parcel-descriptor.xml")
+
+    def loUserScripts = System.getProperty('os.name').toLowerCase().contains('win') ?
+        "${System.getenv('APPDATA')}\\LibreOffice\\4\\user\\Scripts\\java\\Bingo-Tropical-Hot-Simulator" :
+        "${System.getProperty('user.home')}/.config/libreoffice/4/user/Scripts/java/Bingo-Tropical-Hot-Simulator"
+
+    into(loUserScripts)
+}
