@@ -8,7 +8,7 @@
     <functionname value="eu.veldsoft.bths.Simulator.simulate"/>
     <logicalname value="eu.veldsoft.bths.Simulator.simulate"/>
     <languagedepprops>
-      <prop name="classpath" value="Bingo-Tropical-Hot-Simulator.jar"/>
+      <prop name="classpath" value="Bingo-Tropical-Hot-Simulator-1.0.0.jar"/>
     </languagedepprops>
   </script>
 </parcel>

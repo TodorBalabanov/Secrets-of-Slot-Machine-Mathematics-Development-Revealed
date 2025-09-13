@@ -1,15 +1,3 @@
-/*
-
-javac -cp "C:\Program Files\LibreOffice\program\classes\libreoffice.jar" -d build .\eu\veldsoft\bths\Simulator.java
-
-jar cf Bingo-Tropical-Hot-Simulator.jar -C build .
-
-%APPDATA%/LibreOffice/4/user/Scripts/java/Bingo-Tropical-Hot-Simulator/
-
-C:/Users/Todor Balabanov/AppData/Roaming/LibreOffice/4/user/Scripts/java/Bingo-Tropical-Hot-Simulator
-
-*/
-
 package eu.veldsoft.bths;
 
 import com.sun.star.script.provider.XScriptContext;
