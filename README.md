@@ -7,4 +7,5 @@ The repository collects supporting materials for the book "Secrets of Slot Machi
 clear && gradlew clean build deploy
 
 ## Formatting the Source Code
+
 astyle --style=java --indent=tab --recursive *.java
