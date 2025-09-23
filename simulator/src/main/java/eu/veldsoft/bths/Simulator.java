@@ -13,12 +13,12 @@ public class Simulator {
 	private static final SecureRandom PRNG = new SecureRandom();
 
 	private static int paytable[][] = {
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,},
-		{0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,1,0,0,},
-		{0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,},
-		{0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,},
+		{0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,1,0,0,},
+		{0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,},
+		{0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,},
 	};
 
 	private static int lines[][] = {
@@ -47,6 +47,140 @@ public class Simulator {
 		{1,3,4,5,6,7,8,9,10,11,12,16,},
 		{1,3,4,5,6,7,8,9,10,11,12,16,},
 		{1,3,4,5,6,7,8,9,10,11,12,},
+	};
+
+	private static int singleBet = 1;
+	private static int totalBet = 20;
+	private static long wonMoney = 0L;
+	private static long lostMoney = 0L;
+	private static long totalNumberOfGames = 0L;
+	private static long totalNumberOfFreeSpins = 0L;
+	private static long totalNumberOfFreeSpinsStarts = 0L;
+	private static long totalNumberOfFreeSpinsRestarts = 0L;
+	private static long baseGameMoney = 0L;
+	private static long freeSpinsMoney = 0L;
+	private static long bonusGameMoney = 0L;
+	private static long maxWin = 0L;
+	private static long baseGameMaxWin = 0L;
+	private static long freeSpinsMaxWin = 0L;
+	private static long bonusGameMaxWin = 0L;
+	private static long baseGameHitFrequency = 0L;
+	private static long freeSpinsHitFrequency = 0L;
+	private static long bonuseGameHitFrequency = 0L;
+	private static int freeSpinsAmount = 0;
+	private static int freeSpinsMultiplier = 0;
+
+	private static int view[][] = {
+		{ -1, -1, -1 },
+		{ -1, -1, -1 },
+		{ -1, -1, -1 },
+		{ -1, -1, -1 },
+		{ -1, -1, -1 },
+	};
+
+	private static int bingo[][][] = {
+		{
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+		},
+		{
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+		},
+		{
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+		},
+		{
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+		},
+		{
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+		},
+		{
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+			{ 0, 0, 0 },
+		},
+	};
+
+	private static long baseGameSymbolsMoney[][] = {
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+	};
+
+	private static long baseGameSymbolsHitFrequency[][] = {
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+	};
+
+	private static long freeSpinsSymbolsMoney[][] = {
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+	};
+
+	private static long freeSpinsSymbolsHitFrequency[][] = {
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
 	};
 
 	public static void simulate(XScriptContext ctx) {
