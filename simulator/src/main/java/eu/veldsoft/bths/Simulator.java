@@ -70,6 +70,11 @@ public class Simulator {
 	private static int freeSpinsAmount = 0;
 	private static int freeSpinsMultiplier = 0;
 
+	private static int payingScatters[] = {16};
+	private static int freeSpinsTrigerScatters[] = {15};
+	private static int rewardFreeSpins[] = {0,0,0,3,5,7};
+	private static int freeSpinsMultipliers[] = {0,0,0,1,2,3};
+
 	private static int view[][] = {
 		{ -1, -1, -1 },
 		{ -1, -1, -1 },
@@ -182,6 +187,82 @@ public class Simulator {
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
 	};
+
+	private static void spin(int reels[][]) {
+		for (int i = 0, up, middle, down; i < reels.length; i++) {
+			up = PRNG.nextInt( reels[i].length );
+			middle = up + 1;
+			down = up + 2;
+
+			middle = middle % reels[i].length;
+			down = down % reels[i].length;
+
+			view[i][0] = reels[i][up];
+			view[i][1] = reels[i][middle];
+			view[i][2] = reels[i][down];
+		}
+	}
+
+	private static int[] rewardFreeSpins(int scatter) {
+		int result[] = {0,0};
+
+		int numberOfScatters = 0;
+		for (int i = 0; i < view.length; i++) {
+			for (int j = 0; j < view[i].length; j++) {
+				if (view[i][j] == scatter) {
+					numberOfScatters++;
+				}
+			}
+		}
+
+		result[0] = rewardFreeSpins[numberOfScatters];
+		result[1] = freeSpinsMultipliers[numberOfScatters];
+
+		return result;
+	}
+
+	private static int[] wildLineWin(int line[], int wild) {
+		if (line[0] != wild) {
+			return new int[] {0,-1,0};
+		}
+
+		int number = 0;
+		for (int i = 0; i < line.length; i++) {
+			if (line[i] != wild) {
+				break;
+			}
+			number++;
+		}
+
+		int result[] = {0,0,0};
+		result[0] = paytable[number][wild];
+		result[1] = wild;
+		result[2] = number;
+		return result;
+	}
+
+	private static int scatterWin(int scatter) {
+		int numberOfScatters = 0;
+		for (int i = 0; i < view.length; i++) {
+			for (int j = 0; j < view[i].length; j++) {
+				if (view[i][j] == scatter) {
+					numberOfScatters++;
+				}
+			}
+		}
+
+		int win = paytable[numberOfScatters][scatter];
+
+		if (win > 0 && freeSpinsAmount == 0) {
+			baseGameSymbolsMoney[numberOfScatters][scatter] += win;
+			baseGameSymbolsHitFrequency[numberOfScatters][scatter]++;
+		} else if (win > 0 && freeSpinsAmount > 0) {
+			freeSpinsSymbolsMoney[numberOfScatters][scatter] += win;
+			freeSpinsSymbolsHitFrequency[numberOfScatters][scatter]++;
+		}
+
+		return win;
+	}
 
 	public static void simulate(XScriptContext ctx) {
 		try {
