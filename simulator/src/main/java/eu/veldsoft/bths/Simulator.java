@@ -11,6 +11,7 @@ import com.sun.star.frame.XModel;
 import com.sun.star.sheet.XSpreadsheetDocument;
 import com.sun.star.container.XIndexAccess;
 import com.sun.star.sheet.XSpreadsheet;
+import com.sun.star.table.CellContentType;
 
 public class Simulator {
 	private static final SecureRandom PRNG = new SecureRandom();
@@ -406,9 +407,30 @@ public class Simulator {
 			XModel model = ctx.getDocument();
 			XSpreadsheetDocument document = UnoRuntime.queryInterface(XSpreadsheetDocument.class, model);
 			XIndexAccess sheets = UnoRuntime.queryInterface(XIndexAccess.class, document.getSheets());
-			XSpreadsheet first = UnoRuntime.queryInterface(XSpreadsheet.class, sheets.getByIndex(0));
 
-			first.getCellByPosition(0, 0).setFormula("Simulation!");
+			XSpreadsheet summary = UnoRuntime.queryInterface(XSpreadsheet.class, sheets.getByIndex(0));
+			int numberOfRows = (int)summary.getCellByPosition(1,1).getValue();
+			int numberOfColumns = (int)summary.getCellByPosition(1,2).getValue();
+			int numberOfBettingLines = (int)summary.getCellByPosition(1,3).getValue();
+			summary.getCellByPosition(4, 1).setFormula(""+numberOfBettingLines);
+
+			XSpreadsheet paytable = UnoRuntime.queryInterface(XSpreadsheet.class, sheets.getByIndex(1));
+			int tableRows = 0;
+			int tableColumns = 0;
+			for (int i = 4; paytable.getCellByPosition(i,1).getType()!=CellContentType.EMPTY; i++) {
+				tableColumns++;
+			}
+			for (int j = 1; paytable.getCellByPosition(4, j).getType()!=CellContentType.EMPTY; j++) {
+				tableRows++;
+			}
+			paytable.getCellByPosition(11, 1).setFormula(""+tableColumns);
+			paytable.getCellByPosition(12, 1).setFormula(""+tableRows);
+			//TODO Create two dimensional array from the paytable.
+			for (int i = 0; i<tableColumns; i++) {
+				for (int j = 0; j<tableRows; j++) {
+					int value = (int)paytable.getCellByPosition(4+i,1+j).getValue();
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
