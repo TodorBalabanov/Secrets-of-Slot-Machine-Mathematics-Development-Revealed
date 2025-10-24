@@ -14,6 +14,7 @@ import com.sun.star.sheet.XSpreadsheetDocument;
 import com.sun.star.container.XIndexAccess;
 import com.sun.star.sheet.XSpreadsheet;
 import com.sun.star.table.CellContentType;
+import com.sun.star.text.XText;
 
 public class Simulator {
 	private static final SecureRandom PRNG = new SecureRandom();
@@ -30,8 +31,8 @@ public class Simulator {
 
 	private static int freeSpinsMultipliers[] = {};
 
-	private static int singleBet = 1;
-	private static int totalBet = 20;
+	private static int singleBet = 0;
+	private static int totalBet = 0;
 	private static long wonMoney = 0L;
 	private static long lostMoney = 0L;
 	private static long totalNumberOfGames = 0L;
@@ -40,6 +41,10 @@ public class Simulator {
 	private static long totalNumberOfFreeSpinsRestarts = 0L;
 	private static long baseGameMoney = 0L;
 	private static long freeSpinsMoney = 0L;
+	private static long bingoLineMoney = 0L;
+	private static long bingoLineHitFrequency = 0L;
+	private static long bingoFullHouseMoney = 0L;
+	private static long bingoFullHouseHitFrequency = 0L;
 	private static long bonusGameMoney = 0L;
 	private static long maxWin = 0L;
 	private static long baseGameMaxWin = 0L;
@@ -48,19 +53,18 @@ public class Simulator {
 	private static long baseGameHitFrequency = 0L;
 	private static long freeSpinsHitFrequency = 0L;
 	private static long bonuseGameHitFrequency = 0L;
-	private static int freeSpinsAmount = 0;
-	private static int freeSpinsMultiplier = 0;
-	private static Set<Integer> wilds = Set.of( 1 );
-	private static Set<Integer> payingScatters = Set.of( 16 );
-	private static Set<Integer> freeSpinsTrigerScatters = Set.of( 15 );
+	private static long baseGameSymbolsMoney[][] = {};
+	private static long baseGameSymbolsHitFrequency[][] = {};
+	private static long freeSpinsSymbolsMoney[][] = {};
+	private static long freeSpinsSymbolsHitFrequency[][] = {};
 
-	private static int view[][] = {
-		{ -1, -1, -1 },
-		{ -1, -1, -1 },
-		{ -1, -1, -1 },
-		{ -1, -1, -1 },
-		{ -1, -1, -1 },
-	};
+	//TODO Read values from the paytable spreadsheet.
+	private static Set<Integer> wilds = new HashSet<>();
+	private static Set<Integer> payingScatters = new HashSet<>();
+	private static Set<Integer> freeSpinsTrigerScatters = new HashSet<>();
+
+	/** Helping array for the game screen configuration. */
+	private static int view[][] = {};
 
 	private static int bingoCards[][] = {
 		{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -86,43 +90,8 @@ public class Simulator {
 		{ false, false, false, false, false, false, false, false, false, false, false,	false, false, false, false, false, false, false },
 	};
 
+	/** Helper array for bingo cards handling. */
 	private static int numbersInRow[] = {};
-
-	private static long baseGameSymbolsMoney[][] = {
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-	};
-
-	private static long baseGameSymbolsHitFrequency[][] = {
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-	};
-
-	private static long freeSpinsSymbolsMoney[][] = {
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-	};
-
-	private static long freeSpinsSymbolsHitFrequency[][] = {
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-	};
 
 	private static boolean fixRows() {
 		boolean wasItChanged = false;
@@ -267,6 +236,12 @@ public class Simulator {
 		}
 	}
 
+	/** Helping variable for the free spins mode as number of spins. */
+	private static int freeSpinsAmount = 0;
+
+	/** Helping variable in free spins mode for the active win multiplier. */
+	private static int freeSpinsMultiplier = 0;
+
 	private static void spin(int reels[][]) {
 		for (int i = 0, up, middle, down; i < reels.length; i++) {
 			up = PRNG.nextInt( reels[i].length );
@@ -389,6 +364,8 @@ public class Simulator {
 			int numberOfColumns = (int)summary.getCellByPosition(1,2).getValue();
 			int numberOfBettingLines = (int)summary.getCellByPosition(1,3).getValue();
 
+			view = new int[numberOfColumns][numberOfRows];
+
 			/* Read paytable. */
 			XSpreadsheet paytable = UnoRuntime.queryInterface(XSpreadsheet.class, sheets.getByIndex(1));
 			int tableRows = 0;
@@ -405,6 +382,23 @@ public class Simulator {
 					Simulator.paytable[r][c] = (int)paytable.getCellByPosition(4+c,1+r).getValue();
 				}
 			}
+			wilds = new HashSet<>();
+			payingScatters = new HashSet<>();
+			freeSpinsTrigerScatters = new HashSet<>();
+			for (int r = 0; r<tableRows; r++) {
+				if(UnoRuntime.queryInterface(XText.class, paytable.getCellByPosition(2,1+r)).getString().equals("wild")) {
+					wilds.add( (int)paytable.getCellByPosition(3,1+r).getValue() );
+				}
+				if(UnoRuntime.queryInterface(XText.class, paytable.getCellByPosition(2,1+r)).getString().equals("scatter")) {
+					payingScatters.add( (int)paytable.getCellByPosition(3,1+r).getValue() );
+				}
+				if(UnoRuntime.queryInterface(XText.class, paytable.getCellByPosition(2,1+r)).getString().equals("free")) {
+					freeSpinsTrigerScatters.add( (int)paytable.getCellByPosition(3,1+r).getValue() );
+				}
+			}
+			paytable.getCellByPosition(11, 1).setFormula(""+wilds);
+			paytable.getCellByPosition(11, 2).setFormula(""+payingScatters);
+			paytable.getCellByPosition(11, 3).setFormula(""+freeSpinsTrigerScatters);
 
 			/* Read lines. */
 			XSpreadsheet lines = UnoRuntime.queryInterface(XSpreadsheet.class, sheets.getByIndex(2));
@@ -465,15 +459,81 @@ public class Simulator {
 					Simulator.freeSpinsMultipliers[i] = values.get(i);
 				}
 			}
-
-			freeSpinsParameters.getCellByPosition(8, 1).setFormula(""+Arrays.toString(Simulator.rewardFreeSpins).replace("], [","], \n["));
-			freeSpinsParameters.getCellByPosition(8, 2).setFormula(""+Arrays.toString(Simulator.freeSpinsMultipliers).replace("], [","], \n["));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	private static void resetStatistics() {
+		singleBet = 1;
+
+		totalBet = lines.length * singleBet;
+
+		wonMoney = 0L;
+		lostMoney = 0L;
+
+		totalNumberOfGames = 0L;
+		totalNumberOfFreeSpins = 0L;
+		totalNumberOfFreeSpinsStarts = 0L;
+		totalNumberOfFreeSpinsRestarts = 0L;
+
+		baseGameMoney = 0L;
+		freeSpinsMoney = 0L;
+		bingoLineMoney = 0L;
+		bingoLineHitFrequency = 0L;
+		bingoFullHouseMoney = 0L;
+		bingoFullHouseHitFrequency = 0L;
+		bonusGameMoney = 0L;
+
+		maxWin = 0L;
+		baseGameMaxWin = 0L;
+		freeSpinsMaxWin = 0L;
+		bonusGameMaxWin = 0L;
+		baseGameHitFrequency = 0L;
+		freeSpinsHitFrequency = 0L;
+		bonuseGameHitFrequency = 0L;
+
+		baseGameSymbolsMoney = new long[paytable.length][];
+		for(int i = 0; i < paytable.length; i++) {
+			baseGameSymbolsMoney[i] = new long[paytable[i].length];
+			for(int j = 0; j < paytable[i].length; j++) {
+				baseGameSymbolsMoney[i][j] = 0L;
+			}
+		}
+
+		baseGameSymbolsHitFrequency = new long[paytable.length][];
+		for(int i = 0; i < paytable.length; i++) {
+			baseGameSymbolsHitFrequency[i] = new long[paytable[i].length];
+			for(int j = 0; j < paytable[i].length; j++) {
+				baseGameSymbolsHitFrequency[i][j] = 0L;
+			}
+		}
+
+		freeSpinsSymbolsMoney = new long[paytable.length][];
+		for(int i = 0; i < paytable.length; i++) {
+			freeSpinsSymbolsMoney[i] = new long[paytable[i].length];
+			for(int j = 0; j < paytable[i].length; j++) {
+				freeSpinsSymbolsMoney[i][j] = 0L;
+			}
+		}
+
+		freeSpinsSymbolsHitFrequency = new long[paytable.length][];
+		for(int i = 0; i < paytable.length; i++) {
+			freeSpinsSymbolsHitFrequency[i] = new long[paytable[i].length];
+			for(int j = 0; j < paytable[i].length; j++) {
+				freeSpinsSymbolsHitFrequency[i][j] = 0L;
+			}
+		}
+
+		for (int i = 0; i < view.length; i++) {
+			for (int j = 0; j < view[i].length; j++) {
+				view[i][j] =-1;
+			}
+		}
+	}
+
 	public static void simulate(XScriptContext ctx) {
 		readDataStructures(ctx);
+		resetStatistics();
 	}
 }
