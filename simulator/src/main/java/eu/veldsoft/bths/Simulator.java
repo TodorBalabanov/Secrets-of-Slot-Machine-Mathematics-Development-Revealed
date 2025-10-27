@@ -1,20 +1,22 @@
 package eu.veldsoft.bths;
 
 import java.util.Set;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Date;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.ArrayList;
 import java.security.SecureRandom;
 
-import com.sun.star.script.provider.XScriptContext;
-import com.sun.star.uno.UnoRuntime;
-import com.sun.star.frame.XModel;
-import com.sun.star.sheet.XSpreadsheetDocument;
-import com.sun.star.container.XIndexAccess;
-import com.sun.star.sheet.XSpreadsheet;
-import com.sun.star.table.CellContentType;
 import com.sun.star.text.XText;
+import com.sun.star.frame.XModel;
+import com.sun.star.uno.UnoRuntime;
+import com.sun.star.sheet.XSpreadsheet;
+import com.sun.star.sheet.XSpreadsheets;
+import com.sun.star.table.CellContentType;
+import com.sun.star.container.XIndexAccess;
+import com.sun.star.sheet.XSpreadsheetDocument;
+import com.sun.star.script.provider.XScriptContext;
 
 public class Simulator {
 	private static final SecureRandom PRNG = new SecureRandom();
@@ -33,26 +35,34 @@ public class Simulator {
 
 	private static int singleBet = 0;
 	private static int totalBet = 0;
+
 	private static long wonMoney = 0L;
 	private static long lostMoney = 0L;
 	private static long totalNumberOfGames = 0L;
+
 	private static long totalNumberOfFreeSpins = 0L;
 	private static long totalNumberOfFreeSpinsStarts = 0L;
 	private static long totalNumberOfFreeSpinsRestarts = 0L;
+
 	private static long baseGameMoney = 0L;
 	private static long freeSpinsMoney = 0L;
-	private static long bingoLineMoney = 0L;
-	private static long bingoLineHitFrequency = 0L;
-	private static long bingoFullHouseMoney = 0L;
-	private static long bingoFullHouseHitFrequency = 0L;
 	private static long bonusGameMoney = 0L;
+
 	private static long maxWin = 0L;
 	private static long baseGameMaxWin = 0L;
 	private static long freeSpinsMaxWin = 0L;
 	private static long bonusGameMaxWin = 0L;
+
 	private static long baseGameHitFrequency = 0L;
 	private static long freeSpinsHitFrequency = 0L;
 	private static long bonuseGameHitFrequency = 0L;
+
+	private static long bingoLineMoney = 0L;
+	private static long bingoFullHouseMoney = 0L;
+
+	private static long bingoLineHitFrequency = 0L;
+	private static long bingoFullHouseHitFrequency = 0L;
+
 	private static long baseGameSymbolsMoney[][] = {};
 	private static long baseGameSymbolsHitFrequency[][] = {};
 	private static long freeSpinsSymbolsMoney[][] = {};
@@ -356,10 +366,10 @@ public class Simulator {
 		try {
 			XModel model = ctx.getDocument();
 			XSpreadsheetDocument document = UnoRuntime.queryInterface(XSpreadsheetDocument.class, model);
-			XIndexAccess sheets = UnoRuntime.queryInterface(XIndexAccess.class, document.getSheets());
+			XSpreadsheets sheets = UnoRuntime.queryInterface(XSpreadsheets.class, document.getSheets());
 
 			/* Reed game parameters. */
-			XSpreadsheet summary = UnoRuntime.queryInterface(XSpreadsheet.class, sheets.getByIndex(0));
+			XSpreadsheet summary = UnoRuntime.queryInterface(XSpreadsheet.class, sheets.getByName("Summary"));
 			int numberOfRows = (int)summary.getCellByPosition(1,1).getValue();
 			int numberOfColumns = (int)summary.getCellByPosition(1,2).getValue();
 			int numberOfBettingLines = (int)summary.getCellByPosition(1,3).getValue();
@@ -367,7 +377,7 @@ public class Simulator {
 			view = new int[numberOfColumns][numberOfRows];
 
 			/* Read paytable. */
-			XSpreadsheet paytable = UnoRuntime.queryInterface(XSpreadsheet.class, sheets.getByIndex(1));
+			XSpreadsheet paytable = UnoRuntime.queryInterface(XSpreadsheet.class, sheets.getByName("Paytable"));
 			int tableRows = 0;
 			int tableColumns = 0;
 			for (int c = 4; paytable.getCellByPosition(c,1).getType()!=CellContentType.EMPTY; c++) {
@@ -396,12 +406,9 @@ public class Simulator {
 					freeSpinsTrigerScatters.add( (int)paytable.getCellByPosition(3,1+r).getValue() );
 				}
 			}
-			paytable.getCellByPosition(11, 1).setFormula(""+wilds);
-			paytable.getCellByPosition(11, 2).setFormula(""+payingScatters);
-			paytable.getCellByPosition(11, 3).setFormula(""+freeSpinsTrigerScatters);
 
 			/* Read lines. */
-			XSpreadsheet lines = UnoRuntime.queryInterface(XSpreadsheet.class, sheets.getByIndex(2));
+			XSpreadsheet lines = UnoRuntime.queryInterface(XSpreadsheet.class, sheets.getByName("Lines"));
 			Simulator.lines = new int[numberOfBettingLines][numberOfColumns];
 			for (int c = 0; c<numberOfColumns; c++) {
 				for (int l = 0; l<numberOfBettingLines; l++) {
@@ -410,7 +417,7 @@ public class Simulator {
 			}
 
 			/* Reed base game reels. */
-			XSpreadsheet baseGameReels = UnoRuntime.queryInterface(XSpreadsheet.class, sheets.getByIndex(3));
+			XSpreadsheet baseGameReels = UnoRuntime.queryInterface(XSpreadsheet.class, sheets.getByName("Base Reels"));
 			Simulator.baseGameReels = new int[numberOfColumns][];
 			for (int c = 0; c<numberOfColumns; c++) {
 				int length = 0;
@@ -424,7 +431,7 @@ public class Simulator {
 			}
 
 			/* Reed free spins reels. */
-			XSpreadsheet freeSpinsReels = UnoRuntime.queryInterface(XSpreadsheet.class, sheets.getByIndex(4));
+			XSpreadsheet freeSpinsReels = UnoRuntime.queryInterface(XSpreadsheet.class, sheets.getByName("Free Reels"));
 			Simulator.freeSpinsReels = new int[numberOfColumns][];
 			for (int c = 0; c<numberOfColumns; c++) {
 				int length = 0;
@@ -438,7 +445,7 @@ public class Simulator {
 			}
 
 			/* Reed free spins parameters. */
-			XSpreadsheet freeSpinsParameters = UnoRuntime.queryInterface(XSpreadsheet.class, sheets.getByIndex(5));
+			XSpreadsheet freeSpinsParameters = UnoRuntime.queryInterface(XSpreadsheet.class, sheets.getByName("Free Spins"));
 			{
 				List<Integer> values = new ArrayList<>();
 				for (int c = 1; freeSpinsParameters.getCellByPosition(c,1).getType()!=CellContentType.EMPTY; c++) {
@@ -532,8 +539,113 @@ public class Simulator {
 		}
 	}
 
+	private static void repoertStatistics(XScriptContext ctx) {
+		try {
+			XModel model = ctx.getDocument();
+			XSpreadsheetDocument document = UnoRuntime.queryInterface(XSpreadsheetDocument.class, model);
+			XSpreadsheets sheets = document.getSheets();
+
+			/* Simulation report sheet. */
+			short index = (short)sheets.getElementNames().length;
+			String name = "Simulaton Report - " + (new Date()).toString().replace(":", " ");
+			sheets.insertNewByName(name, index);
+
+			XSpreadsheet report = UnoRuntime.queryInterface(XSpreadsheet.class,sheets.getByName(name));
+
+			report.getCellByPosition(0, 0).setFormula("Total Loss:");
+			report.getCellByPosition(1, 0).setFormula("" + lostMoney);
+
+			report.getCellByPosition(0, 1).setFormula("Total Win:");
+			report.getCellByPosition(1, 1).setFormula("" + wonMoney);
+
+			/* Prevent division by zero exception. */
+			lostMoney = (lostMoney == 0L ? 1L : lostMoney);
+
+			report.getCellByPosition(0, 2).setFormula("Total RTP [%]:");
+			report.getCellByPosition(1, 2).setFormula("" + ( (double)wonMoney * 100D / (double)lostMoney ) );
+
+			report.getCellByPosition(0, 4).setFormula("Number of Games:");
+			report.getCellByPosition(1, 4).setFormula("" + totalNumberOfGames);
+
+			report.getCellByPosition(0, 5).setFormula("Number of Free Spins:");
+			report.getCellByPosition(1, 5).setFormula("" + totalNumberOfFreeSpins);
+
+			report.getCellByPosition(0, 6).setFormula("Number of Free Spins Starts:");
+			report.getCellByPosition(1, 6).setFormula("" + totalNumberOfFreeSpinsStarts);
+
+			report.getCellByPosition(0, 7).setFormula("Number of Free Spins Restarts:");
+			report.getCellByPosition(1, 7).setFormula("" + totalNumberOfFreeSpinsRestarts);
+
+			report.getCellByPosition(0, 9).setFormula("Base Gaame Win:");
+			report.getCellByPosition(1, 9).setFormula("" + baseGameMoney);
+
+			report.getCellByPosition(0, 10).setFormula("Free Spins Win:");
+			report.getCellByPosition(1, 10).setFormula("" + freeSpinsMoney);
+
+			report.getCellByPosition(0, 11).setFormula("Bonus Game Win:");
+			report.getCellByPosition(1, 11).setFormula("" + bonusGameMoney);
+
+			report.getCellByPosition(0, 13).setFormula("Base Game RTP [%]:");
+			report.getCellByPosition(1, 13).setFormula("" + ( (double)baseGameMoney * 100D / (double)lostMoney ) );
+
+			report.getCellByPosition(0, 14).setFormula("Free Spins RTP [%]:");
+			report.getCellByPosition(1, 14).setFormula("" + ( (double)freeSpinsMoney * 100D / (double)lostMoney ) );
+
+			report.getCellByPosition(0, 15).setFormula("Bonus Game RTP [%]:");
+			report.getCellByPosition(1, 15).setFormula("" + ( (double)bonusGameMoney * 100D / (double)lostMoney ) );
+
+			report.getCellByPosition(0, 17).setFormula("Max Win:");
+			report.getCellByPosition(1, 17).setFormula("" + maxWin);
+
+			report.getCellByPosition(0, 18).setFormula("Base Game Max Win:");
+			report.getCellByPosition(1, 18).setFormula("" + baseGameMaxWin);
+
+			report.getCellByPosition(0, 19).setFormula("Free Spins Max Win:");
+			report.getCellByPosition(1, 19).setFormula("" + freeSpinsMaxWin);
+
+			report.getCellByPosition(0, 20).setFormula("Bonus Game Max Win:");
+			report.getCellByPosition(1, 20).setFormula("" + bonusGameMaxWin);
+
+			report.getCellByPosition(0, 22).setFormula("Base Game Hit Frequency:");
+			report.getCellByPosition(1, 22).setFormula("" + baseGameHitFrequency);
+
+			report.getCellByPosition(0, 23).setFormula("Free Spins Hit Frequency:");
+			report.getCellByPosition(1, 23).setFormula("" + freeSpinsHitFrequency);
+
+			report.getCellByPosition(0, 24).setFormula("Bonus Game Hit Frequency:");
+			report.getCellByPosition(1, 24).setFormula("" + bonuseGameHitFrequency);
+
+			report.getCellByPosition(0, 26).setFormula("Bingo Line Win:");
+			report.getCellByPosition(1, 26).setFormula("" + bingoLineMoney);
+
+			report.getCellByPosition(0, 27).setFormula("Bingo Full House Win:");
+			report.getCellByPosition(1, 27).setFormula("" + bingoFullHouseMoney);
+
+			report.getCellByPosition(0, 29).setFormula("Bingo Line RTP [%]:");
+			report.getCellByPosition(1, 29).setFormula("" + ( (double)bingoLineMoney * 100D / (double)lostMoney ) );
+
+			report.getCellByPosition(0, 30).setFormula("Bingo Full House RTP [%]:");
+			report.getCellByPosition(1, 30).setFormula("" + ( (double)bingoFullHouseMoney * 100D / (double)lostMoney ) );
+
+			report.getCellByPosition(0, 32).setFormula("Bingo Line Hit Frequency:");
+			report.getCellByPosition(1, 32).setFormula("" + bingoLineHitFrequency);
+
+			report.getCellByPosition(0, 33).setFormula("Bingo Full House Hit Frequency:");
+			report.getCellByPosition(1, 33).setFormula("" + bingoFullHouseHitFrequency);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Macro simulation function.
+	 *
+	 * @param ctx The script context.
+	*/
 	public static void simulate(XScriptContext ctx) {
 		readDataStructures(ctx);
 		resetStatistics();
+		//TODO Game simulation logic.
+		repoertStatistics(ctx);
 	}
 }
