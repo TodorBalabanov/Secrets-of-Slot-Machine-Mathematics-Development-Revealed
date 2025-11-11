@@ -18,7 +18,13 @@ import com.sun.star.container.XIndexAccess;
 import com.sun.star.sheet.XSpreadsheetDocument;
 import com.sun.star.script.provider.XScriptContext;
 
+/**
+ * Simulator of the slot machine.
+ */
 public class Simulator {
+	/**
+	 * Pseudorandom number generator.
+	 */
 	private static final SecureRandom PRNG = new SecureRandom();
 
 	private static int paytable[][] = {};
@@ -74,10 +80,13 @@ public class Simulator {
 	private static Set<Integer> wilds = new HashSet<>();
 	private static Set<Integer> payingScatters = new HashSet<>();
 	private static Set<Integer> freeSpinsTrigerScatters = new HashSet<>();
+	private static Set<Integer> bingoLineSymbols = new HashSet<>();
+	private static Set<Integer> bingoFullHouseSymbols = new HashSet<>();
 
 	/** Helping array for the game screen configuration. */
 	private static int view[][] = {};
 
+	/** Bingo cards for the bonus game. */
 	private static int bingoCards[][] = {
 		{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -90,6 +99,7 @@ public class Simulator {
 		{ 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 0, 0, 0, 0, 0, 0, 0 },
 	};
 
+	/** Numbers out in the bingo game (only flags). */
 	private static boolean bingoNumbersOut[][] = {
 		{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
 		{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
@@ -105,6 +115,11 @@ public class Simulator {
 	/** Helper array for bingo cards handling. */
 	private static int numbersInRow[] = {};
 
+	/**
+	 * Fix all rows to have only 5 numbers.
+	 *
+	 * @return True if fix was done, false otherwise.
+	 */
 	private static boolean fixRows() {
 		boolean wasItChanged = false;
 
@@ -152,6 +167,9 @@ public class Simulator {
 		return (wasItChanged);
 	}
 
+	/**
+	 * Shuffle the numbers in single bingo card.
+	 */
 	private static void shuffleBingoCards() {
 		int length = 0;
 		for (int i = 0; i < bingoCards.length; i++) {
@@ -179,6 +197,11 @@ public class Simulator {
 		}
 	}
 
+	/**
+	 * Fix all rows to have only 5 numbers.
+	 *
+	 * @return True if fix was done, false otherwise.
+	 */
 	private static boolean fixThreeRows() {
 		boolean wasItChanged = false;
 
@@ -246,6 +269,45 @@ public class Simulator {
 				bingoNumbersOut[i][j] = false;
 			}
 		}
+	}
+
+	/**
+	 * Index of the bingo line in the bingo card.
+	 */
+	private static int bingoLineIndex = -1;
+
+	/**
+	 * Index of the card with the bingo in it;
+	 */
+	private static int bingoCardIndex = -1;
+
+	/**
+	 * Generate random bingo card with 6 talons in it. Also mark the card as empty.
+	 */
+	private static void generateRandomBingoCard() {
+		final int NUMBER_OF_SHAKES = 30;
+
+		int shakes = 0;
+		boolean goOn = false;
+		do {
+			if (shakes <= 0) {
+				shuffleBingoCards();
+				shakes = NUMBER_OF_SHAKES;
+			}
+
+			goOn = fixRows();
+			goOn = fixThreeRows() || goOn;
+			shakes--;
+		} while (goOn == true);
+
+		for (int i = 0; i < bingoNumbersOut.length; i++) {
+			for (int j = 0; j < bingoNumbersOut[0].length; j++) {
+				bingoNumbersOut[i][j] = false;
+			}
+		}
+
+		bingoLineIndex = -1;
+		bingoCardIndex = -1;
 	}
 
 	/** Helping variable for the free spins mode as number of spins. */
@@ -364,6 +426,183 @@ public class Simulator {
 		return result;
 	}
 
+	private static int linesWin() {
+		int currentWin = 0;
+
+		for (int l = 0; l < lines.length; l++) {
+			int line[] = new int[view.length];
+			for (int c = 0; c < view.length; c++) {
+				line[c] = view[c][ lines[l][c] ];
+			}
+
+			int result[] = lineWin(line, (freeSpinsAmount > 0 ? freeSpinsMultiplier : 1) );
+
+			int win = result[0];
+			int symbol = result[1];
+			int number = result[2];
+
+			if (win > 0) {
+				currentWin += win;
+
+				if (freeSpinsAmount == 0) {
+					baseGameSymbolsMoney[number][symbol] += win;
+					baseGameSymbolsHitFrequency[number][symbol]++;
+				} else {
+					freeSpinsSymbolsMoney[number][symbol] += win;
+					freeSpinsSymbolsHitFrequency[number][symbol]++;
+				}
+			}
+		}
+
+		return currentWin;
+	}
+
+	/**
+	 * Mark bingo number and return it to the caller.
+	 *
+	 * @param line Line with a win in current spin.
+	 * @param symbol Symbol of the win.
+	 *
+	 * @return The number marked.
+	 */
+	private static int markBallOut(int line, int symbol) {
+		boolean canBeFound = false;
+
+		/*
+		 * Check for available numbers.
+		 */
+		for (int i = 0; i < bingoNumbersOut.length; i++) {
+			for (int j = 0; j < bingoNumbersOut[i].length; j++) {
+				if (bingoNumbersOut[i][j] == false && bingoCards[i][j] != 0) {
+					canBeFound = true;
+				}
+			}
+		}
+
+		/*
+		 * It should not be possible to search for numbers when there is no any.
+		 */
+		if (canBeFound == false) {
+			return (-1);
+		}
+
+		int i = -1;
+		int j = -1;
+		do {
+			i = PRNG.nextInt() % bingoNumbersOut.length;
+			j = PRNG.nextInt() % bingoNumbersOut[i].length;
+		} while (bingoNumbersOut[i][j] == true || bingoCards[i][j] == 0);
+
+		bingoNumbersOut[i][j] = true;
+
+		return (bingoCards[i][j]);
+	}
+
+	/**
+	 * Check is there a bingo line combination.
+	 *
+	 * @return True if there is a bingo line, false otherwise.
+	 */
+	private static boolean checkForBingoLine() {
+		if (bingoLineIndex != -1) {
+			return (false);
+		}
+
+		for (int j = 0; j < bingoNumbersOut[0].length; j++) {
+			int count = 0;
+			for (int i = 0; i < bingoNumbersOut.length; i++) {
+				if (bingoNumbersOut[i][j] == true && bingoCards[i][j] != 0) {
+					count++;
+				}
+			}
+
+			if (count > 5) {
+				/* It should not be possible. */
+			} else if (count == 5) {
+				bingoLineIndex = j;
+				return (true);
+			}
+		}
+
+		return (false);
+	}
+	/**
+	 * Check is there a bingo combination.
+	 *
+	 * @return True if there is a bingo, false otherwise.
+	 */
+	private static boolean checkForFullHouse() {
+		if (bingoCardIndex != -1) {
+			return (false);
+		}
+
+		int count = 0;
+		for (int j = 0; j < bingoNumbersOut[0].length; j++) {
+			if (j % 3 == 0) {
+				count = 0;
+			}
+
+			for (int i = 0; i < bingoNumbersOut.length; i++) {
+				if (bingoNumbersOut[i][j] == true && bingoCards[i][j] != 0) {
+					count++;
+				}
+			}
+
+			if (count > 15) {
+				/* It should not be possible. */
+			} else if (count == 15) {
+				bingoCardIndex = j / 3;
+				return (true);
+			}
+		}
+
+		return (false);
+	}
+
+	private static void singleBaseGame() {
+		spin(baseGameReels);
+
+		int bingoBallOutcome = markBallOut(-1, -1);
+
+		int win3 = 0;
+		if (checkForBingoLine() == true) {
+			win3 = paytable[bingoLineSymbols.iterator().next()][1];
+			bingoLineMoney += win3;
+			bingoLineHitFrequency++;
+			bonuseGameHitFrequency++;
+		}
+
+		int win4 = 0;
+		if (checkForFullHouse() == true) {
+			win4 = paytable[bingoFullHouseSymbols.iterator().next()][1];
+			bingoFullHouseMoney += win4;
+			bingoFullHouseHitFrequency++;
+			bonuseGameHitFrequency++;
+		}
+
+		int win2 = 0;
+		for(int scatter : payingScatters) {
+			win2 += scatterWin(scatter, 1);
+		}
+		if(win2 > 0) {
+			baseGameMoney += win2;
+			baseGameHitFrequency++;
+		}
+
+		int win1 = linesWin();
+		if(win1 > 0) {
+			baseGameMoney += win1;
+			baseGameHitFrequency++;
+		}
+
+		int totalWin = win1 + win2 + win3 + win4;
+
+		wonMoney += totalWin;
+		lostMoney += totalBet;
+
+		totalNumberOfGames++;
+	}
+
 	private static void readDataStructures(XScriptContext ctx) {
 		try {
 			XModel model = ctx.getDocument();
@@ -397,6 +636,8 @@ public class Simulator {
 			wilds = new HashSet<>();
 			payingScatters = new HashSet<>();
 			freeSpinsTrigerScatters = new HashSet<>();
+			bingoLineSymbols = new HashSet<>();
+			bingoFullHouseSymbols = new HashSet<>();
 			for (int r = 0; r<tableRows; r++) {
 				if(UnoRuntime.queryInterface(XText.class, paytable.getCellByPosition(2,1+r)).getString().equals("wild")) {
 					wilds.add( (int)paytable.getCellByPosition(3,1+r).getValue() );
@@ -406,6 +647,16 @@ public class Simulator {
 				}
 				if(UnoRuntime.queryInterface(XText.class, paytable.getCellByPosition(2,1+r)).getString().equals("free")) {
 					freeSpinsTrigerScatters.add( (int)paytable.getCellByPosition(3,1+r).getValue() );
+				}
+				if(UnoRuntime.queryInterface(XText.class, paytable.getCellByPosition(2,1+r)).getString().equals("bonus")) {
+					if(UnoRuntime.queryInterface(XText.class, paytable.getCellByPosition(1,1+r)).getString().equals("Line Bonus")) {
+						bingoLineSymbols.add( (int)paytable.getCellByPosition(3,1+r).getValue() );
+					}
+				}
+				if(UnoRuntime.queryInterface(XText.class, paytable.getCellByPosition(2,1+r)).getString().equals("bonus")) {
+					if(UnoRuntime.queryInterface(XText.class, paytable.getCellByPosition(1,1+r)).getString().equals("Bingo Bonus")) {
+						bingoFullHouseSymbols.add( (int)paytable.getCellByPosition(3,1+r).getValue() );
+					}
 				}
 			}
 			symbols = new String[tableRows];
@@ -748,7 +999,9 @@ public class Simulator {
 	public static void simulate(XScriptContext ctx) {
 		readDataStructures(ctx);
 		resetStatistics();
-		//TODO Game simulation logic.
+
+		singleBaseGame();
+
 		repoertStatistics(ctx);
 	}
 }
