@@ -88,14 +88,14 @@ public class Simulator {
 
 	/** Bingo cards for the bonus game. */
 	private static int bingoCards[][] = {
-		{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{  1,  2,  3,  4,  5,  6,  7,  8,  9,  0,  0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,  0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,  0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 30, 31, 32, 33, 34, 35, 36, 37, 38, 39,  0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 40, 41, 42, 43, 44, 45, 46, 47, 48, 49,  0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 50, 51, 52, 53, 54, 55, 56, 57, 58, 59,  0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 60, 61, 62, 63, 64, 65, 66, 67, 68, 69,  0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 70, 71, 72, 73, 74, 75, 76, 77, 78, 79,  0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 0, 0, 0, 0, 0, 0, 0 },
 	};
 
@@ -107,9 +107,9 @@ public class Simulator {
 		{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
 		{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
 		{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
-		{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,	false},
+		{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
 		{ false, false, false, false, false, false, false, false, false, false, false, false, false, false,	false, false, false, false },
-		{ false, false, false, false, false, false, false, false, false, false, false,	false, false, false, false, false, false, false },
+		{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false },
 	};
 
 	/** Helper array for bingo cards handling. */
@@ -379,14 +379,14 @@ public class Simulator {
 			}
 		}
 
-		int win = paytable[numberOfScatters][scatter] * multiplier;
+		int win = paytable[scatter][numberOfScatters] * multiplier;
 
 		if (win > 0 && freeSpinsAmount == 0) {
-			baseGameSymbolsMoney[numberOfScatters][scatter] += win;
-			baseGameSymbolsHitFrequency[numberOfScatters][scatter]++;
+			baseGameSymbolsMoney[scatter][numberOfScatters] += win;
+			baseGameSymbolsHitFrequency[scatter][numberOfScatters]++;
 		} else if (win > 0 && freeSpinsAmount > 0) {
-			freeSpinsSymbolsMoney[numberOfScatters][scatter] += win;
-			freeSpinsSymbolsHitFrequency[numberOfScatters][scatter]++;
+			freeSpinsSymbolsMoney[scatter][numberOfScatters] += win;
+			freeSpinsSymbolsHitFrequency[scatter][numberOfScatters]++;
 		}
 
 		return win;
@@ -419,7 +419,7 @@ public class Simulator {
 		}
 
 		int result[] = {0, -1, 0};
-		result[0] = paytable[number][symbol] * multiplier;
+		result[0] = paytable[symbol][number] * multiplier;
 		result[1] = symbol;
 		result[2] = number;
 
@@ -445,11 +445,11 @@ public class Simulator {
 				currentWin += win;
 
 				if (freeSpinsAmount == 0) {
-					baseGameSymbolsMoney[number][symbol] += win;
-					baseGameSymbolsHitFrequency[number][symbol]++;
+					baseGameSymbolsMoney[symbol][number] += win;
+					baseGameSymbolsHitFrequency[symbol][number]++;
 				} else {
-					freeSpinsSymbolsMoney[number][symbol] += win;
-					freeSpinsSymbolsHitFrequency[number][symbol]++;
+					freeSpinsSymbolsMoney[symbol][number] += win;
+					freeSpinsSymbolsHitFrequency[symbol][number]++;
 				}
 			}
 		}
@@ -483,19 +483,19 @@ public class Simulator {
 		 * It should not be possible to search for numbers when there is no any.
 		 */
 		if (canBeFound == false) {
-			return (-1);
+			return -1;
 		}
 
 		int i = -1;
 		int j = -1;
 		do {
-			i = PRNG.nextInt() % bingoNumbersOut.length;
-			j = PRNG.nextInt() % bingoNumbersOut[i].length;
+			i = PRNG.nextInt( bingoNumbersOut.length );
+			j = PRNG.nextInt( bingoNumbersOut[i].length );
 		} while (bingoNumbersOut[i][j] == true || bingoCards[i][j] == 0);
 
 		bingoNumbersOut[i][j] = true;
 
-		return (bingoCards[i][j]);
+		return bingoCards[i][j];
 	}
 
 	/**
