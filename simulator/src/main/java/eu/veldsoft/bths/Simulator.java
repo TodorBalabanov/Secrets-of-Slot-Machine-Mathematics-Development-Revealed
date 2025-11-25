@@ -310,12 +310,6 @@ public class Simulator {
 		bingoCardIndex = -1;
 	}
 
-	/** Helping variable for the free spins mode as number of spins. */
-	private static int freeSpinsAmount = 0;
-
-	/** Helping variable in free spins mode for the active win multiplier. */
-	private static int freeSpinsMultiplier = 0;
-
 	private static void spin(int reels[][]) {
 		for (int i = 0, up, middle, down; i < reels.length; i++) {
 			up = PRNG.nextInt( reels[i].length );
@@ -559,25 +553,75 @@ public class Simulator {
 		return (false);
 	}
 
+	/** Helping variable for the free spins mode as number of spins. */
+	private static int freeSpinsAmount = 0;
+
+	/** Helping variable in free spins mode for the active win multiplier. */
+	private static int freeSpinsMultiplier = 0;
+
+	/**
+	 * Setup free spins parameters.
+	 */
+	private static void setupFreeSpins() {
+		boolean isInitialStart = (freeSpinsAmount <= 0);
+
+		if (freeSpinsAmount <= 0) {
+			freeSpinsAmount = 0;
+			freeSpinsMultiplier = 0;
+		}
+
+		for(int scatter: freeSpinsTrigerScatters) {
+			int parameters[] = rewardFreeSpins(scatter);
+
+			if(parameters[0] <= 0) {
+				continue;
+			}
+
+			if(isInitialStart == true) {
+				totalNumberOfFreeSpinsStarts++;
+			} else {
+				totalNumberOfFreeSpinsRestarts++;
+			}
+
+			freeSpinsAmount += parameters[0];
+			freeSpinsMultiplier = Math.max(freeSpinsMultiplier, parameters[1]);
+		}
+	}
+
 	private static void singleBaseGame() {
 		spin(baseGameReels);
 
-		int bingoBallOutcome = markBallOut(-1, -1);
+		/* Setup free spins parameters. */
+		setupFreeSpins();
+
+		markBallOut(-1, -1);
 
 		int win3 = 0;
 		if (checkForBingoLine() == true) {
 			win3 = paytable[bingoLineSymbols.iterator().next()][1];
+			bonusGameMoney += win3;
 			bingoLineMoney += win3;
 			bingoLineHitFrequency++;
 			bonuseGameHitFrequency++;
+			if(bonusGameMaxWin < win3) {
+				bonusGameMaxWin = win3;
+			}
 		}
 
 		int win4 = 0;
 		if (checkForFullHouse() == true) {
 			win4 = paytable[bingoFullHouseSymbols.iterator().next()][1];
+			bonusGameMoney += win4;
 			bingoFullHouseMoney += win4;
 			bingoFullHouseHitFrequency++;
 			bonuseGameHitFrequency++;
+
+			if(bonusGameMaxWin < win4) {
+				bonusGameMaxWin = win4;
+			}
+
+			/* Reset to a new bingo game. */
+			generateRandomBingoCard();
 		}
 
 		int win2 = 0;
@@ -598,10 +642,43 @@ public class Simulator {
 		int totalWin = win1 + win2 + win3 + win4;
 
 		wonMoney += totalWin;
-		lostMoney += totalBet;
+		if(totalWin > baseGameMaxWin) {
+			baseGameMaxWin = totalWin;
+		}
 
 		totalNumberOfGames++;
 	}
+
+	private static void singleFreeSpin() {
+		spin(freeSpinsReels);
+
+		int win2 = 0;
+		for(int scatter : payingScatters) {
+			win2 += scatterWin(scatter, freeSpinsMultiplier);
+		}
+		if(win2 > 0) {
+			freeSpinsMoney += win2;
+			freeSpinsHitFrequency++;
+		}
+
+		int win1 = linesWin();
+		if(win1 > 0) {
+			freeSpinsMoney += win1;
+			freeSpinsHitFrequency++;
+		}
+
+		int totalWin = win1 + win2;
+
+		wonMoney += totalWin;
+		if(totalWin > freeSpinsMaxWin) {
+			freeSpinsMaxWin = totalWin;
+		}
+
+		totalNumberOfFreeSpins++;
+	}
+
+	/** How many Monte Carlo cycles to be executed. */
+	private static long numberOfSimulations = 0L;
 
 	private static void readDataStructures(XScriptContext ctx) {
 		try {
@@ -614,6 +691,7 @@ public class Simulator {
 			int numberOfRows = (int)summary.getCellByPosition(1,1).getValue();
 			int numberOfColumns = (int)summary.getCellByPosition(1,2).getValue();
 			int numberOfBettingLines = (int)summary.getCellByPosition(1,3).getValue();
+			numberOfSimulations = (long)summary.getCellByPosition(1,10).getValue();
 
 			view = new int[numberOfColumns][numberOfRows];
 
@@ -843,7 +921,7 @@ public class Simulator {
 			report.getCellByPosition(1, offset).setFormula("" + totalNumberOfFreeSpinsRestarts);
 			offset += 2;
 
-			report.getCellByPosition(0, offset).setFormula("Base Gaame Win:");
+			report.getCellByPosition(0, offset).setFormula("Base Game Win:");
 			report.getCellByPosition(1, offset).setFormula("" + baseGameMoney);
 			offset += 1;
 
@@ -1000,7 +1078,19 @@ public class Simulator {
 		readDataStructures(ctx);
 		resetStatistics();
 
-		singleBaseGame();
+		for(int s=0; s<numberOfSimulations; s++) {
+			long beforePlay = wonMoney;
+			lostMoney += totalBet;
+			singleBaseGame();
+			while(freeSpinsAmount > 0) {
+				singleFreeSpin();
+				freeSpinsAmount--;
+			}
+			long roundWin = wonMoney - beforePlay;
+			if(maxWin < roundWin) {
+				maxWin = roundWin;
+			}
+		}
 
 		repoertStatistics(ctx);
 	}
