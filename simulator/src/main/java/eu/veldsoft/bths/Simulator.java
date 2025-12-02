@@ -22,65 +22,121 @@ import com.sun.star.script.provider.XScriptContext;
  * Simulator of the slot machine.
  */
 public class Simulator {
-	/**
-	 * Pseudorandom number generator.
-	 */
+	/** Pseudorandom number generator. */
 	private static final SecureRandom PRNG = new SecureRandom();
 
+	/** Paytable values as an array. */
 	private static int paytable[][] = {};
 
+	/** Symbols used in the game. */
 	private static String symbols[] = {};
 
+	/** Lines used in the game. */
 	private static int lines[][] = {};
 
+	/** Base game reels configuration. */
 	private static int baseGameReels[][] = {};
 
+	/** Free spins reels configuration. */
 	private static int freeSpinsReels[][] = {};
 
+	/** Free spins reward configuration. */
 	private static int rewardFreeSpins[] = {};
 
+	/** Free spins multipliers configuration. */
 	private static int freeSpinsMultipliers[] = {};
 
+	/** Single bet amount. */
 	private static int singleBet = 0;
+
+	/** Total bet amount. */
 	private static int totalBet = 0;
 
+	/** Total won money during the simulation. */
 	private static long wonMoney = 0L;
+
+	/** Total lost money during the simulation. */
 	private static long lostMoney = 0L;
+
+	/** Total number of games played during the simulation. */
 	private static long totalNumberOfGames = 0L;
 
+	/** Total number of free spins played during the simulation. */
 	private static long totalNumberOfFreeSpins = 0L;
+
+	/** Total number of free spins started during the simulation. */
 	private static long totalNumberOfFreeSpinsStarts = 0L;
+
+	/** Total number of free spins restarted during the simulation. */
 	private static long totalNumberOfFreeSpinsRestarts = 0L;
 
+	/** Total money won in during base game. */
 	private static long baseGameMoney = 0L;
+
+	/** Total money won in during free spins. */
 	private static long freeSpinsMoney = 0L;
+
+	/** Total money won in during bonus game. */
 	private static long bonusGameMoney = 0L;
 
+	/** Maximum win recorded for a single bet. */
 	private static long maxWin = 0L;
+
+	/** Maximum win recorded in base game. */
 	private static long baseGameMaxWin = 0L;
+
+	/** Maximum win recorded in free spins. */
 	private static long freeSpinsMaxWin = 0L;
+
+	/** Maximum win recorded in bonus game. */
 	private static long bonusGameMaxWin = 0L;
 
+	/** Base game hit frequency. */
 	private static long baseGameHitFrequency = 0L;
+
+	/** Free spins hit frequency. */
 	private static long freeSpinsHitFrequency = 0L;
+
+	/** Bonus game hit frequency. */
 	private static long bonuseGameHitFrequency = 0L;
 
+	/** Bingo line money won. */
 	private static long bingoLineMoney = 0L;
+
+	/** Bingo full house money won. */
 	private static long bingoFullHouseMoney = 0L;
 
+	/** Bingo line hit frequency. */
 	private static long bingoLineHitFrequency = 0L;
+
+	/** Bingo full house hit frequency. */
 	private static long bingoFullHouseHitFrequency = 0L;
 
+	/** Statistics for wins by symbols in base game. */
 	private static long baseGameSymbolsMoney[][] = {};
+
+	/** Statistics for hits by symbols in base game. */
 	private static long baseGameSymbolsHitFrequency[][] = {};
+
+	/** Statistics for wins by symbols in free spins. */
 	private static long freeSpinsSymbolsMoney[][] = {};
+
+	/** Statistics for hits by symbols in free spins. */
 	private static long freeSpinsSymbolsHitFrequency[][] = {};
 
-	//TODO Read values from the paytable spreadsheet.
+	/** List of wild symbols in the game. */
 	private static Set<Integer> wilds = new HashSet<>();
+
+	/** List of paying scatter symbols in the game. */
 	private static Set<Integer> payingScatters = new HashSet<>();
+
+	/** List of free spins trigger scatter symbols in the game. */
 	private static Set<Integer> freeSpinsTrigerScatters = new HashSet<>();
+
+	/** List of bingo line symbols in the game. */
 	private static Set<Integer> bingoLineSymbols = new HashSet<>();
+
+	/** List of bingo full house symbols in the game. */
 	private static Set<Integer> bingoFullHouseSymbols = new HashSet<>();
 
 	/** Helping array for the game screen configuration. */
@@ -248,6 +304,9 @@ public class Simulator {
 		return (wasItChanged);
 	}
 
+	/**
+	 * Reset bingo cards for a new game.
+	 */
 	private static void resetBingoCards() {
 		final int NUMBER_OF_SHAKES = 10 + PRNG.nextInt(11);
 
@@ -271,14 +330,10 @@ public class Simulator {
 		}
 	}
 
-	/**
-	 * Index of the bingo line in the bingo card.
-	 */
+	/** Index of the bingo line in the bingo card. */
 	private static int bingoLineIndex = -1;
 
-	/**
-	 * Index of the card with the bingo in it;
-	 */
+	/** Index of the card with the bingo in it. */
 	private static int bingoCardIndex = -1;
 
 	/**
@@ -310,6 +365,11 @@ public class Simulator {
 		bingoCardIndex = -1;
 	}
 
+	/**
+	 * Perform a spin on the given reels and update the view array.
+	 *
+	 * @param reels Reels to be spun.
+	 */
 	private static void spin(int reels[][]) {
 		for (int i = 0, up, middle, down; i < reels.length; i++) {
 			up = PRNG.nextInt( reels[i].length );
@@ -325,6 +385,13 @@ public class Simulator {
 		}
 	}
 
+	/**
+	 * Calculate number of free spins and multiplier from scatter symbols.
+	 *
+	 * @param scatter Scatter symbol to be evaluated.
+	 *
+	 * @return Array with number of free spins and multiplier.
+	 */
 	private static int[] rewardFreeSpins(int scatter) {
 		int result[] = {0,0};
 
@@ -340,9 +407,24 @@ public class Simulator {
 		result[0] = rewardFreeSpins[numberOfScatters];
 		result[1] = freeSpinsMultipliers[numberOfScatters];
 
+		if (result[0] > 0 && freeSpinsAmount <= 0) {
+			baseGameSymbolsHitFrequency[scatter][numberOfScatters]++;
+		} else if (result[0] > 0 && freeSpinsAmount > 0) {
+			freeSpinsSymbolsHitFrequency[scatter][numberOfScatters]++;
+		}
+
 		return result;
 	}
 
+	/**
+	 * Calculate win from a single line with wild symbols only.
+	 *
+	 * @param line Line to be evaluated.
+	 * @param wild Wild symbol.
+	 * @param multiplier Win multiplier.
+	 *
+	 * @return Array with win amount, symbol and number of symbols in the win.
+	 */
 	private static int[] wildLineWin(int line[], int wild, int multiplier) {
 		if (line[0] != wild) {
 			return new int[] {0,-1,0};
@@ -363,6 +445,14 @@ public class Simulator {
 		return result;
 	}
 
+	/**
+	 * Calculate win from scatter symbols.
+	 *
+	 * @param scatter Scatter symbol to be evaluated.
+	 * @param multiplier Win multiplier.
+	 *
+	 * @return Win from the scatter symbols.
+	 */
 	private static int scatterWin(int scatter, int multiplier) {
 		int numberOfScatters = 0;
 		for (int i = 0; i < view.length; i++) {
@@ -386,6 +476,14 @@ public class Simulator {
 		return win;
 	}
 
+	/**
+	 * Calculate win from a single line.
+	 *
+	 * @param line Line to be evaluated.
+	 * @param multiplier Win multiplier.
+	 *
+	 * @return Array with win amount, symbol and number of symbols in the win.
+	 */
 	private static int[] lineWin(int line[], int multiplier) {
 		int symbol = line[0];
 		for (int i = 0; i < line.length; i++) {
@@ -420,6 +518,11 @@ public class Simulator {
 		return result;
 	}
 
+	/**
+	 * Calculate total win from all lines in the current spin.
+	 *
+	 * @return Total win from all lines.
+	 */
 	private static int linesWin() {
 		int currentWin = 0;
 
@@ -588,6 +691,9 @@ public class Simulator {
 		}
 	}
 
+	/**
+	 * Perform a single base game spin.
+	 */
 	private static void singleBaseGame() {
 		spin(baseGameReels);
 
@@ -649,6 +755,9 @@ public class Simulator {
 		totalNumberOfGames++;
 	}
 
+	/**
+	 * Perform a single free spin.
+	 */
 	private static void singleFreeSpin() {
 		spin(freeSpinsReels);
 
@@ -680,6 +789,11 @@ public class Simulator {
 	/** How many Monte Carlo cycles to be executed. */
 	private static long numberOfSimulations = 0L;
 
+	/**
+	 * Read data structures from the spreadsheets.
+	 *
+	 * @param ctx Script context.
+	 */
 	private static void readDataStructures(XScriptContext ctx) {
 		try {
 			XModel model = ctx.getDocument();
@@ -806,6 +920,9 @@ public class Simulator {
 		}
 	}
 
+	/**
+	 * Reset all statistics variables.
+	 */
 	private static void resetStatistics() {
 		singleBet = 1;
 
@@ -874,6 +991,11 @@ public class Simulator {
 		}
 	}
 
+	/**
+	 * Report simulation statistics into a new sheet.
+	 *
+	 * @param ctx Script context.
+	 */
 	private static void repoertStatistics(XScriptContext ctx) {
 		try {
 			XModel model = ctx.getDocument();
@@ -1072,8 +1194,8 @@ public class Simulator {
 	/**
 	 * Macro simulation function.
 	 *
-	 * @param ctx The script context.
-	*/
+	 * @param ctx Script context.
+	 */
 	public static void simulate(XScriptContext ctx) {
 		readDataStructures(ctx);
 		resetStatistics();
