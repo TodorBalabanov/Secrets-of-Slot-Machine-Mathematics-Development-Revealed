@@ -2,6 +2,7 @@ package eu.veldsoft.bths;
 
 import java.util.Set;
 import java.util.List;
+import java.util.Locale;
 import java.util.Date;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -13,10 +14,15 @@ import com.sun.star.frame.XModel;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.sheet.XSpreadsheet;
 import com.sun.star.sheet.XSpreadsheets;
+import com.sun.star.sheet.XSpreadsheetDocument;
+import com.sun.star.table.XCell;
 import com.sun.star.table.CellContentType;
 import com.sun.star.container.XIndexAccess;
-import com.sun.star.sheet.XSpreadsheetDocument;
+import com.sun.star.util.XNumberFormats;
+import com.sun.star.util.XNumberFormatTypes;
+import com.sun.star.util.XNumberFormatsSupplier;
 import com.sun.star.script.provider.XScriptContext;
+import com.sun.star.beans.XPropertySet;
 
 /**
  * Simulator of the slot machine.
@@ -98,7 +104,7 @@ public class Simulator {
 	private static long freeSpinsHitFrequency = 0L;
 
 	/** Bonus game hit frequency. */
-	private static long bonuseGameHitFrequency = 0L;
+	private static long bonusGameHitFrequency = 0L;
 
 	/** Bingo line money won. */
 	private static long bingoLineMoney = 0L;
@@ -708,7 +714,6 @@ public class Simulator {
 			bonusGameMoney += win3;
 			bingoLineMoney += win3;
 			bingoLineHitFrequency++;
-			bonuseGameHitFrequency++;
 			if(bonusGameMaxWin < win3) {
 				bonusGameMaxWin = win3;
 			}
@@ -720,7 +725,6 @@ public class Simulator {
 			bonusGameMoney += win4;
 			bingoFullHouseMoney += win4;
 			bingoFullHouseHitFrequency++;
-			bonuseGameHitFrequency++;
 
 			if(bonusGameMaxWin < win4) {
 				bonusGameMaxWin = win4;
@@ -730,28 +734,34 @@ public class Simulator {
 			generateRandomBingoCard();
 		}
 
+		if(win3+win4 > 0) {
+			bonusGameHitFrequency++;
+		}
+
 		int win2 = 0;
 		for(int scatter : payingScatters) {
 			win2 += scatterWin(scatter, 1);
 		}
 		if(win2 > 0) {
 			baseGameMoney += win2;
-			baseGameHitFrequency++;
 		}
 
 		int win1 = linesWin();
 		if(win1 > 0) {
 			baseGameMoney += win1;
-			baseGameHitFrequency++;
 		}
 
 		int totalWin = win1 + win2 + win3 + win4;
 
-		wonMoney += totalWin;
+		if(totalWin > 0) {
+			baseGameHitFrequency++;
+		}
+
 		if(totalWin > baseGameMaxWin) {
 			baseGameMaxWin = totalWin;
 		}
 
+		wonMoney += totalWin;
 		totalNumberOfGames++;
 	}
 
@@ -767,22 +777,24 @@ public class Simulator {
 		}
 		if(win2 > 0) {
 			freeSpinsMoney += win2;
-			freeSpinsHitFrequency++;
 		}
 
 		int win1 = linesWin();
 		if(win1 > 0) {
 			freeSpinsMoney += win1;
-			freeSpinsHitFrequency++;
 		}
 
 		int totalWin = win1 + win2;
 
-		wonMoney += totalWin;
+		if(totalWin > 0) {
+			freeSpinsHitFrequency++;
+		}
+
 		if(totalWin > freeSpinsMaxWin) {
 			freeSpinsMaxWin = totalWin;
 		}
 
+		wonMoney += totalWin;
 		totalNumberOfFreeSpins++;
 	}
 
@@ -950,7 +962,7 @@ public class Simulator {
 		bonusGameMaxWin = 0L;
 		baseGameHitFrequency = 0L;
 		freeSpinsHitFrequency = 0L;
-		bonuseGameHitFrequency = 0L;
+		bonusGameHitFrequency = 0L;
 
 		baseGameSymbolsMoney = new long[paytable.length][];
 		for(int i = 0; i < paytable.length; i++) {
@@ -991,6 +1003,20 @@ public class Simulator {
 		}
 	}
 
+	private static void setPercent(XSpreadsheetDocument document, com.sun.star.sheet.XSpreadsheet sheet, int column, int row) throws Exception {
+		XNumberFormatsSupplier supplier = UnoRuntime.queryInterface(XNumberFormatsSupplier.class, document);
+		XNumberFormats formats = supplier.getNumberFormats();
+
+		int format = formats.queryKey("0.00%", new com.sun.star.lang.Locale("en", "US", ""), false);
+		if (format == -1) {
+			format = formats.addNew("0.00%", new com.sun.star.lang.Locale("en", "US", ""));
+		}
+
+		XCell cell = UnoRuntime.queryInterface(XCell.class,sheet.getCellByPosition(column, row));
+		XPropertySet set = UnoRuntime.queryInterface(XPropertySet.class, cell);
+		set.setPropertyValue("NumberFormat", format);
+	}
+
 	/**
 	 * Report simulation statistics into a new sheet.
 	 *
@@ -1024,7 +1050,9 @@ public class Simulator {
 			lostMoney = (lostMoney == 0L ? 1L : lostMoney);
 
 			report.getCellByPosition(0, offset).setFormula("Total RTP [%]:");
-			report.getCellByPosition(1, offset).setFormula("" + ( (double)wonMoney * 100D / (double)lostMoney ) );
+			report.getCellByPosition(1, offset).setFormula("" + (double)wonMoney / (double)lostMoney);
+			setPercent(document, report, 1, offset);
+
 			offset += 2;
 
 			report.getCellByPosition(0, offset).setFormula("Number of Games:");
@@ -1056,15 +1084,18 @@ public class Simulator {
 			offset += 2;
 
 			report.getCellByPosition(0, offset).setFormula("Base Game RTP [%]:");
-			report.getCellByPosition(1, offset).setFormula("" + ( (double)baseGameMoney * 100D / (double)lostMoney ) );
+			report.getCellByPosition(1, offset).setFormula("" + ( (double)baseGameMoney / (double)lostMoney ) );
+			setPercent(document, report, 1, offset);
 			offset += 1;
 
 			report.getCellByPosition(0, offset).setFormula("Free Spins RTP [%]:");
-			report.getCellByPosition(1, offset).setFormula("" + ( (double)freeSpinsMoney * 100D / (double)lostMoney ) );
+			report.getCellByPosition(1, offset).setFormula("" + ( (double)freeSpinsMoney / (double)lostMoney ) );
+			setPercent(document, report, 1, offset);
 			offset += 1;
 
 			report.getCellByPosition(0, offset).setFormula("Bonus Game RTP [%]:");
 			report.getCellByPosition(1, offset).setFormula("" + ( (double)bonusGameMoney * 100D / (double)lostMoney ) );
+			setPercent(document, report, 1, offset);
 			offset += 2;
 
 			report.getCellByPosition(0, offset).setFormula("Max Win:");
@@ -1092,7 +1123,7 @@ public class Simulator {
 			offset += 1;
 
 			report.getCellByPosition(0, offset).setFormula("Bonus Game Hit Frequency:");
-			report.getCellByPosition(1, offset).setFormula("" + bonuseGameHitFrequency);
+			report.getCellByPosition(1, offset).setFormula("" + bonusGameHitFrequency);
 			offset += 2;
 
 			report.getCellByPosition(0, offset).setFormula("Bingo Line Win:");
@@ -1104,11 +1135,13 @@ public class Simulator {
 			offset += 2;
 
 			report.getCellByPosition(0, offset).setFormula("Bingo Line RTP [%]:");
-			report.getCellByPosition(1, offset).setFormula("" + ( (double)bingoLineMoney * 100D / (double)lostMoney ) );
+			report.getCellByPosition(1, offset).setFormula("" + ( (double)bingoLineMoney / (double)lostMoney ) );
+			setPercent(document, report, 1, offset);
 			offset += 1;
 
 			report.getCellByPosition(0, offset).setFormula("Bingo Full House RTP [%]:");
-			report.getCellByPosition(1, offset).setFormula("" + ( (double)bingoFullHouseMoney * 100D / (double)lostMoney ) );
+			report.getCellByPosition(1, offset).setFormula("" + ( (double)bingoFullHouseMoney / (double)lostMoney ) );
+			setPercent(document, report, 1, offset);
 			offset += 2;
 
 			report.getCellByPosition(0, offset).setFormula("Bingo Line Hit Frequency:");
