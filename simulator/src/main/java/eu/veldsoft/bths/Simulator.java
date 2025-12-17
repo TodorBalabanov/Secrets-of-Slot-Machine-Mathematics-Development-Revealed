@@ -7,22 +7,30 @@ import java.util.Date;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.security.SecureRandom;
 
 import com.sun.star.text.XText;
 import com.sun.star.frame.XModel;
+import com.sun.star.frame.XFrame;
+import com.sun.star.frame.XController;
+import com.sun.star.frame.XDispatchHelper;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.sheet.XSpreadsheet;
 import com.sun.star.sheet.XSpreadsheets;
 import com.sun.star.sheet.XSpreadsheetDocument;
 import com.sun.star.table.XCell;
 import com.sun.star.table.CellContentType;
+import com.sun.star.table.XColumnRowRange;
+import com.sun.star.table.XTableColumns;
 import com.sun.star.container.XIndexAccess;
+import com.sun.star.util.URL;
 import com.sun.star.util.XNumberFormats;
 import com.sun.star.util.XNumberFormatTypes;
 import com.sun.star.util.XNumberFormatsSupplier;
-import com.sun.star.script.provider.XScriptContext;
 import com.sun.star.beans.XPropertySet;
+import com.sun.star.beans.PropertyValue;
+import com.sun.star.script.provider.XScriptContext;
 
 /**
  * Simulator of the slot machine.
@@ -1003,6 +1011,32 @@ public class Simulator {
 		}
 	}
 
+	/**
+	 * Auto size all columns in the given sheet.
+	 *
+	 * @param sheet Sheet to be processed.
+	 * @param upTo Number of columns to be auto sized.
+	 *
+	 * @throws Exception If auto sizing fails.
+	 */
+	private static void autoSizeColums(XSpreadsheet sheet, int upTo) throws Exception {
+		XTableColumns columns = (UnoRuntime.queryInterface(XColumnRowRange.class, sheet)).getColumns();
+		for (int i = 0; i <= upTo; i++) {
+			XPropertySet property = UnoRuntime.queryInterface(XPropertySet.class, columns.getByIndex(i));
+			property.setPropertyValue("OptimalWidth", Boolean.TRUE);
+		}
+	}
+
+	/**
+	 * Set percent format to the given cell.
+	 *
+	 * @param document Spreadsheet document.
+	 * @param sheet Sheet where the cell is located.
+	 * @param column Column of the cell.
+	 * @param row Row of the cell.
+	 *
+	 * @throws Exception If setting the format fails.
+	 */
 	private static void setPercent(XSpreadsheetDocument document, com.sun.star.sheet.XSpreadsheet sheet, int column, int row) throws Exception {
 		XNumberFormatsSupplier supplier = UnoRuntime.queryInterface(XNumberFormatsSupplier.class, document);
 		XNumberFormats formats = supplier.getNumberFormats();
@@ -1037,6 +1071,7 @@ public class Simulator {
 
 			/* Sheet offset for rows. */
 			int offset = 0;
+			int resize = 0;
 
 			report.getCellByPosition(0, offset).setFormula("Total Loss:");
 			report.getCellByPosition(1, offset).setFormula("" + lostMoney);
@@ -1156,6 +1191,7 @@ public class Simulator {
 			offset += 1;
 			for(int i = 0; i < baseGameSymbolsMoney[0].length; i++) {
 				report.getCellByPosition(1+i, offset).setFormula( "" + i + " of" );
+				resize = (1+i > resize) ? 1+i : resize;
 			}
 			offset += 1;
 			for(int j = 0; j < symbols.length; j++) {
@@ -1164,6 +1200,7 @@ public class Simulator {
 			for(int j = 0; j < baseGameSymbolsMoney.length; j++) {
 				for(int i = 0; i < baseGameSymbolsMoney[j].length; i++) {
 					report.getCellByPosition(1+i, offset+j).setFormula("" + baseGameSymbolsMoney[j][i]);
+					resize = (1+i > resize) ? 1+i : resize;
 				}
 			}
 			offset += baseGameSymbolsMoney.length;
@@ -1173,6 +1210,7 @@ public class Simulator {
 			offset += 1;
 			for(int i = 0; i < freeSpinsSymbolsMoney[0].length; i++) {
 				report.getCellByPosition(1+i, offset).setFormula("" + i + " of");
+				resize = (1+i > resize) ? 1+i : resize;
 			}
 			offset += 1;
 			for(int j = 0; j < symbols.length; j++) {
@@ -1181,6 +1219,7 @@ public class Simulator {
 			for(int j = 0; j < freeSpinsSymbolsMoney.length; j++) {
 				for(int i = 0; i < freeSpinsSymbolsMoney[j].length; i++) {
 					report.getCellByPosition(1+i, offset+j).setFormula("" + freeSpinsSymbolsMoney[j][i]);
+					resize = (1+i > resize) ? 1+i : resize;
 				}
 			}
 			offset += freeSpinsSymbolsMoney.length;
@@ -1190,6 +1229,7 @@ public class Simulator {
 			offset += 1;
 			for(int i = 0; i < baseGameSymbolsHitFrequency[0].length; i++) {
 				report.getCellByPosition(1+i, offset).setFormula( "" + i + " of" );
+				resize = (1+i > resize) ? 1+i : resize;
 			}
 			offset += 1;
 			for(int j = 0; j < symbols.length; j++) {
@@ -1198,6 +1238,7 @@ public class Simulator {
 			for(int j = 0; j < baseGameSymbolsHitFrequency.length; j++) {
 				for(int i = 0; i < baseGameSymbolsHitFrequency[j].length; i++) {
 					report.getCellByPosition(1+i, offset+j).setFormula("" + baseGameSymbolsHitFrequency[j][i]);
+					resize = (1+i > resize) ? 1+i : resize;
 				}
 			}
 			offset += baseGameSymbolsHitFrequency.length;
@@ -1207,6 +1248,7 @@ public class Simulator {
 			offset += 1;
 			for(int i = 0; i < freeSpinsSymbolsHitFrequency[0].length; i++) {
 				report.getCellByPosition(1+i, offset).setFormula( "" + i + " of" );
+				resize = (1+i > resize) ? 1+i : resize;
 			}
 			offset += 1;
 			for(int j = 0; j < symbols.length; j++) {
@@ -1215,10 +1257,13 @@ public class Simulator {
 			for(int j = 0; j < freeSpinsSymbolsHitFrequency.length; j++) {
 				for(int i = 0; i < freeSpinsSymbolsHitFrequency[j].length; i++) {
 					report.getCellByPosition(1+i, offset+j).setFormula("" + freeSpinsSymbolsHitFrequency[j][i]);
+					resize = (1+i > resize) ? 1+i : resize;
 				}
 			}
 			offset += freeSpinsSymbolsHitFrequency.length;
 			offset += 1;
+
+			autoSizeColums(report, resize);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1233,7 +1278,7 @@ public class Simulator {
 		readDataStructures(ctx);
 		resetStatistics();
 
-		for(int s=0; s<numberOfSimulations; s++) {
+		for(int g=0; g<numberOfSimulations; g++) {
 			long beforePlay = wonMoney;
 			lostMoney += totalBet;
 			singleBaseGame();
