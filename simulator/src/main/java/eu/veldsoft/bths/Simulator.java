@@ -234,7 +234,7 @@ public class Simulator {
 			wasItChanged = true;
 		} while (done == false);
 
-		return (wasItChanged);
+		return wasItChanged;
 	}
 
 	/**
@@ -280,13 +280,12 @@ public class Simulator {
 			int b = -1;
 
 			for (int j = 0; j < numbersInRow.length; j += 3) {
-				if (0== (bingoCards[i][j + 0] != 0 ? 1 : 0)
+				if (0 == (bingoCards[i][j + 0] != 0 ? 1 : 0)
 				        + (bingoCards[i][j + 1] != 0 ? 1 : 0)
 				        + (bingoCards[i][j + 2] != 0 ? 1 : 0)) {
 					a = j + PRNG.nextInt(3);
 				}
-				if (3
-				        == (bingoCards[i][j + 0] != 0 ? 1 : 0)
+				if (3 == (bingoCards[i][j + 0] != 0 ? 1 : 0)
 				        + (bingoCards[i][j + 1] != 0 ? 1 : 0)
 				        + (bingoCards[i][j + 2] != 0 ? 1 : 0)) {
 					b = j + PRNG.nextInt(3);
@@ -315,7 +314,7 @@ public class Simulator {
 			wasItChanged = true;
 		}
 
-		return (wasItChanged);
+		return wasItChanged;
 	}
 
 	/**
@@ -579,9 +578,7 @@ public class Simulator {
 	private static int markBallOut(int line, int symbol) {
 		boolean canBeFound = false;
 
-		/*
-		 * Check for available numbers.
-		 */
+		/* Check for available numbers. */
 		for (int i = 0; i < bingoNumbersOut.length; i++) {
 			for (int j = 0; j < bingoNumbersOut[i].length; j++) {
 				if (bingoNumbersOut[i][j] == false && bingoCards[i][j] != 0) {
@@ -590,9 +587,7 @@ public class Simulator {
 			}
 		}
 
-		/*
-		 * It should not be possible to search for numbers when there is no any.
-		 */
+		/* It should not be possible to search for numbers when there is no any. */
 		if (canBeFound == false) {
 			return -1;
 		}
@@ -1052,6 +1047,30 @@ public class Simulator {
 	}
 
 	/**
+	 * Set digits after the deciaml point format to the given cell.
+	 *
+	 * @param document Spreadsheet document.
+	 * @param sheet Sheet where the cell is located.
+	 * @param column Column of the cell.
+	 * @param row Row of the cell.
+	 *
+	 * @throws Exception If setting the format fails.
+	 */
+	private static void setDigits(XSpreadsheetDocument document, com.sun.star.sheet.XSpreadsheet sheet, int column, int row) throws Exception {
+		XNumberFormatsSupplier supplier = UnoRuntime.queryInterface(XNumberFormatsSupplier.class, document);
+		XNumberFormats formats = supplier.getNumberFormats();
+
+		int format = formats.queryKey("0.00", new com.sun.star.lang.Locale("en", "US", ""), false);
+		if (format == -1) {
+			format = formats.addNew("0.00", new com.sun.star.lang.Locale("en", "US", ""));
+		}
+
+		XCell cell = UnoRuntime.queryInterface(XCell.class,sheet.getCellByPosition(column, row));
+		XPropertySet set = UnoRuntime.queryInterface(XPropertySet.class, cell);
+		set.setPropertyValue("NumberFormat", format);
+	}
+
+	/**
 	 * Report simulation statistics into a new sheet.
 	 *
 	 * @param ctx Script context.
@@ -1189,18 +1208,23 @@ public class Simulator {
 
 			report.getCellByPosition(0, offset).setFormula("Base Game Symbols Win:");
 			offset += 1;
-			for(int i = 0; i < baseGameSymbolsMoney[0].length; i++) {
+			for(int i = 0, l=baseGameSymbolsMoney[0].length; i < baseGameSymbolsMoney[0].length; i++) {
 				report.getCellByPosition(1+i, offset).setFormula( "" + i + " of" );
 				resize = (1+i > resize) ? 1+i : resize;
+				report.getCellByPosition(2+l+i, offset).setFormula( "" + i + " of" );
+				resize = (2+l+i > resize) ? 2+l+i : resize;
 			}
 			offset += 1;
 			for(int j = 0; j < symbols.length; j++) {
 				report.getCellByPosition(0, offset+j).setFormula( symbols[j] );
 			}
 			for(int j = 0; j < baseGameSymbolsMoney.length; j++) {
-				for(int i = 0; i < baseGameSymbolsMoney[j].length; i++) {
+				for(int i = 0, l=baseGameSymbolsMoney[j].length; i < baseGameSymbolsMoney[j].length; i++) {
 					report.getCellByPosition(1+i, offset+j).setFormula("" + baseGameSymbolsMoney[j][i]);
 					resize = (1+i > resize) ? 1+i : resize;
+					report.getCellByPosition(2+l+i, offset+j).setFormula("" + baseGameSymbolsMoney[j][i]/(double)lostMoney);
+					setDigits(document, report, 2+l+i, offset+j);
+					resize = (2+l+i > resize) ? 2+l+i : resize;
 				}
 			}
 			offset += baseGameSymbolsMoney.length;
@@ -1208,18 +1232,23 @@ public class Simulator {
 
 			report.getCellByPosition(0, offset).setFormula("Free Spins Symbols Win:");
 			offset += 1;
-			for(int i = 0; i < freeSpinsSymbolsMoney[0].length; i++) {
+			for(int i = 0, l=freeSpinsSymbolsMoney[0].length; i < freeSpinsSymbolsMoney[0].length; i++) {
 				report.getCellByPosition(1+i, offset).setFormula("" + i + " of");
 				resize = (1+i > resize) ? 1+i : resize;
+				report.getCellByPosition(2+l+i, offset).setFormula( "" + i + " of" );
+				resize = (2+l+i > resize) ? 2+l+i : resize;
 			}
 			offset += 1;
 			for(int j = 0; j < symbols.length; j++) {
 				report.getCellByPosition(0, offset+j).setFormula( symbols[j] );
 			}
 			for(int j = 0; j < freeSpinsSymbolsMoney.length; j++) {
-				for(int i = 0; i < freeSpinsSymbolsMoney[j].length; i++) {
+				for(int i = 0, l=freeSpinsSymbolsMoney[j].length; i < freeSpinsSymbolsMoney[j].length; i++) {
 					report.getCellByPosition(1+i, offset+j).setFormula("" + freeSpinsSymbolsMoney[j][i]);
 					resize = (1+i > resize) ? 1+i : resize;
+					report.getCellByPosition(2+l+i, offset+j).setFormula("" + freeSpinsSymbolsMoney[j][i]/(double)lostMoney);
+					setDigits(document, report, 2+l+i, offset+j);
+					resize = (2+l+i > resize) ? 2+l+i : resize;
 				}
 			}
 			offset += freeSpinsSymbolsMoney.length;
@@ -1227,18 +1256,23 @@ public class Simulator {
 
 			report.getCellByPosition(0, offset).setFormula("Base Game Symbols Frequencies:");
 			offset += 1;
-			for(int i = 0; i < baseGameSymbolsHitFrequency[0].length; i++) {
+			for(int i = 0, l=baseGameSymbolsHitFrequency[0].length; i < baseGameSymbolsHitFrequency[0].length; i++) {
 				report.getCellByPosition(1+i, offset).setFormula( "" + i + " of" );
 				resize = (1+i > resize) ? 1+i : resize;
+				report.getCellByPosition(2+l+i, offset).setFormula( "" + i + " of" );
+				resize = (2+l+i > resize) ? 2+l+i : resize;
 			}
 			offset += 1;
 			for(int j = 0; j < symbols.length; j++) {
 				report.getCellByPosition(0, offset+j).setFormula( symbols[j] );
 			}
 			for(int j = 0; j < baseGameSymbolsHitFrequency.length; j++) {
-				for(int i = 0; i < baseGameSymbolsHitFrequency[j].length; i++) {
+				for(int i = 0, l=baseGameSymbolsHitFrequency[j].length; i < baseGameSymbolsHitFrequency[j].length; i++) {
 					report.getCellByPosition(1+i, offset+j).setFormula("" + baseGameSymbolsHitFrequency[j][i]);
 					resize = (1+i > resize) ? 1+i : resize;
+					report.getCellByPosition(2+l+i, offset+j).setFormula("" + baseGameSymbolsHitFrequency[j][i]/(double)totalNumberOfGames);
+					setDigits(document, report, 2+l+i, offset+j);
+					resize = (2+l+i > resize) ? 2+l+i : resize;
 				}
 			}
 			offset += baseGameSymbolsHitFrequency.length;
@@ -1246,18 +1280,23 @@ public class Simulator {
 
 			report.getCellByPosition(0, offset).setFormula("Free Spins Symbols Frequencies:");
 			offset += 1;
-			for(int i = 0; i < freeSpinsSymbolsHitFrequency[0].length; i++) {
+			for(int i = 0, l=freeSpinsSymbolsHitFrequency[0].length; i < freeSpinsSymbolsHitFrequency[0].length; i++) {
 				report.getCellByPosition(1+i, offset).setFormula( "" + i + " of" );
 				resize = (1+i > resize) ? 1+i : resize;
+				report.getCellByPosition(2+l+i, offset).setFormula( "" + i + " of" );
+				resize = (2+l+i > resize) ? 2+l+i : resize;
 			}
 			offset += 1;
 			for(int j = 0; j < symbols.length; j++) {
 				report.getCellByPosition(0, offset+j).setFormula( symbols[j] );
 			}
 			for(int j = 0; j < freeSpinsSymbolsHitFrequency.length; j++) {
-				for(int i = 0; i < freeSpinsSymbolsHitFrequency[j].length; i++) {
+				for(int i = 0, l=freeSpinsSymbolsHitFrequency[j].length; i < freeSpinsSymbolsHitFrequency[j].length; i++) {
 					report.getCellByPosition(1+i, offset+j).setFormula("" + freeSpinsSymbolsHitFrequency[j][i]);
 					resize = (1+i > resize) ? 1+i : resize;
+					report.getCellByPosition(2+l+i, offset+j).setFormula("" + freeSpinsSymbolsHitFrequency[j][i]/(double)totalNumberOfGames);
+					setDigits(document, report, 2+l+i, offset+j);
+					resize = (2+l+i > resize) ? 2+l+i : resize;
 				}
 			}
 			offset += freeSpinsSymbolsHitFrequency.length;
