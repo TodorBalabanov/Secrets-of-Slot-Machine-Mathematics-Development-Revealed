@@ -420,12 +420,6 @@ public class Simulator {
 		result[0] = rewardFreeSpins[numberOfScatters];
 		result[1] = freeSpinsMultipliers[numberOfScatters];
 
-		if (result[0] > 0 && freeSpinsAmount <= 0) {
-			baseGameSymbolsHitFrequency[scatter][numberOfScatters]++;
-		} else if (result[0] > 0 && freeSpinsAmount > 0) {
-			freeSpinsSymbolsHitFrequency[scatter][numberOfScatters]++;
-		}
-
 		return result;
 	}
 
@@ -439,7 +433,7 @@ public class Simulator {
 	 * @return Array with win amount, symbol and number of symbols in the win.
 	 */
 	private static int[] wildLineWin(int line[], int wild, int multiplier) {
-		if (line[0] != wild) {
+		if( wilds.contains(line[0]) == false) {
 			return new int[] {0,-1,0};
 		}
 
@@ -498,14 +492,11 @@ public class Simulator {
 	 * @return Array with win amount, symbol and number of symbols in the win.
 	 */
 	private static int[] lineWin(int line[], int multiplier) {
-		int symbol = line[0];
-		for (int i = 0; i < line.length; i++) {
-			if ( wilds.contains(line[i]) ) {
-				symbol = line[i];
-				break;
-			}
+		if( wilds.contains(line[0]) == true) {
+			return new int[] {0,-1,0};
 		}
 
+		int symbol = line[0];
 		for (int i = 0; i < line.length; i++) {
 			if (wilds.contains(line[i])) {
 				line[i] = symbol;
@@ -545,7 +536,12 @@ public class Simulator {
 				line[c] = view[c][ lines[l][c] ];
 			}
 
-			int result[] = lineWin(line, (freeSpinsAmount > 0 ? freeSpinsMultiplier : 1) );
+			int result[] = {0, -1, 0};
+			/* Get bigger win. */ {
+				int result1[] = lineWin(line.clone(), (freeSpinsAmount > 0 ? freeSpinsMultiplier : 1) );
+				int result2[] = wildLineWin(line.clone(), line[0], (freeSpinsAmount > 0 ? freeSpinsMultiplier : 1) );
+				result = (result1[0] > result2[0]) ? result1 : result2;
+			}
 
 			int win = result[0];
 			int symbol = result[1];
@@ -570,12 +566,9 @@ public class Simulator {
 	/**
 	 * Mark bingo number and return it to the caller.
 	 *
-	 * @param line Line with a win in current spin.
-	 * @param symbol Symbol of the win.
-	 *
 	 * @return The number marked.
 	 */
-	private static int markBallOut(int line, int symbol) {
+	private static int markBallOut() {
 		boolean canBeFound = false;
 
 		/* Check for available numbers. */
@@ -709,7 +702,7 @@ public class Simulator {
 		/* Setup free spins parameters. */
 		setupFreeSpins();
 
-		markBallOut(-1, -1);
+		markBallOut();
 
 		int win3 = 0;
 		if (checkForBingoLine() == true) {
@@ -1075,7 +1068,7 @@ public class Simulator {
 	 *
 	 * @param ctx Script context.
 	 */
-	private static void repoertStatistics(XScriptContext ctx) {
+	private static void reportStatistics(XScriptContext ctx) {
 		try {
 			XModel model = ctx.getDocument();
 			XSpreadsheetDocument document = UnoRuntime.queryInterface(XSpreadsheetDocument.class, model);
@@ -1148,7 +1141,7 @@ public class Simulator {
 			offset += 1;
 
 			report.getCellByPosition(0, offset).setFormula("Bonus Game RTP [%]:");
-			report.getCellByPosition(1, offset).setFormula("" + ( (double)bonusGameMoney * 100D / (double)lostMoney ) );
+			report.getCellByPosition(1, offset).setFormula("" + ( (double)bonusGameMoney / (double)lostMoney ) );
 			setPercent(document, report, 1, offset);
 			offset += 2;
 
@@ -1294,7 +1287,7 @@ public class Simulator {
 				for(int i = 0, l=freeSpinsSymbolsHitFrequency[j].length; i < freeSpinsSymbolsHitFrequency[j].length; i++) {
 					report.getCellByPosition(1+i, offset+j).setFormula("" + freeSpinsSymbolsHitFrequency[j][i]);
 					resize = (1+i > resize) ? 1+i : resize;
-					report.getCellByPosition(2+l+i, offset+j).setFormula("" + freeSpinsSymbolsHitFrequency[j][i]/(double)totalNumberOfGames);
+					report.getCellByPosition(2+l+i, offset+j).setFormula("" + freeSpinsSymbolsHitFrequency[j][i]/(double)totalNumberOfFreeSpins);
 					setDigits(document, report, 2+l+i, offset+j);
 					resize = (2+l+i > resize) ? 2+l+i : resize;
 				}
@@ -1331,6 +1324,6 @@ public class Simulator {
 			}
 		}
 
-		repoertStatistics(ctx);
+		reportStatistics(ctx);
 	}
 }
