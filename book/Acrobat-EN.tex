@@ -1,0 +1,1797 @@
+﻿\documentclass[11pt,twoside,openany]{book}
+
+\usepackage{xurl}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage[none]{hyphenat}
+
+% --- Document Geometry for KDP 5x8 ---
+% Adjust 'inner' (gutter) based on your page count (e.g., 0.625in for 300+ pages)
+\usepackage[
+    paperwidth=5in, 
+    paperheight=8in, 
+    inner=0.75in,   % Gutter: increased to 0.75 for safety/readability
+    outer=0.5in,    % Outside margin
+    top=0.75in, 
+    bottom=0.75in,
+    includeheadfoot
+]{geometry}
+
+% --- Professional Typography ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{ebgaramond} % Professional Garamond font for classic look
+% Alternative: \usepackage{libre baskerville} for a sharper, formal look
+
+% --- Headers & Footers (fancyhdr) ---
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}      % Page numbers on outside edges
+\fancyhead[RE]{\small\leftmark}  % Chapter title on even pages
+\fancyhead[LO]{\small\rightmark} % Section/Book title on odd pages
+\renewcommand{\headrulewidth}{0pt}
+
+% Fix for chapter pages (no headers).
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyfoot[C]{\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+}
+
+% Setup source code listings.
+\lstset{
+    basicstyle=\ttfamily\tiny,
+    keywordstyle=\color{blue},
+    backgroundcolor=\color{gray!10},
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{orange},
+    numbers=left,
+    numberstyle=\tiny,
+    breaklines=true,
+    breakatwhitespace=false,
+    breakindent=0pt,
+    frame=single
+}
+
+\begin{document}
+
+% Allows wider word spacing to prevent margin overflow
+\sloppy
+
+% --- FRONT MATTER ---
+\frontmatter
+
+% Half-Title
+\thispagestyle{empty}
+\begin{center} \vspace*{2in} \Huge\textbf{Secrets of Slot Machine Mathematics Development Revealed}\\ \vspace*{0.25in} \Large\textit{} \end{center}
+\clearpage
+
+% Title Page
+\thispagestyle{empty}
+\begin{center}
+    \vspace*{1in}
+    \Huge\textbf{Secrets of Slot Machine Mathematics Development Revealed} \\
+    \vspace*{0.25in} \Large\textit{} \\
+    \vfill
+    \Large Todor Balabanov \\
+    \vspace*{0.25in} \small Higher School of Transport - Todor Kableshkov Publishing House
+\end{center}
+\clearpage
+
+% Copyright Page
+\thispagestyle{empty}
+\vspace*{3in}
+{\small \noindent © 2026 Velbazhd Software LLC \\ Todor Balabanov \\ All rights reserved. \\ ISBN: 978-954-12-0316-3}
+\clearpage
+
+\tableofcontents
+\listoffigures
+\listoftables
+\lstlistoflistings
+
+% Clear the page and suppress the header/footer for the transition
+\clearpage
+\thispagestyle{empty} 
+\pagestyle{empty}
+
+% --- BODY MATTER ---
+\mainmatter
+
+% Restore your fancy headers for the rest of the book
+\pagestyle{fancy}
+
+SECRETS OF SLOT 
+MACHINE MATHEMATICS 
+DEVELOPMENT REVEALED
+________________
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Secrets of Slot 
+Machine Mathematics 
+Development Revealed
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Todor Balabanov
+________________
+
+
+
+
+
+
+
+
+Secrets of Slot Machine Mathematics
+Development Revealed
+by Todor Balabanov
+
+
+Higher School of Transport -Todor Kableshkov
+Publishing House
+
+
+Velbazhd Software LLC
+Mladost 1, 18, 5, 6, 16, 1750 Sofia, Bulgaria
+
+
+https://www.veldsoft.eu/
+
+
+Copyright © 2026, 
+Todor Balabanov
+
+
+All rights reserved. No portion of this book may be reproduced in any form without permission from the publisher, except as permitted by U.S. copyright law. For permissions contact:
+velbazhd.software@gmail.com
++359 89 8237103
+
+
+ISBN: 978-954-12-0316-3 (print)
+
+
+Printed by request
+
+
+________________
+LIMIT OF LIABILITY/DISCLAIMER OF WARRANTY: WHILE THE PUBLISHER AND AUTHORS HAVE USED THEIR BEST EFFORTS IN PREPARING THIS WORK, THEY MAKE NO REPRESENTATIONS OR WARRANTIES WITH RESPECT TO THE ACCURACY OR COMPLETENESS OF THE CONTENTS OF THIS WORK AND SPECIFICALLY DISCLAIM ALL WARRANTIES, INCLUDING WITHOUT LIMITATION ANY IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE. NO WARRANTY MAY BE CREATED OR EXTENDED BY SALES REPRESENTATIVES, WRITTEN SALES MATERIALS, OR PROMOTIONAL STATEMENTS FOR THIS WORK. THE FACT THAT AN ORGANIZATION, WEBSITE, OR PRODUCT IS REFERRED TO IN THIS WORK AS A CITATION AND/OR POTENTIAL SOURCE OF FURTHER INFORMATION DOES NOT MEAN THAT THE PUBLISHER AND AUTHORS ENDORSE THE INFORMATION OR SERVICES THE ORGANIZATION, WEBSITE, OR PRODUCT MAY PROVIDE OR RECOMMENDATIONS IT MAY MAKE. THIS WORK IS SOLD WITH THE UNDERSTANDING THAT THE PUBLISHER IS NOT ENGAGED IN RENDERING PROFESSIONAL SERVICES. THE ADVICE AND STRATEGIES CONTAINED HEREIN MAY NOT BE SUITABLE FOR YOUR SITUATION. YOU SHOULD CONSULT WITH A SPECIALIST WHERE APPROPRIATE. FURTHER, READERS SHOULD BE AWARE THAT WEBSITES LISTED IN THIS WORK MAY HAVE CHANGED OR DISAPPEARED BETWEEN WHEN THIS WORK WAS WRITTEN AND WHEN IT IS READ. NEITHER THE PUBLISHER NOR THE AUTHORS SHALL BE LIABLE FOR ANY LOSS OF PROFIT OR ANY OTHER COMMERCIAL DAMAGES, INCLUDING BUT NOT LIMITED TO SPECIAL, INCIDENTAL, CONSEQUENTIAL, OR OTHER DAMAGES.
+________________
+
+
+
+
+
+
+
+
+
+
+\cahpter*{In Memoriam}
+  
+
+The president of the CSKA hockey club and a legend of the "Reds," Ivelin Todorov, was an emblematic name for the hockey team of the "Army," and with a significant contribution to this sport existing in the "Red" club today.
+
+
+Ivelin Todorov is a long-time Bulgarian national ice hockey player, a junior of the "Reds" and a multiple republican champion with CSKA in all age groups.
+
+\chapter*{Preface}
+
+Slot machines are among the most popular gambling games worldwide. They are often referred to as fruit machines, poker machines, or one-armed bandits. Slot machines operate as games of chance, requiring no special skills to play. In many countries, gambling is prohibited; however, in places where it is legal, only adults are permitted to participate.
+
+Casinos favor slot machines due to the substantial revenue they generate, which is often higher than that from other types of gambling games. Since the pandemic began in 2019, there has been a significant increase in online gambling. This growth has driven an expansion in the manufacturing of gambling games, creating a demand for faster and more efficient software development processes. Additionally, all legal gambling games must undergo strict certification procedures and comply with local regulations.
+
+These factors highlight the need for improved mathematical designs of slot machine reels to attract a broader audience. This book will explore the practical aspects of mathematical modeling in the manufacturing process. It is intended for professionals in the slot game industry, applied mathematicians working within the gambling sector, and enthusiastic gambling fans.
+
+\capter{Slot Machine Games Facts}
+
+Early slot machine games were mechanical and emerged at the end of the 19th century. They were constructed with 3 or 5 mechanical cylinders, also known as drums, each featuring different winning symbols. To start the game, the player would pull a handle to spin the reels. After a brief period, the reels would come to a stop, revealing a configuration of symbols that determined the prize. Instead of fixed payouts, players would receive a product such as free beer, free cigarettes, or other complimentary items. The simplicity of these games contributed to their rapid popularity. However, on the earliest machines, calculating the possible combinations was challenging, which resulted in a reduction of distinct symbols. Some symbols appeared less frequently than others.
+
+Electromechanical and Electronic
+
+In the early 1960s, electromechanical slot machines were introduced. These machines featured electromechanical construction and an automated payout system. By the mid-1970s, video slot machines emerged, transforming mechanical drums into virtual reels. The common element across all types of slots is the spinning reels. In games beyond the earliest versions, skilled mathematicians took on the primary role of designing the symbols displayed on the reels. This process combines both art and science. The scientific aspect focuses on the necessary statistical parameters, while the artistic side aims to ensure player satisfaction during gameplay.
+
+
+Creating a slot game design is relatively straightforward mathematically, but it poses significant challenges artistically. On the mathematical side, theoretical calculations are using combinatorial analytical formulas and heuristic calculations through Monte Carlo simulations. This book primarily focuses on the practical and heuristic aspects of slot machine design.
+
+\capter{Basic Slot Game Statistics}
+
+All gambling games are closely linked to probability theory and statistics. Most of these games involve a significant element of chance. The outcomes of betting are subject to thorough statistical analysis because of this randomness. Various statistical parameters are monitored, and some are regulated by law.
+
+Return to Player
+
+All gambling games of chance have a key statistic known as Return to Player (RTP). This metric indicates the amount of money a player can expect to receive back after playing a game. RTP is expressed as a percentage. For instance, if a player bets $100 on a game with a 98% RTP, the expected return after a single game spin would be $98. Mathematically, the RTP represents the expected value and can be calculated using a specific formula:
+                                        (1)
+In the given context, let  represent a specific probabilistic event, and  denote the probability of that event occurring. The Return to Player (RTP) parameter is regulated by law in all jurisdictions where gambling is legal. These regulations require game studios to monitor the RTP in their products, and they must have this monitoring approved by certified laboratories.
+
+In the design, production, and testing of a slot machine game, the Return to Player (RTP) is often broken down into its individual components, which together contribute to the overall value. When there is a discrepancy in the total RTP, examining the specific game features at a faster pace can accelerate the problem-solving process. This breakdown is a valuable quality assurance method for monitoring.
+
+Game Volatility
+
+Volatility is a key statistical parameter found in every gambling game. It is generally more intuitive than a strict mathematical calculation and is often represented by a star rating system, ranging from 1 to 5 stars. The more stars a game has, the higher its volatility. Mathematically, volatility is closely related to the concept of variance. In general, variance measures how much a random variable differs from its mean:
+                                (2)
+The expected value of a probabilistic variable is denoted by . The variance equation includes a second power term because, without it, the sum would equal zero. Volatility is intuitively defined based on the frequency and amount of prizes. Low-volatility games tend to offer smaller prizes more frequently, while high-volatility games feature larger prizes that are awarded less often.
+
+Local legal regulations do not strictly govern the volatility of gambling games, and in some cases, volatility is not even indicated to the player. Most skilled players develop an internal intuition for a game's volatility and can sense it quickly as they play. Risk-taking players often enjoy high-volatility games, while others may prefer low-volatility options.
+
+Other Parameters
+
+Game creators observe a wide range of statistical parameters, but not all of these are of interest to legal authorities or players. One key parameter for dedicated players is the maximum possible win. Another important aspect is the frequency of each winning combination, which is technically intriguing. The probability of triggering free spins also plays a significant role in determining game volatility. Additionally, the win rates in the main game, during free spins, and in specific bonus games provide valuable insights during game development and testing. The maximum number of free spins can provide further insight into game volatility. There are no restrictions on bonus games; only the game creator's imagination limits the gameplay. This variety allows for an unlimited number of statistical parameters to be tracked.
+
+\capter{Bingo Tropical Hot}
+
+There are several ways to present the mathematical design of slot games to an interested audience. In this book, we will recreate a mathematical model based on a game that has not yet been published. The selected game is "Bingo Tropical Hot" by RedFowl Engineering Ltd. All artwork and elements related to the intellectual property of "Bingo Tropical Hot" are protected by the manufacturer's copyrights. The use of these materials in this book is for illustrative purposes only and does not relate to any direct profit.
+
+General Specifics
+
+	Figure 3.1 Bingo Tropical Hot initial screen
+
+The game consists of 5 reels and 3 visible rows (Figure 3.1). It features 9 pay lines (Figure 3.2). The total bet is calculated by multiplying the bet per line by the number of betting lines.
+
+	Figure 3.2 Pay lines in Bingo Tropical Hot
+
+All wins are counted from the leftmost reel to the rightmost. Wins are formed only on adjacent reels. There are 9 fixed paylines, and players cannot change the number of betting lines. All wins are multiplied by the bet per line, and only the highest win per line is paid out. The total bet for this game is the bet per line multiplied by 9.
+
+Game Symbols
+
+	Figure 3.3 Symbols in Bingo Tropical Hot
+
+The game features 13 symbols (see Figure 3.3). When betting 1 coin per line, different regular symbols yield varying prizes. Developing the mathematical model will involve adjusting the rewards for wins based on the number of matching symbol combinations. This game includes a wild symbol, which can substitute for all other symbols except the scatter symbol. However, the wild symbol does not pay out if it is part of a winning combination. This design choice helps simplify the determination of winning combinations. High-paying symbols that appear in smaller quantities can outperform less-paying wilds when they are part of a winning combination with fewer symbols. A standard rule is that only the highest prize per line is awarded.
+
+Regular symbols can form line-winning combinations, but the game also features a scatter symbol. Scatter wins occur when the scatter symbol appears anywhere on the screen, and these symbols do not need to be adjacent to each other. Only the highest number of scatter symbols will be rewarded with a prize. Scatter wins are independent of the single-line bet and are calculated based on the total bet amount. The payout for the scatter symbol is still subject to future modeling.
+
+It is common for the scatter symbol to trigger a free spins feature, and the logic for these free spins will also be modeled in the future.
+
+Free Spins and Bingo Bonus
+
+The game includes a free spins scatter symbol, which typically appears only on reels 2, 3, and 4. However, during the math modeling phase, this standard approach can be adjusted. The number of scatter symbols that land will determine how many free spins are activated. Additionally, the quantity of scatters can influence a multiplier for the wins during the free spins, such as x1, x2, or x3. It is also possible to restrict or limit retriggered free spins during this mode according to the base game rules. Free spins retriggering is another option to consider during game modeling.
+
+	Figure 3.4 Bonus screen of Bingo Tropical Hot
+
+The game features a bingo bonus component at its core. At the bottom of the main screen, six bingo cards are displayed (Figure 3.4). Bingo balls are drawn in the top right corner of the screen, using a standard set of bingo balls. Two types of bonuses are available: line combinations and bingo combinations. The amounts for both bonuses are determined through mathematical modeling. After a bingo bonus is awarded, the cards are reset. The bingo bonus in this slot machine game has a significant impact on the overall RTP, necessitating adjustments to all other prize amounts accordingly.
+
+\capter{PAR Sheet}
+
+The mathematics behind slot machine games is typically outlined in a document known as a PAR Sheet. Most game studios create their PAR sheet as a Microsoft Excel file, but in current math modeling, a LibreOffice Calc file is used. This document includes all the key numbers and some aggregated statistics.
+
+Game Summary
+
+The first section of the PAR sheet usually contains a general description of the game (Figure 4.1).
+
+	Figure 4.1 Game summary
+
+The game summary sheet gathers various information derived from values in other sheets.
+
+Game Paytable
+
+The second sheet holds the list of symbols with the amount of reward each symbol can provide. This data structure is known as the paytable, and it forms the basis of the mathematical model. In some games, wild symbols can award a prize on their own, though this is not always the case. Most games typically include a scatter symbol that grants prizes regardless of its position within a winning combination on the screen (Figrure 4.2).
+
+	Figure 4.2 The paytable of the game
+
+Wins in this game are determined by the number of consecutive symbols that appear in a betting line combination. A high-paying symbol may award a win with just two symbols, but this will be confirmed in the future optimization of the mathematical model. It is important to note that the wild symbol does not provide a payout on its own. By omitting payouts for wild symbols, we can avoid confusion regarding which combinations are the most profitable on a single line.
+
+The scatter symbol does pay out, but the free spins symbol does not yield a win by itself. There are a total of nine fixed betting lines, and when a bet of one coin is placed on a single line, the total bet for each base game round amounts to nine coins. Prize rewards for regular symbols are displayed in the paytable based on a single bet of one coin per line. In contrast, scatter wins are calculated based on the total bet.
+
+Initially, all prize values in the Paytable are set to one for mathematical modeling. These values will be adjusted later during the optimization process. Specific game parameters, including the number of symbols, the number of betting lines, free spin symbols, and scatter symbols, are determined by the art and game designers. Most of these parameters are not subject to mathematical optimization, as they are focused more on aesthetics and gaming experience.
+
+Game Lines
+
+The primary method for winning prizes on slot machines is through line combinations, where symbols must typically align from left to right. The number of betting lines can vary, ranging from a single line to all possible combinations. In some cases, lines may also be calculated from right to left, or even in both vertical directions - top to bottom and vice versa. Additionally, certain games employ cluster mechanics instead of traditional betting lines. For example, in Bingo Tropical Hot, there are only nine lines that are counted from left to right (Figure 4.3).
+
+	Figure 4.3 The betting lines in the game
+
+Each position in the betting lines sheet indicates the offset from the top of the screen for each reel. This representation simplifies the implementation of win calculations for the different betting lines by programmers.
+
+Base Game and Free Spins Reels
+
+There are various approaches to presenting game reels, with the most common being based on traditional mechanical games. This method represents virtual reels as a sequence of numbers that indicate the placement of symbols on each reel. In some rare cases, reels may be represented using a weighted table or in other analytical forms. The discrete probabilistic model of the reels is the most straightforward method for approval of the RTP.
+
+The length of the reels and the specific positions of the symbols are determined through mathematical optimization and game design choices. The final mathematical model must comply with all legal regulatory requirements and align with the financial profit expectations of the gambling game operator. Ultimately, it should also satisfy the players, as they are the ones investing their money into the game.
+
+	Figure 4.4 Base game reels
+
+In the base game and during free spins, the reel sets typically differ. This difference is due to the expectation that free spins will be more profitable for the player. In some instances, multiple reel sets can be utilized for both the base game and free spins.
+
+For the current optimization of the math model, a single set of reels is used for the base game. Initially, each symbol appears only once on each reel, and the symbols are arranged in consecutive order. The scatter symbols and those that trigger free spins are restricted to the middle reels only (Figure 4.4).
+
+	Figure 4.5 Free spins reels
+
+The only change in the initial free spins reels is the removal of the symbol that triggers free spins (Figure 4.5). At this stage of game model optimization, retriggering free spins is not possible.
+
+\capter{Programming Language Selection}
+
+The gambling industry has widely adopted Microsoft Excel as the standard tool for the mathematical design of slot machine games. While Excel is a powerful resource for creating PAR sheets, LibreOffice Calc can be used even more effectively and is more cost-effective. Calc is compatible with major operating systems such as Windows, macOS, and various Linux distributions. Additionally, Calc offers superior support for programming languages compared to Excel. 
+
+The mathematical modeling process for Bingo Tropical Hot will heavily rely on Monte Carlo simulations. Therefore, it’s essential that the simulation source code be closely aligned with Calc's data structures.
+
+Possible Programming Languages
+
+LibreOffice Calc supports several scripting languages through its UNO (Universal Network Objects) API. The primary scripting languages available are StarBasic, Python, JavaScript, BeanShell, Java, and other UNO-compatible languages. StarBasic is the most integrated language in LibreOffice and resembles VBA, although it is not entirely compatible with it. 
+
+Modern versions of LibreOffice support Python natively, allowing for interaction with LibreOffice Calc through its UNO API. Python scripts can be stored internally within LibreOffice documents. Additionally, LibreOffice supports JavaScript through a Rhino-based variant via the Script Provider, which operates within LibreOffice’s JVM-based scripting framework. BeanShell, a lightweight Java-like scripting language, is also supported through LibreOffice’s Java-based scripting framework. 
+
+Java serves as the most advanced programming language for writing macros and extensions in LibreOffice. Since the UNO API is language-independent, scripting can also be performed using C++, .NET, or other languages via the UNO bridge; however, these methods are typically used for external programs rather than for embedded macros.
+
+The selection of a programming language is a common consideration in software development projects. Several criteria are used to evaluate languages, with performance, the richness of software libraries, available documentation, and robustness often being the most important factors.
+
+For current mathematical modeling, Java is the preferred choice. Its performance generally surpasses that of most scripting languages. Java utilizes both a compiler and a JVM to interpret its class files. Additionally, the strong integration with LibreOffice is a significant advantage. LibreOffice originated from OpenOffice, which was initially created by Sun Microsystems - the same company that developed the Java programming language. Even in modern versions of LibreOffice, many modules are still written in Java.
+
+Another critical factor in selecting a programming language is the competence of the development team. For instance, if Java and Python have similar scores based on the other criteria, the language that the team is more familiar with should be chosen.
+
+\capter{Setup of Simulation Project}
+
+To model the slot math, start by installing the LibreOffice software, which is available for the most popular operating systems. Next, install the Java development tools, such as openJDK or Oracle JDK. Finally, configure Java (Figure 6.1) in LibreOffice by navigating to Tools -> Options -> LibreOffice -> Advanced.
+
+	Figure 6.1 Java configuration in LibreOffice
+
+Slot games are based on combinatorial math models. There are various approaches to designing and simulating these games. A slot game can be developed entirely without a computer, using only a pencil and paper. Most elements of a slot game can be fine-tuned by calculating theoretical parameters. This book adopts a practical approach, recreating the game model through empirical adjustments and Monte Carlo simulations ( https://en.wikipedia.org/wiki/Monte_Carlo_method ). 
+
+Source Code Repository
+
+The software project of the simulation is publicly available on GitHub:
+
+https://github.com/TodorBalabanov/Secrets-of-Slot-Machine-Mathematics-Development-Revealed
+
+Setting-up Gradle Project
+
+To create a Java plugin for LibreOffice, first establish a proper directory structure for the source code. The recommended structure is as follows: 
+
+simulator/
+├─ build.gradle
+├─ settings.gradle
+├─ parcel-descriptor.xml
+└─ src/
+   └─ main/
+      └─ java/
+         └─ eu/
+            └─ veldsoft/
+               └─ bths/
+                  └─ Simulator.java
+
+In this structure, the files `build.gradle` and `settings.gradle` define the parameters for building the project. The `parcel-descriptor.xml` file contains important information for integrating the Java plugin with LibreOffice. The initial source code for the game simulator will be placed in the `Simulator.java` file.
+
+The Gradle build system settings are specified in the `settings.gradle` file, which for the current project only includes the project name (Listing 6.1).
+
+Listing 6.1 - settings.gradle
+	rootProject.name = 'Bingo-Tropical-Hot-Simulator'
+
+All important project configuration options are specified in the `build.gradle` file (Listing 6.2). The version of the JAR file will be 1.0.0, and this version will be reflected in the name of the JAR file. It is considered a best practice for each Java software solution to reside in its own package. For this development project, the package will be `eu.veldsoft.bths`. Within the Gradle script, the exact locations of the LibreOffice directories are defined to ensure that the compiled plugin can be deployed appropriately. The deployment process involves copying the Java archive and the descriptor file into the appropriate LibreOffice directory structure.
+
+Listing 6.2 - build.gradle
+	plugins {
+    id 'java'
+}
+
+group = 'eu.veldsoft.bths'
+version = '1.0.0'
+
+/**
+ * Detect LibreOffice classes folder on different OSes
+ */
+def detectLibreOfficeClassesDir() {
+    def candidates = []
+
+    if (System.properties['os.name'].toLowerCase().contains('win')) {
+        candidates << "${System.getenv('ProgramFiles')}\\LibreOffice\\program\\classes"
+        candidates << "${System.getenv('ProgramFiles(x86)')}\\LibreOffice\\program\\classes"
+    } else if (System.properties['os.name'].toLowerCase().contains('mac')) {
+        candidates << "/Applications/LibreOffice.app/Contents/Resources/java"
+    } else {
+        // Assume Linux/Unix-like
+        candidates << "/usr/lib/libreoffice/program/classes"
+        candidates << "/usr/share/libreoffice/program/classes"
+    }
+
+    return candidates.find { new File(it, "libreoffice.jar").exists() }
+}
+
+def libreOfficeClassesDir = detectLibreOfficeClassesDir()
+
+if (libreOfficeClassesDir == null) {
+    throw new GradleException("Could not find libreoffice.jar — please install LibreOffice or set LIBREOFFICE_HOME.")
+}
+
+repositories {
+    flatDir {
+        dirs libreOfficeClassesDir
+    }
+}
+
+dependencies {
+    implementation name: 'libreoffice'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+jar {
+    archiveBaseName = 'Bingo-Tropical-Hot-Simulator'
+    from sourceSets.main.output
+    manifest {
+        attributes(
+            'Main-Class': 'eu.veldsoft.bths.Simulator'
+        )
+    }
+}
+
+tasks.register('deploy', Copy) {
+    dependsOn jar
+    from("${buildDir}/libs/${jar.archiveFileName.get()}")
+    from("parcel-descriptor.xml")
+
+    def loUserScripts = System.getProperty('os.name').toLowerCase().contains('win') ?
+        "${System.getenv('APPDATA')}\\LibreOffice\\4\\user\\Scripts\\java\\Bingo-Tropical-Hot-Simulator" :
+        "${System.getProperty('user.home')}/.config/libreoffice/4/user/Scripts/java/Bingo-Tropical-Hot-Simulator"
+
+    into(loUserScripts)
+}
+
+Each JAR plugin must be accompanied by a descriptor file named `parcel-descriptor.xml` (Listing 6.3). This descriptor defines the programming language used, provides the name and description of the plugin, and specifies the entry point function. Additionally, it contains crucial information about the JAR file that houses the plugin itself.
+
+Listing 6.3 - parcel-descriptor.xml
+	<?xml version="1.0" encoding="UTF-8"?>
+<parcel language="Java" xmlns:parcel="scripting.dtd">
+  <script language="Java">
+    <locale lang="en">
+      <displayname value="Bingo Tropical Hot Simulator" />
+      <description>Run simulation of Bingo Tropical Hot slot machine.</description>
+    </locale>
+    <functionname value="eu.veldsoft.bths.Simulator.simulate"/>
+    <logicalname value="eu.veldsoft.bths.Simulator.simulate"/>
+    <languagedepprops>
+      <prop name="classpath" value="Bingo-Tropical-Hot-Simulator-1.0.0.jar"/>
+    </languagedepprops>
+  </script>
+</parcel>
+
+The macro source code will be provided within a class named `eu.veldsoft.bths.Simulator`.
+
+After creating the directory, a Gradle wrapper should be generated by using the following command:
+
+gradle wrapper
+
+The `gradlew` command is a small script included in Gradle-based projects, which allows anyone to run Gradle without needing to install it system-wide.
+
+To build the JAR file, use this command:
+
+gradlew clean build
+
+To deploy the created plugin, use the following command:
+
+gradlew deploy
+
+The commands can be executed in a sequence: 
+
+clear && gradlew clean build deploy
+
+After the deployment process, the JAR file along with the descriptive file will be available in the LibreOffice Java plugins directory, making the plugin ready for use.
+
+	Figure 6.2 Running the macro
+
+Access the newly created plugin from the Tools -> Macros -> Run Macro... menu (Figure 6.2).
+
+\capter{Common Data Structures}
+
+Software development consists of two main components: data structures and algorithms. These elements are closely interconnected - good data modeling results in efficient and high-performing algorithms. In many software development processes, data structure modeling is completed before implementing algorithms. This same approach will be followed in this writing.
+
+Listing 7.1 - Macro single entry point
+	package eu.veldsoft.bths;
+
+import com.sun.star.script.provider.XScriptContext;
+
+public class Simulator {
+    public static void simulate(XScriptContext ctx) {
+    }
+}
+
+To ensure that the development tools are set up correctly and that the building process is accurate, a good approach is to write simple source code in the style of a "Hello World" program. The easiest way to start is by entering some text into cell A1 (Listing 7.2).
+
+Listing 7.2 - Writing text in a cell
+	package eu.veldsoft.bths;
+
+import com.sun.star.script.provider.XScriptContext;
+import com.sun.star.uno.UnoRuntime;
+import com.sun.star.frame.XModel;
+import com.sun.star.sheet.XSpreadsheetDocument;
+import com.sun.star.container.XIndexAccess;
+import com.sun.star.sheet.XSpreadsheet;
+
+public class Simulator {
+    public static void simulate(XScriptContext ctx) {
+        try {
+            XModel model = ctx.getDocument();
+            XSpreadsheetDocument document = UnoRuntime.queryInterface(XSpreadsheetDocument.class, model);
+            XIndexAccess sheets = UnoRuntime.queryInterface(XIndexAccess.class, document.getSheets());
+            XSpreadsheet first = UnoRuntime.queryInterface(XSpreadsheet.class, sheets.getByIndex(0));
+
+
+            first.getCellByPosition(0, 0).setFormula("Simulation!");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+Many popular software products utilize a plugin-based architecture, and LibreOffice is among them. This product features a comprehensive internal document object model. One significant advantage of plugin-based software solutions is that they allow access to this internal document object model through various scripting languages.
+
+In the case of the Java plugin, it accesses the active document via the XModel object. A reference to the document itself is provided as an XSpreadsheetDocument object. From this document object, users can access the LibreCalc sheets. Once the first sheet is selected, text can be written in the cell identified by the logical address A1.
+
+Source of Entropy
+
+As previously mentioned, modern computerized gambling games depend significantly on a reliable source of entropy. There are several options available, but when it comes to the Java programming language, the two primary choices are the Random class and the SecureRandom class. The SecureRandom class has the advantage of providing cryptographically secure numbers, but it comes at a cost of its performance, which is generally slower compared to the Random class (Listing 7.3).
+
+Listing 7.3 - RNG class import
+	package eu.veldsoft.bths;
+
+import java.security.SecureRandom;
+
+import com.sun.star.script.provider.XScriptContext;
+import com.sun.star.uno.UnoRuntime;
+import com.sun.star.frame.XModel;
+import com.sun.star.sheet.XSpreadsheetDocument;
+import com.sun.star.container.XIndexAccess;
+import com.sun.star.sheet.XSpreadsheet;
+
+public class Simulator {
+        private static final SecureRandom PRNG = new SecureRandom();
+        
+    public static void simulate(XScriptContext ctx) {
+        try {
+            XModel model = ctx.getDocument();
+            XSpreadsheetDocument document = UnoRuntime.queryInterface(XSpreadsheetDocument.class, model);
+            XIndexAccess sheets = UnoRuntime.queryInterface(XIndexAccess.class, document.getSheets());
+            XSpreadsheet first = UnoRuntime.queryInterface(XSpreadsheet.class, sheets.getByIndex(0));
+
+            first.getCellByPosition(0, 0).setFormula("Simulation!");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+The instance of the RNG is private, as it will only be used within the simulation class. The field is marked as final because the RNG instance will be created only once. It is also static, ensuring that each method in the class uses the same single instance of the RNG.
+
+Paytable
+
+The game paytable is a fundamental element in each slot machine. It shows the payout for each winning combination. Most of the case wins are calculated from left to right. When reels are five, usually wins are formed by 3, 4, or 5 consecutive symbols. The Bingo Tropical Hot paytable can be represented as a two-dimensional array (Listing 7.4). The first dimension gives the number of consequent symbols. In contrast, the second shows the index of a particular symbol. Each cell in the array provides the prize amount. 
+
+Listing 7.4 - Paytable array model
+	private static int paytable[][] = {
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,},
+        {0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,1,0,0,},
+        {0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,},
+        {0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,},
+};
+
+The first dimension has a size of 6, as it includes 0 for the number of consecutive symbols, with the longest winning combination consisting of 5 consecutive symbols. In the second dimension, the prizes are indexed from 0 to 18. The prize value in each cell indicates the winnings for a 1-coin bet per line for the regular symbols. The simulation will be conducted using a 1-coin bet per line, and all other denominations are invariant.
+
+The Wild symbol itself does not award any prizes. Therefore, it has zeros in its row on the paytable. As designed, line prizes will be awarded only by the regular symbols, with or without the participation of the Wild symbol.
+
+Another symbol that does not grant a prize is the Treasure symbol. Its sole purpose is to trigger the free spins mode.
+
+The Scatter symbol and Bingo bonuses pay out according to the total bet. The prize is calculated by multiplying the paytable value by the total bet. If the total bet is altered, the Bingo bonus game restarts with clean bingo tickets.
+
+All values for the game’s discrete model will be loaded from the PAR sheet document. The initial values in the PAR sheet are only indicative and serve only as a starting point for the mathematical modeling.
+
+Pay Lines
+
+The game features 9 paylines, with the possibility of winning combinations of x2, x3, x4, or x5 on each line. To present the paylines efficiently, a data structure will be utilized. Specifically, a two-dimensional array will be employed for this purpose, though other data structures may also be suitable. In this book, simplicity is a primary objective. The paylines are visually represented like images (Figure 3.2).
+
+Listing 7.5 - Pay lines array model
+	private static int lines[][] = {
+        {1,1,1,1,1,},
+        {0,0,0,0,0,},
+        {2,2,2,2,2,},
+        {0,1,2,1,0,},
+        {2,1,0,1,2,},
+        {0,0,1,2,2,},
+        {2,2,1,0,0,},
+        {1,0,1,2,1,},
+        {1,2,1,0,1,},
+};
+
+The first dimension represents lines by their index. The second dimension indicates the index for each reel that should be used for the winning combination. The value in each cell denotes the offset from the top of the screen. For example, the central line is marked with ones, while the V-shaped line is represented by the sequence: zero, one, two, one, and zero.
+
+Reels
+
+Virtual game reels are a fundamental component of slot machine gambling games. Reels represent the discrete arrangement of symbols. In standard games without bonus features, the primary focus of mathematicians is on optimizing these reels. In the game "Bingo Tropical Hot," while the reels are optimized, the discrete distribution also applies to the bonus game values of bingo. Mathematicians aim to develop distributions that satisfy legal authorities, game operators, and, most importantly, the players.
+
+Only the most basic slot games do not offer free spins. Free spins are awarded under specific conditions, such as the appearance of a certain number of scatter symbols on the screen. During free spins, players are not charged a bet, hence they are considered "free." It is common for the reels in the main game to differ from those used during free spins. A highly efficient method for modeling these reels is to use a two-dimensional array. In this array, the first dimension indexes the reel, while the second dimension indexes the group of symbols that are visible on the screen.
+
+Listing 7.6 - Reels array model
+	private static int baseGameReels[][] = {
+        {1,3,4,5,6,7,8,9,10,11,12,},
+        {1,3,4,5,6,7,8,9,10,11,12,15,16,},
+        {1,3,4,5,6,7,8,9,10,11,12,15,16,},
+        {1,3,4,5,6,7,8,9,10,11,12,15,16,},
+        {1,3,4,5,6,7,8,9,10,11,12,},
+};
+
+private static int freeSpinsReels[][] = {
+        {1,3,4,5,6,7,8,9,10,11,12,},
+        {1,3,4,5,6,7,8,9,10,11,12,16,},
+        {1,3,4,5,6,7,8,9,10,11,12,16,},
+        {1,3,4,5,6,7,8,9,10,11,12,16,},
+        {1,3,4,5,6,7,8,9,10,11,12,},
+};
+
+The length of the reels is a subjective decision, and it is important to note that each reel can have a different length. From a programmer's perspective, varying lengths offer greater flexibility but can also lead to software bugs. Different lengths can help mathematicians more easily achieve the desired statistical parameters for the game. 
+
+Another key consideration is the length itself. Longer reels offer more options for statistical adjustments. However, they can also be more challenging to arrange. The current simulation model aims to select a prime number around 61 for the reel length, with the hope that this size will provide enough options to meet the game's statistical requirements.
+
+In real-life production, reel lengths typically range from 10 to 500. For the Bingo Tropical Hot game, there should be prizes for achieving a bingo and for triggering free spins. If the reels are too short, these prizes will appear too frequently, which can disrupt the game's balance.
+
+List of Supportive Variables
+
+In addition to the primary data structures, a list of supporting variables should also be included (Listing 7.7).
+
+Listing 7.7 - List of supportive variables
+	private static int singleBet = 1;
+private static int totalBet = 20;
+private static long wonMoney = 0L;
+private static long lostMoney = 0L;
+private static long totalNumberOfGames = 0L;
+private static long totalNumberOfFreeSpins = 0L;
+private static long totalNumberOfFreeSpinsStarts = 0L;
+private static long totalNumberOfFreeSpinsRestarts = 0L;
+private static long baseGameMoney = 0L;
+private static long freeSpinsMoney = 0L;
+private static long bonusGameMoney = 0L;
+private static long maxWin = 0L;
+private static long baseGameMaxWin = 0L;
+private static long freeSpinsMaxWin = 0L;
+private static long bonusGameMaxWin = 0L;
+private static long baseGameHitFrequency = 0L;
+private static long freeSpinsHitFrequency = 0L;
+private static long bonuseGameHitFrequency = 0L;
+private static int freeSpinsAmount = 0;
+private static int freeSpinsMultiplier = 0;
+private static Set<Integer> wilds = Set.of( 1 );
+private static Set<Integer> payingScatters = Set.of( 16 );
+private static Set<Integer> freeSpinsTrigerScatters = Set.of( 15 );
+private static int rewardFreeSpins[] = {0,0,0,3,5,7};
+private static int freeSpinsMultipliers[] = {0,0,0,1,2,3};
+
+The single bet is stored in a separate variable and is set to 1 coin. For the Monte Carlo simulations, a denomination of 1 coin is considered safe. In a real game, the single bet can vary. The total bet is calculated by multiplying the single bet by the number of betting lines. 
+
+Statistics on total losses and total winnings are crucial for calculating the RTP. The total number of different spins is also used for this RTP calculation, alongside varying RTP values. Wins from the base game, free spins, and bingo bonus game contribute to distinguishing the RTP. 
+
+While maximum achieved wins are not particularly important, they can be helpful in some comprehensive analyses. Hit frequencies are valuable for estimating the hit rate, which informs the game's volatility. During gameplay, the free spin wheel awards several free spins along with a specific multiplier, and this information is stored in separate variables.
+
+List of Supportive Arrays
+
+Some types of supportive information are better organized in arrays (Listing 7.8) rather than stored in single variables.
+
+Listing 7.8 - List of supportive arrays
+	private static int view[][] = {
+        { -1, -1, -1 },
+        { -1, -1, -1 },
+        { -1, -1, -1 },
+        { -1, -1, -1 },
+        { -1, -1, -1 },
+};
+
+private static int bingoCards[][] = {
+        { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 0, 0, 0, 0, 0, 0, 0 },
+};
+
+private static boolean bingoNumbersOut[][] = {
+        { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+        { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+        { false, false, false, false, false, false, false, false, false, false, false, false, false, false,        false, false, false, false},
+        { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+        { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+        { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+        { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,        false},
+        { false, false, false, false, false, false, false, false, false, false, false, false, false, false,        false, false, false, false },
+        { false, false, false, false, false, false, false, false, false, false, false,        false, false, false, false, false, false, false },
+};
+
+private static long baseGameSymbolsMoney[][] = {
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+};
+
+private static long baseGameSymbolsHitFrequency[][] = {
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+};
+
+private static long freeSpinsSymbolsMoney[][] = {
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+};
+
+private static long freeSpinsSymbolsHitFrequency[][] = {
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+};
+
+Each generated screen in the base game or during free spins is temporarily stored in a 3x5 array. We maintain a record of wins for each winning combination in two-dimensional arrays that match the size of the paytable. The same approach is used to track the hit frequency for each winning combination. Bingo bonus cards are also represented as a temporary array.
+
+\capter{Common Algorithms}
+
+Once the common data structures have been established, it is time to implement standard algorithms that utilize these structures. The relationship between data structures and algorithms is that efficient algorithms can be achieved through well-designed data structures.
+
+Bingo Bonus Cards
+
+By having the discrete distribution of bingo cards, a random number is enough to be generated, and values for the line and bing can be calculated (Listing 8.1). 
+
+Listing 8.1 - Bingo bonus cards
+
+The values inside the bingo cards are randomly generated. At each bonus game restart event the bingo bonus game starts with fresh bingo cards and complete new bingo game.
+
+Spin of Virtual Reels
+
+The spinning reels are the most significant random event in traditional slot games (Listing 8.2).
+
+Listing 8.2 - Reels spin
+	private static void spin(int reels[][]) {
+        for (int i = 0, up, middle, down; i < reels.length; i++) {
+                up = PRNG.nextInt( reels[i].length );
+                middle = up + 1;
+                down = up + 2;
+
+                middle = middle % reels[i].length;
+                down = down % reels[i].length;
+
+                view[i][0] = reels[i][up];
+                view[i][1] = reels[i][middle];
+                view[i][2] = reels[i][down];
+        }
+}
+
+There are five reels, but only three rows are visible at a time. The function is designed to work with various reel arrays. The modulus calculation ensures that array index out-of-range errors will not occur.
+
+Scatter Win Calculation
+
+When the game screen is filled with symbols, it is time to calculate the wins. The most straightforward calculation is the scatter win (Listing 8.3).
+
+Listing 8.3 - Scatters win calculation
+	private static int scatterWin(int scatter) {
+        int numberOfScatters = 0;
+        for (int i = 0; i < view.length; i++) {
+                for (int j = 0; j < view[i].length; j++) {
+                        if (view[i][j] == scatter) {
+                                numberOfScatters++;
+                        }
+                }
+        }
+
+        int win = paytable[numberOfScatters][scatter];
+
+        if (win > 0 && freeSpinsAmount == 0) {
+                baseGameSymbolsMoney[numberOfScatters][scatter] += win;
+                baseGameSymbolsHitFrequency[numberOfScatters][scatter]++;
+        } else if (win > 0 && freeSpinsAmount > 0) {
+                freeSpinsSymbolsMoney[numberOfScatters][scatter] += win;
+                freeSpinsSymbolsHitFrequency[numberOfScatters][scatter]++;
+        }
+
+        return win;
+}
+
+The scatter symbol is located at index 16 in the paytable. The scatter symbol at index 15 is specifically used to activate free spins. There is a separate supportive array that contains the identifiers for the scatters. After counting the number of scatters displayed on the screen, it is easy to look up the corresponding prize amount. Keeping track of scatter wins and their frequency can be valuable during the game balance phase. 
+
+Listing 8.4 - Free spins number and multiplier calculation
+	private static int[] rewardFreeSpins(int scatter) {
+        int result[] = {0,0};
+
+        int numberOfScatters = 0;
+        for (int i = 0; i < view.length; i++) {
+                for (int j = 0; j < view[i].length; j++) {
+                        if (view[i][j] == scatter) {
+                                numberOfScatters++;
+                        }
+                }
+        }
+
+        result[0] = rewardFreeSpins[numberOfScatters];
+        result[1] = freeSpinsMultipliers[numberOfScatters];
+        
+        return result;
+}
+
+The Treasure symbol is used to trigger the free spins mode, but it does not award a prize as indicated in the paytable. The number of free spins and the multiplier during the free spins mode are calculated in the same way as for the paying scatter (see Listing 8.4). The only difference lies in the index of the symbol in the paytable. Analyzing the statistics of scatter wins and their frequency can be valuable during the game balance phase.
+
+Single Line Win Calculation
+
+The main prizes in the game are awarded for lucky combinations formed on nine predefined lines. Each combination is created from left to right, and the Wild symbol can substitute for all other symbols except for scatters.
+
+While the Wild symbol does not directly award a prize, there are games where it can contribute to a payout, especially when it is part of a group of high-paying symbols. Therefore, it is important to separately check for any prizes associated with the Wild symbol (Listing 8.5).
+
+Listing 8.5 - Wild combination win calculation
+	private static int[] wildLineWin(int line[], int wild) {
+        if (line[0] != wild) {
+                return new int[] {0,-1,0};
+        }
+
+        int number = 0;
+        for (int i = 0; i < line.length; i++) {
+                if (line[i] != wild) {
+                        break;
+                }
+                number++;
+        }
+
+        int result[] = {0,0,0};
+        result[0] = paytable[number][wild];
+        result[1] = wild;
+        result[2] = number;
+        return result;
+}
+
+The line is represented as a one-dimensional array, which is passed as an input parameter. The function returns an array of values that includes the index of the symbol that formed the winning combination and the count of its occurrences. During free spins, a multiplier may be applied, but this is managed outside of this function. The win value is determined by counting the consecutive Wilds and referencing the paytable.
+
+Another unusual feature in the game is the possibility of winning in different formations by varying amounts of sevens. This rule has similarities to the wild symbol (Listing 8.7) but is related only to the sevens. It has the same problem as with the wild, which wins are more significant - the win of equal sevens or the win with mixed sevens. 
+
+Listing 8.7 - Mixed sevens win calculation
+	int differentSevensLineWin(int &number, int &symbol, int line[5], int multiplier) {
+        if (line[0] != 3 && line[0] != 4 && line[0] != 5) {
+                symbol = -1;
+                return 0;
+        }
+
+        number = 0;
+        bool different = false;
+        for (int i = 0; i < 5; i++) {
+                if (line[i] != 3 && line[i] != 4 && line[i] != 5) {
+                        break;
+                }
+
+                if (line[i] != line[0]) {
+                        different = true;
+                }
+
+                number++;
+        }
+
+        if (different == false) {
+                symbol = -1;
+                return 0;
+        }
+
+        symbol = 6;
+        return paytable[number][6];
+}
+
+The function works only for lines with mixed sevens. If it is not the case, the function returns zero, and no symbol is appointed. For statistical collection needs, the symbol that forms the prize should be changed when the prize comes from mixed sevens, because mixed sevens have no direct representation as a separate game symbol. 
+
+Listing 8.8 - Regular line win calculation
+	int lineWin(int &number, int &symbol, int line[5], int multiplier) {
+        int number1 = 0;
+        int number2 = 0;
+        int symbol1 = -1;
+        int symbol2 = -1;
+        int win1 = differentSevensLineWin(number1, symbol1, line, multiplier);
+        int win2 = wildLineWin(number2, symbol2, line, multiplier);
+
+        int symbol3 = line[0];
+        for (int i = 0; i < 5; i++) {
+                if (line[i] != 2) {
+                        symbol3 = line[i];
+                        break;
+                }
+        }
+
+        for (int i = 0; i < 5; i++) {
+                if (line[i] == 2) {
+                        line[i] = symbol3;
+                } else {
+                        break;
+                }
+        }
+
+        int number3 = 0;
+        for (int i = 0; i < 5; i++) {
+                if (line[i] == symbol3) {
+                        number3++;
+                } else {
+                        break;
+                }
+        }
+
+        int win3 = paytable[number3][symbol3] * multiplier;
+
+        if (win1 > win2) {
+                if (win1 > win3) {
+                        number = number1;
+                        symbol = symbol1;
+                        return win1;
+                } else {
+                        number = number3;
+                        symbol = symbol3;
+                        return win3;
+                }
+        } else if (win1 < win2) {
+                if (win2 > win3) {
+                        number = number2;
+                        symbol = symbol2;
+                        return win2;
+                } else {
+                        number = number3;
+                        symbol = symbol3;
+                        return win3;
+                }
+        } else {
+                if (win1 > win3 && win2 > win3) {
+                        number = number1;
+                        symbol = symbol1;
+                        return win1;
+                } else {
+                        number = number3;
+                        symbol = symbol3;
+                        return win3;
+                }
+        }
+
+        number = 0;
+        symbol = -1;
+        return 0;
+}
+
+Most of the time, prizes in the game will be given by regular lines. For a particular win, the number of consecutive symbols should be counted. The presence of the wild symbol should also be observed. The number of successive symbols is enough to look up in the paytable and get the prize value (Listing 6.8). In free spins, the win multiplier is also taken into account. The final result of the line win is determined by the highest winning combination. The winning symbol and number of consecutive occurrences are returned as an output reference parameter for statistics collection. 
+
+Lines Wins Calculation
+
+In most games, Monte Carlo simulation can be done only for a single betting line (mainly the central one). The simulation will be conducted for all 20 lines in this book to enhance confidence in handling scatter wins and free spins (Listing 8.9). 
+
+Listing 8.9 - All lines wins calculation
+	int linesWin(int multiplier) {
+        int win = 0;
+
+        for (int l = 0; l < 20; l++) {
+                int line[5] = { -1, -1, -1, -1, -1 };
+                for (int i = 0; i < 5; i++) {
+                        int index = lines[l][i];
+                        line[i] = view[i][index];
+                }
+
+                int number = 0;
+                int symbol = -1;
+                int result = lineWin(number, symbol, line, multiplier);
+
+                if (result > 0 && freeSpinsAmount == 0) {
+                        baseGameSymbolsMoney[number][symbol] += result;
+                        baseGameSymbolsHitFrequency[number][symbol]++;
+                } else if (win > 0 && freeSpinsAmount > 0) {
+                        freeSpinsSymbolsMoney[number][symbol] += result;
+                        freeSpinsSymbolsHitFrequency[number][symbol]++;
+                }
+
+                win += result;
+        }
+
+        return (win);
+}
+
+Each betting line is extracted as a separate single-dimension array. The information for the index offset is taken from the lines data structure. Statistics for the wins from lines are kept at this point. 
+
+Single Reels Run
+
+The main gameplay involves rotating the reels. Rotation commonly happens in the base game, but spins are also run when free spins are awarded. For the free spins, a setup procedure is required to clarify the number of spins and the multiplier to be used (Listing 6.10).
+
+Listing 8.10 - Setting up free spins parameters
+	void freeSpinsSetup() {
+        int numberOfScatters = 0;
+        for (int i = 0; i < 5; i++) {
+                for (int j = 0; j < 3; j++) {
+                        if (view[i][j] == 1) {
+                                numberOfScatters++;
+                        }
+                }
+        }
+
+        if (numberOfScatters == 3 && freeSpinsAmount == 0) {
+                freeSpins(freeSpinsAmount, freeSpinsMultiplier);
+                freeSpinsRestartAmount = freeSpinsAmount;
+                totalNumberOfFreeSpinsStarts++;
+        } else if (numberOfScatters == 3 && freeSpinsAmount > 0) {
+                freeSpinsAmount += freeSpinsRestartAmount;
+                totalNumberOfFreeSpinsRestarts++;
+        }
+}
+
+To run the free spins, the condition is that at least 3 free spin scatters appear on the screen. If it is in the base game, the number of free spins and multiplier value are taken from the wheel distribution. When free spins are awarded during free spins, the multiplier is kept the same, and the newly awarded number of free spins is the same amount as the initial one. Statistics of free spins starts and restarts are also collected. 
+
+Listing 8.11 - Single free spin
+	void singleFreeSpin() {
+        spin(freeSpinsReels, 113);
+
+        int win = linesWin(freeSpinsMultiplier) + scatterWin() + freeSpinsWin();
+
+        wonMoney += win;
+        freeSpinsMoney += win;
+
+        if (win > 0) {
+                freeSpinsHitFrequency++;
+        }
+
+        if (freeSpinsMaxWin < win) {
+                freeSpinsMaxWin = win;
+        }
+
+        freeSpinsSetup();
+}
+
+A single free spin starts with a rotation of the free spins reels (Listing 8.11). Prizes can be awarded from three different sources, and they are calculated. Statistics of total won money and money won in free spins are gathered. Hit frequency is updated, and if needed, the maximum win is also updated. 
+
+Listing 8.12 - Single base game
+	void singleBaseGame() {
+        spin(baseGameReels, 113);
+
+        int win = linesWin(1) + scatterWin() + freeSpinsWin();
+
+        wonMoney += win;
+        baseGameMoney += win;
+
+        if (win > 0) {
+                baseGameHitFrequency++;
+        }
+
+        if (baseGameMaxWin < win) {
+                baseGameMaxWin = win;
+        }
+
+        freeSpinsAmount = 0;
+        freeSpinsMultiplier = 1;
+        freeSpinsRestartAmount = 0;
+        freeSpinsSetup();
+
+        while (freeSpinsAmount > 0) {
+                totalNumberOfFreeSpins++;
+                singleFreeSpin();
+                freeSpinsAmount--;
+        }
+}
+
+The base game goes similarly to free spins (Listing 8.12). First, the reels are rotated. Second, the calculation of the win from the three components is handled. Third, statistics for total won money, money won in the base game, hit frequency, and maximum win statistics are collected. If there were free spins, set up for the free spins, and execution of all free spins is performed. 
+
+Listing 8.13 - Monte Carlo simulation run
+	void monteCarloSimulation() {
+        for (long g = 0L; g < 100000000L; g++) {
+                totalNumberOfGames++;
+                lostMoney += totalBet;
+                singleBaseGame();
+
+                if (totalNumberOfGames % 10000 == 0) {
+                        cerr << (double) wonMoney / (double) lostMoney << endl;
+                }
+        }
+}
+
+The Monte Carlo simulation involves a large number of game plays (Listing 8.13). Empirically, it is well known in the industry that 100 million runs are reasonable for statistics collection. In a highly volatile game, this number can be increased. For each base game run, the total amount of lost money is increased by the size of the total bet, and the counter of played games has risen. For estimating the game volatility, at each 10,000 games, the RTP is written into the standard error stream. The standard error stream easily separates the general statistics from the runtime statistics. 
+
+\chapter{?? - Simulation Results Reporting}
+
+Two standard reports from the simulation are needed - a data structures report and a calculated statistics report (Listing 7.1). 
+
+Listing 7.1 - Simulation and reports run
+	int main() {
+        srand(time(NULL));
+
+        monteCarloSimulation();
+
+        printDataStructures();
+        cout << endl;
+
+        printStatistics();
+        cout << endl;
+
+        return 0;
+}
+
+Data Structures
+
+Printing data structures is necessary to verify the information used during the simulation (Listing 7.2). 
+
+Listing 7.2 - Data structures report
+	void printDataStructures() {
+        cout << "Paytable:" << endl;
+        for (int i = 0; i < 10; i++) {
+                cout << "\t" << i << " of";
+        }
+        cout << endl;
+        for (int j = 0; j < 11; j++) {
+                cout << j << "\t";
+                for (int i = 0; i < 10; i++) {
+                        cout << paytable[i][j] << "\t";
+                }
+                cout << endl;
+        }
+        cout << endl;
+
+        cout << "Lines:" << endl;
+        for (int i = 0; i < 20; i++) {
+                for (int j = 0; j < 5; j++) {
+                        cout << lines[i][j] << " ";
+                }
+                cout << endl;
+        }
+        cout << endl;
+
+        cout << "Base Game Reels:" << endl;
+        for (int i = 0; i < 5; i++) {
+                for (int j = 0; j < 113; j++) {
+                        cout << setw(3) << baseGameReels[i][j];
+                }
+                cout << endl;
+        }
+        cout << endl;
+
+        cout << "Free Spins Reels:" << endl;
+        for (int i = 0; i < 5; i++) {
+                for (int j = 0; j < 113; j++) {
+                        cout << setw(3) << freeSpinsReels[i][j];
+                }
+                cout << endl;
+        }
+        cout << endl;
+
+        cout << "Base Game Reels:" << endl;
+        {
+                int counters[5][11] = {
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+                };
+                for (int i = 0; i < 5; i++) {
+                        for (int j = 0; j < 113; j++) {
+                                counters[i][baseGameReels[i][j]]++;
+                        }
+                }
+                for (int i = 0; i < 5; i++) {
+                        cout << "\tReel " << (i + 1);
+                }
+                cout << endl;
+                for (int j = 0; j < 11; j++) {
+                        cout << j << "\t";
+                        for (int i = 0; i < 5; i++) {
+                                cout << counters[i][j] << "\t";
+                        }
+                        cout << endl;
+                }
+                cout << "---------------------------------------------" << endl;
+                cout << "Total:\t";
+                long combinations = 1L;
+                for (int i = 0; i < 5; i++) {
+                        int sum = 0;
+                        for (int j = 0; j < 11; j++) {
+                                sum += counters[i][j];
+                        }
+                        cout << sum << "\t";
+                        if (sum != 0) {
+                                combinations *= sum;
+                        }
+                }
+                cout << endl;
+                cout << "---------------------------------------------" << endl;
+                cout << "Combinations:\t" + combinations;
+        }
+        cout << endl;
+
+        cout << "Free Spins Reels:" << endl;
+        {
+                int counters[5][11] = {
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+                };
+                for (int i = 0; i < 5; i++) {
+                        for (int j = 0; j < 113; j++) {
+                                counters[i][freeSpinsReels[i][j]]++;
+                        }
+                }
+                for (int i = 0; i < 5; i++) {
+                        cout << "\tReel " << (i + 1);
+                }
+                cout << endl;
+                for (int j = 0; j < 11; j++) {
+                        cout << j << "\t";
+                        for (int i = 0; i < 5; i++) {
+                                cout << counters[i][j] << "\t";
+                        }
+                        cout << endl;
+                }
+                cout << "---------------------------------------------" << endl;
+                cout << "Total:\t";
+                long combinations = 1L;
+                for (int i = 0; i < 5; i++) {
+                        int sum = 0;
+                        for (int j = 0; j < 11; j++) {
+                                sum += counters[i][j];
+                        }
+                        cout << sum << "\t";
+                        if (sum != 0) {
+                                combinations *= sum;
+                        }
+                }
+                cout << endl;
+                cout << "---------------------------------------------" << endl;
+                cout << "Combinations:\t" << combinations;
+        }
+        cout << endl;
+        cout << endl;
+
+        cout << "Free Spins Wheel:" << endl;
+        for (int i = 0; i < 2; i++) {
+                for (int j = 0; j < 614; j++) {
+                        cout << setw(3) << freeSpinsWheel[i][j];
+                }
+                cout << endl;
+        }
+}
+
+All common data structures are printed - paytable, lines, raw symbols on the reels, counted symbols on the reels, and wheel distribution. The most valuable part of the Monte Carlo simulation is the statistical report (Listing 7.3). 
+
+Collected Statistics
+
+Listing 7.3 - Statistical report
+	void printStatistics() {
+        cout << "Won money:\t" << wonMoney << endl;
+        cout << "Lost money:\t" << lostMoney << endl;
+        cout << "Total Number of Games:\t" << totalNumberOfGames << endl;
+        cout << endl;
+        cout << "Total RTP:\t" << ((double) wonMoney / (double) lostMoney) << "\t\t"
+                        << (100.0D * (double) wonMoney / (double) lostMoney) << "%" << endl;
+        cout << "Base Game RTP:\t" << ((double) baseGameMoney / (double) lostMoney)
+                        << "\t\t" << (100.0D * (double) baseGameMoney / (double) lostMoney)
+                        << "%" << endl;
+        cout << "Free Spins RTP:\t" << ((double) freeSpinsMoney / (double) lostMoney)
+                        << "\t\t" << (100.0D * (double) freeSpinsMoney / (double) lostMoney)
+                        << "%" << endl;
+        cout << endl;
+        cout << "Hit Rate in Base Game:\t"
+                        << ((double) baseGameHitFrequency / (double) totalNumberOfGames)
+                        << "\t\t"
+                        << (100.0D * (double) baseGameHitFrequency
+                                        / (double) totalNumberOfGames) << "%" << endl;
+        cout << "Hit Rate in Free Spins:\t"
+                        << ((double) freeSpinsHitFrequency / (double) totalNumberOfFreeSpins)
+                        << "\t\t"
+                        << (100.0D * (double) freeSpinsHitFrequency
+                                        / (double) totalNumberOfFreeSpins) << "%" << endl;
+        cout << "Hit Rate Base Game into Free Spins:\t"
+                        << ((double) totalNumberOfFreeSpinsStarts
+                                        / (double) totalNumberOfGames) << "\t\t"
+                        << (100.0D * (double) (totalNumberOfFreeSpinsStarts)
+                                        / (double) totalNumberOfGames) << "%" << endl;
+        cout << "Hit Rate Free Spins into Free Spins:\t"
+                        << ((double) totalNumberOfFreeSpinsRestarts
+                                        / (double) totalNumberOfFreeSpinsStarts) << "\t\t"
+                        << (100.0D * (double) (totalNumberOfFreeSpinsRestarts)
+                                        / (double) totalNumberOfFreeSpinsStarts) << "%" << endl;
+        cout << endl;
+        cout << "Max Win in Base Game:\t" << baseGameMaxWin << endl;
+        cout << "Max Win in Free Spins:\t" << freeSpinsMaxWin << endl;
+
+        cout << endl;
+        cout << endl;
+        cout << "Base Game Symbols RTP:" << endl;
+        cout << "\t";
+        for (int i = 0; i < 10; i++) {
+                cout << i << "of\t";
+        }
+        cout << endl;
+        for (int j = 0; j < 11; j++) {
+                cout << j << "\t";
+                for (int i = 0; i < 10; i++) {
+                        cout << (double) baseGameSymbolsMoney[i][j] / (double) lostMoney
+                                        << "\t";
+                }
+                cout << endl;
+        }
+        cout << endl;
+        cout << "Base Game Symbols Hit Frequency:" << endl;
+        cout << "\t";
+        for (int i = 0; i < 10; i++) {
+                cout << i << "of\t";
+        }
+        cout << endl;
+        for (int j = 0; j < 11; j++) {
+                cout << j << "\t";
+                for (int i = 0; i < 10; i++) {
+                        cout << (double) baseGameSymbolsHitFrequency[i][j] << "\t";
+                }
+                cout << endl;
+        }
+        cout << endl;
+        cout << "Base Game Symbols Hit Rate:" << endl;
+        cout << "\t";
+        for (int i = 0; i < 10; i++) {
+                cout << i << "of\t";
+        }
+        cout << endl;
+        for (int j = 0; j < 11; j++) {
+                cout << j << "\t";
+                for (int i = 0; i < 10; i++) {
+                        cout
+                                        << (double) baseGameSymbolsHitFrequency[i][j]
+                                                        / (double) totalNumberOfGames << "\t";
+                }
+                cout << endl;
+        }
+
+        cout << endl;
+        cout << "Free Spins Symbols RTP:" << endl;
+        cout << "\t";
+        for (int i = 0; i < 10; i++) {
+                cout << i << "of\t";
+        }
+        cout << endl;
+        for (int j = 0; j < 11; j++) {
+                cout << j << "\t";
+                for (int i = 0; i < 10; i++) {
+                        cout << (double) freeSpinsSymbolsMoney[i][j] / (double) lostMoney
+                                        << "\t";
+                }
+                cout << endl;
+        }
+        cout << endl;
+        cout << "Free Spins Symbols Hit Frequency:" << endl;
+        cout << "\t";
+        for (int i = 0; i < 10; i++) {
+                cout << i << "of\t";
+        }
+        cout << endl;
+        for (int j = 0; j < 11; j++) {
+                cout << j << "\t";
+                for (int i = 0; i < 10; i++) {
+                        cout << (double) freeSpinsSymbolsHitFrequency[i][j] << "\t";
+                }
+                cout << endl;
+        }
+        cout << endl;
+        cout << "Free Spins Symbols Hit Rate:" << endl;
+        cout << "\t";
+        for (int i = 0; i < 10; i++) {
+                cout << i << "of\t";
+        }
+        cout << endl;
+        for (int j = 0; j < 11; j++) {
+                cout << j << "\t";
+                for (int i = 0; i < 10; i++) {
+                        cout
+                                        << (double) freeSpinsSymbolsHitFrequency[i][j]
+                                                        / (double) totalNumberOfGames << "\t";
+                }
+                cout << endl;
+        }
+}
+
+The most important values are lost money and won money. The ratio of won to lost games, multiplied by 100, gives the RTP. The RTP, differentiated by base game, free spins, and different components, is also reported. Such differentiation can be extremely valuable in bug hunting. 
+
+\chapter{?? - Manual Reels Design}
+
+The simulation is only a tool that helps game designers and mathematicians build the game model. There have been some attempts at automating game model building, but this work is still done manually. The Wheel distribution was roughly designed. Because it is a book example, no special attention will be given in this direction. The wheel distribution could be used for fine adjustment if it were a real-life production product. 
+
+Initial Reels
+
+The main goal in reel design is to achieve an RTP closer to the stated in the original game (96.24%).  With the initialization of the reels, as shown in Listing 5.6, the achieved RTP is exceptionally high (27,479.5 %). The reason for this is how reels are initialized. The first 10 elements are initialized with the given numbers, and all the rest are zeros. On index 0 is the mask that scatters the highest-paying symbol in the game. 
+
+Listing 8.1 - First attempt for reels (histogram)
+	Base Game Reels:
+        Reel 1        Reel 2        Reel 3        Reel 4        Reel 5
+0        1        1        1        1        1        
+1        1        1        1        1        1        
+2        3        3        3        3        3        
+3        4        4        4        4        4        
+4        5        5        5        5        5        
+5        9        9        9        9        9        
+6        12        12        12        12        12        
+7        12        12        12        12        12        
+8        16        16        16        16        16        
+9        25        25        25        25        25        
+10        25        25        25        25        25        
+---------------------------------------------
+Total:        113        113        113        113        113        
+---------------------------------------------
+
+Free Spins Reels:
+        Reel 1        Reel 2        Reel 3        Reel 4        Reel 5
+0        1        1        1        1        1        
+1        1        1        1        1        1        
+2        3        3        3        3        3        
+3        4        4        4        4        4        
+4        5        5        5        5        5        
+5        9        9        9        9        9        
+6        12        12        12        12        12        
+7        12        12        12        12        12        
+8        16        16        16        16        16        
+9        25        25        25        25        25        
+10        25        25        25        25        25        
+---------------------------------------------
+Total:        113        113        113        113        113        
+---------------------------------------------
+Combinations:        18424351793
+
+There are different ways in which initial reels can be formed. The simplest method is to place symbols randomly. Random placement will lead to an almost equal distribution of each symbol. According to the paytable, it is not rational to expect an equal distribution of symbols. A more effective approach is subjective placement based on the intuition of each symbol's significance (Listing 8.1). In this initial version of the distribution, all symbols are grouped and sorted in each reel. The RTP decreased significantly in this second attempt, to 29.2029%. 
+
+Mask Scatters
+
+The RTP is still far away from the desired one. Most importantly, in these reels, the free spins scatter appears on the first and fifth reels, which is not according to the rules. On the other hand, there are a total of 5 masks in the reels. With such a distribution, 9 masks cannot appear on the screen. The situation can be improved by replacing spin scatters with mask scatters in the first and fifth reels (Listing 8.2). 
+
+Listing 8.2 - Second attempt for reels (histogram)
+	Base Game Reels:
+        Reel 1        Reel 2        Reel 3        Reel 4        Reel 5
+0        2        1        1        1        2        
+1        0        1        1        1        0        
+2        3        3        3        3        3        
+3        4        4        4        4        4        
+4        5        5        5        5        5        
+5        9        9        9        9        9        
+6        12        12        12        12        12        
+7        12        12        12        12        12        
+8        16        16        16        16        16        
+9        25        25        25        25        25        
+10        25        25        25        25        25        
+---------------------------------------------
+Total:        113        113        113        113        113        
+---------------------------------------------
+
+Free Spins Reels:
+        Reel 1        Reel 2        Reel 3        Reel 4        Reel 5
+0        2        1        1        1        2        
+1        0        1        1        1        0        
+2        3        3        3        3        3        
+3        4        4        4        4        4        
+4        5        5        5        5        5        
+5        9        9        9        9        9        
+6        12        12        12        12        12        
+7        12        12        12        12        12        
+8        16        16        16        16        16        
+9        25        25        25        25        25        
+10        25        25        25        25        25        
+---------------------------------------------
+Total:        113        113        113        113        113        
+---------------------------------------------
+Combinations:        18424351793
+
+Until this stage, the base game reels and free spins reels are the same. Changes are made in both sets. The RTP increases slightly from the previous one (29.6204%). The reason is that masks 6 and 7 can appear. The appearance of the 8 and 9 masks is still not possible. 
+
+Listing 8.3 - Third attempt for reels (histogram)
+	Base Game Reels:
+        Reel 1        Reel 2        Reel 3        Reel 4        Reel 5
+0        2        2        1        2        2        
+1        0        1        2        1        0        
+2        3        3        3        3        3        
+3        4        4        4        4        4        
+4        5        5        5        5        5        
+5        9        8        8        8        9        
+6        12        12        12        12        12        
+7        12        12        12        12        12        
+8        16        16        16        16        16        
+9        25        25        25        25        25        
+10        25        25        25        25        25        
+---------------------------------------------
+Total:        113        113        113        113        113        
+---------------------------------------------
+
+Free Spins Reels:
+        Reel 1        Reel 2        Reel 3        Reel 4        Reel 5
+0        2        2        1        2        2        
+1        0        1        2        1        0        
+2        3        3        3        3        3        
+3        4        4        4        4        4        
+4        5        5        5        5        5        
+5        9        8        8        8        9        
+6        12        12        12        12        12        
+7        12        12        12        12        12        
+8        16        16        16        16        16        
+9        25        25        25        25        25        
+10        25        25        25        25        25        
+---------------------------------------------
+Total:        113        113        113        113        113        
+---------------------------------------------
+Combinations:        18424351793
+
+The situation is improved by replacing the element with index 5 with the element at index 0 in the second and fourth reels (Listing 8.3). In this way, 9 masks can be seen on the screen. Additionally, one symbol with index 5 in the third reel is replaced with a symbol with index 1. Symbols with index 5 were replaced because they are in a higher number on the reels. The RTP has no significant change (29.0438%). 
+
+Raising the RTP
+
+The free spins RTP component is very low (0.0297059%). It means that free spins triggering happens very rarely. Some symbols on the reels should be replaced with symbols of index 1 to increase the frequency of free spins.
+
+Listing 8.4 - Fourth attempt for reels (histogram)
+	Base Game Reels:
+        Reel 1        Reel 2        Reel 3        Reel 4        Reel 5
+0        10        6        5        6        10        
+1        0        8        9        8        0        
+2        9        5        5        5        9        
+3        3        3        3        3        3        
+4        5        5        5        5        5        
+5        7        7        7        7        7        
+6        11        11        11        11        11        
+7        11        11        11        11        11        
+8        15        15        15        15        15        
+9        21        21        21        21        21        
+10        21        21        21        21        21        
+---------------------------------------------
+Total:        113        113        113        113        113        
+---------------------------------------------
+
+Free Spins Reels:
+        Reel 1        Reel 2        Reel 3        Reel 4        Reel 5
+0        10        6        5        6        10        
+1        0        8        9        8        0        
+2        9        5        5        5        9        
+3        3        3        3        3        3        
+4        5        5        5        5        5        
+5        7        7        7        7        7        
+6        11        11        11        11        11        
+7        11        11        11        11        11        
+8        15        15        15        15        15        
+9        21        21        21        21        21        
+10        21        21        21        21        21        
+---------------------------------------------
+Total:        113        113        113        113        113        
+---------------------------------------------
+Combinations:        18424351793
+
+After numerous manual adjustments, the triggering of free spins was significantly improved, and the total RTP reached 96.5012% (Listing 8.4). The problem in this stage is that symbols are still relatively sorted in the reels (Listing 8.5). After shuffling, statistical parameters will not be the same. 
+
+Listing 8.4 - Fourth attempt for reels (raw data)
+	int baseGameReels[5][113] = {
+{0,0,2,2,2,3,3,2,3,4,4,4,4,4,0,5,2,5,5,5,5,5,5,0,6,6,6,6,6,6,6,6,6,6,6,0,7,7,7,7,7,7,7,7,7,7,7,0,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,0,9,0,9,2,9,2,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,0,10,0,10,2,10,2,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,},
+        {0,1,2,2,2,3,3,2,3,4,4,4,4,4,0,5,2,5,5,5,5,5,5,1,6,6,6,6,6,6,6,6,6,6,6,1,7,7,7,7,7,7,7,7,7,7,7,1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,1,9,1,9,0,9,0,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,1,10,1,10,0,10,0,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,},
+        {0,1,2,2,2,3,3,2,3,4,4,4,4,4,1,5,2,5,5,5,5,5,5,1,6,6,6,6,6,6,6,6,6,6,6,1,7,7,7,7,7,7,7,7,7,7,7,1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,1,9,1,9,0,9,0,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,1,10,1,10,0,10,0,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,},
+        {0,1,2,2,2,3,3,2,3,4,4,4,4,4,0,5,2,5,5,5,5,5,5,1,6,6,6,6,6,6,6,6,6,6,6,1,7,7,7,7,7,7,7,7,7,7,7,1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,1,9,1,9,0,9,0,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,1,10,1,10,0,10,0,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,},
+        {0,0,2,2,2,3,3,2,3,4,4,4,4,4,0,5,2,5,5,5,5,5,5,0,6,6,6,6,6,6,6,6,6,6,6,0,7,7,7,7,7,7,7,7,7,7,7,0,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,0,9,0,9,2,9,2,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,0,10,0,10,2,10,2,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,},
+};
+
+int freeSpinsReels[5][113] = {
+{0,0,2,2,2,3,3,2,3,4,4,4,4,4,0,5,2,5,5,5,5,5,5,0,6,6,6,6,6,6,6,6,6,6,6,0,7,7,7,7,7,7,7,7,7,7,7,0,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,0,9,0,9,2,9,2,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,0,10,0,10,2,10,2,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,},
+        {0,1,2,2,2,3,3,2,3,4,4,4,4,4,0,5,2,5,5,5,5,5,5,1,6,6,6,6,6,6,6,6,6,6,6,1,7,7,7,7,7,7,7,7,7,7,7,1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,1,9,1,9,0,9,0,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,1,10,1,10,0,10,0,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,},
+        {0,1,2,2,2,3,3,2,3,4,4,4,4,4,1,5,2,5,5,5,5,5,5,1,6,6,6,6,6,6,6,6,6,6,6,1,7,7,7,7,7,7,7,7,7,7,7,1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,1,9,1,9,0,9,0,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,1,10,1,10,0,10,0,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,},
+        {0,1,2,2,2,3,3,2,3,4,4,4,4,4,0,5,2,5,5,5,5,5,5,1,6,6,6,6,6,6,6,6,6,6,6,1,7,7,7,7,7,7,7,7,7,7,7,1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,1,9,1,9,0,9,0,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,1,10,1,10,0,10,0,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,},
+        {0,0,2,2,2,3,3,2,3,4,4,4,4,4,0,5,2,5,5,5,5,5,5,0,6,6,6,6,6,6,6,6,6,6,6,0,7,7,7,7,7,7,7,7,7,7,7,0,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,0,9,0,9,2,9,2,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,0,10,0,10,2,10,2,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,},
+};
+
+Shuffling and Final Adjustment
+
+Partially sorted reels are now handy in a real game. Because of this, each reel should be shuffled, and some rules should be observed. The main danger is letting more than 9 masks appear on the screen. Shuffling can be done in many different ways, including manual inclusion. Developed reels are shuffled by putting reels in LibreOffice Calc as columns and adding an extra column with randomly generated numbers. Consecutive sortings are done by giving the sorting order from the randomly generated numbers column. It is not industry-reliable shuffling, but it is acceptable as a quick example. 
+
+Listing 8.5 - Fifth attempt for reels (raw data)
+	int baseGameReels[5][113] = {
+{8,2,6,9,6,2,6,0,9,8,7,9,10,9,7,6,10,4,10,4,8,6,10,2,9,7,9,5,8,6,8,9,4,2,5,0,2,0,5,0,5,0,7,0,10,8,9,3,6,5,9,6,3,8,9,5,10,4,10,2,9,10,0,10,0,9,10,2,8,10,8,7,8,10,8,4,10,8,2,3,10,8,10,7,10,7,10,6,9,2,8,7,6,10,5,9,10,9,0,9,0,7,10,9,6,9,7,9,8,9,10,7,9,},
+
+{9,10,9,4,5,6,8,6,7,8,6,9,10,9,6,0,1,0,10,3,10,5,9,10,1,10,1,10,9,8,9,3,8,6,7,10,2,1,9,7,6,10,9,6,8,1,10,2,8,2,8,10,9,8,9,7,8,6,0,8,0,10,6,10,7,3,10,8,1,10,7,5,9,4,5,2,0,10,0,8,7,9,7,5,9,7,9,1,8,5,10,9,1,10,5,4,9,4,9,10,9,4,10,2,10,8,6,8,6,9,7,9,7,},
+
+{10,5,9,10,4,10,3,0,1,10,0,7,10,8,4,8,5,9,8,9,6,9,5,10,0,1,6,2,4,7,9,1,9,8,3,9,10,9,10,8,1,10,5,10,3,10,9,7,10,1,8,9,7,9,6,10,6,1,9,2,9,7,10,9,1,9,8,2,8,9,10,2,8,0,6,7,5,6,8,6,9,7,6,8,7,10,4,9,8,9,5,6,1,8,10,8,10,8,1,7,6,2,9,4,7,9,10,0,6,10,5,10,7,},
+
+{5,9,1,9,2,9,10,6,5,8,5,8,9,10,4,6,5,10,9,2,8,6,10,6,10,6,9,10,3,2,9,8,10,4,10,8,1,10,9,7,10,8,6,10,7,6,7,8,1,10,7,1,8,7,4,10,1,0,8,0,10,0,9,4,7,9,8,1,8,7,8,5,4,8,3,6,9,8,9,5,2,9,3,10,9,10,9,0,2,0,10,0,9,7,10,1,5,9,6,10,7,10,9,8,9,6,1,7,9,6,10,7,9,},
+
+{8,9,10,2,10,2,9,5,8,10,8,7,0,10,0,2,9,5,8,10,8,5,9,4,9,7,9,8,7,9,8,10,7,9,7,10,9,10,0,9,0,10,2,0,10,0,10,8,2,10,8,10,5,4,7,6,10,7,6,7,6,10,6,9,8,6,8,10,5,10,7,8,9,7,9,8,9,0,9,0,3,0,8,6,9,0,2,10,4,10,7,10,9,10,6,4,5,2,9,4,6,9,6,2,6,5,3,9,3,8,9,2,6,},
+};
+
+int freeSpinsReels[5][113] = {
+{2,7,8,6,3,6,2,6,7,6,3,5,9,5,10,7,9,2,8,5,6,7,10,7,9,10,2,10,6,9,8,10,8,10,8,10,8,10,9,5,9,10,8,6,8,4,8,0,9,0,3,8,9,6,9,7,2,9,0,5,0,9,2,9,10,9,10,2,2,10,4,9,0,5,0,4,8,4,2,7,10,0,10,7,8,7,8,9,10,9,5,0,8,4,10,6,8,9,10,7,10,9,7,0,6,0,9,6,10,9,10,9,10,},
+
+{9,2,8,2,8,9,1,10,5,9,5,9,1,6,1,7,9,7,8,10,7,10,7,10,8,6,8,6,10,6,9,10,8,1,9,7,6,7,10,6,7,10,9,10,6,9,2,10,5,4,10,8,4,10,3,10,9,10,2,1,7,4,8,10,1,10,9,1,9,7,9,8,9,1,9,8,0,3,0,5,0,8,5,7,9,8,9,8,10,2,9,4,6,7,6,4,10,6,8,0,9,0,10,0,9,5,9,8,10,3,10,5,6,},
+
+{5,9,1,3,8,9,0,10,7,9,4,9,6,10,6,10,7,8,10,1,10,4,10,6,1,8,7,5,7,9,0,10,9,10,2,10,6,9,7,6,10,8,2,10,9,7,9,8,6,0,5,9,5,6,7,9,8,10,1,6,7,10,8,9,8,1,2,9,6,7,9,8,10,2,9,1,5,10,9,10,9,5,9,0,6,3,10,0,8,9,8,4,7,10,3,4,7,10,8,2,4,8,6,8,10,1,9,8,1,9,5,1,10,},
+
+{7,2,7,10,2,7,10,7,8,7,10,1,0,10,0,9,7,9,6,9,8,9,4,8,9,8,0,8,0,10,9,10,7,10,1,10,5,7,6,4,9,6,8,6,9,8,10,5,7,1,6,2,9,1,6,9,1,9,5,9,3,9,6,9,10,1,9,5,10,8,10,1,6,8,7,6,3,6,4,10,0,10,0,9,10,1,10,8,10,9,8,10,4,9,2,9,10,8,9,5,10,8,3,7,2,4,5,8,10,5,9,6,8,},
+
+{7,10,9,10,8,10,6,8,9,6,7,6,7,0,10,2,0,2,6,8,2,7,9,2,9,5,10,9,2,10,8,4,9,10,9,10,9,10,5,3,7,9,0,5,0,5,7,6,7,10,4,10,8,6,9,3,10,9,8,9,10,9,2,9,0,4,0,8,7,10,10,9,10,9,3,9,2,9,10,0,7,0,8,10,8,9,6,8,9,8,7,8,6,8,0,5,9,8,4,6,2,7,10,6,10,4,0,6,5,8,2,10,5,},
+};
+
+After shuffling the symbols on the reels, the RTP decreases significantly to 75.9827% (Listing 8.5). 
+
+Listing 8.6 - Sixth attempt for reels (histogram)
+	Base Game Reels:
+        Reel 1        Reel 2        Reel 3        Reel 4        Reel 5
+0        10        6        5        6        10        
+1        0        8        9        8        0        
+2        13        9        9        9        13        
+3        3        3        3        3        3        
+4        5        5        5        5        5        
+5        7        7        7        7        7        
+6        11        11        11        11        11        
+7        11        11        11        11        11        
+8        13        13        13        13        13        
+9        20        20        20        20        20        
+10        20        20        20        20        20        
+---------------------------------------------
+Total:        113        113        113        113        113        
+---------------------------------------------
+
+Free Spins Reels:
+        Reel 1        Reel 2        Reel 3        Reel 4        Reel 5
+0        10        6        5        6        10        
+1        0        8        9        8        0        
+2        10        6        6        6        10        
+3        3        3        3        3        3        
+4        5        5        5        5        5        
+5        7        7        7        7        7        
+6        11        11        11        11        11        
+7        11        11        11        11        11        
+8        14        14        14        14        14        
+9        21        21        21        21        21        
+10        21        21        21        21        21        
+---------------------------------------------
+Total:        113        113        113        113        113        
+---------------------------------------------
+Combinations:        18424351793
+
+With some final adjustments by replacing regular symbols with wild, the RTP went close to the desired one of 96.1063% (Listing 8.6).
+
+\chapter{?? - Volatility Analysis}
+
+Slot game volatility is a key aspect of the game's mathematical design. Generally, the game volatility is marked from 1 (low) to 5 (high) stars in the published games. Low volatility is typically associated with games offering small prizes, but often given, while high volatility is associated with games offering big prizes, but given rarely. Volatility is essential for the markets in which the game will be operated. Markets with risk-taking players are proper for highly volatile games. Markets with no risk-taking players are appropriate for low-volatility games. Here comes the question of how volatility is to be estimated. 
+
+Low and High Volatility Reels
+
+A way to estimate a game's volatility is by arranging high-volatility and low-volatility reels. Analyzing RTP dynamics in designed game reels and high/low volatile reels, the game can be categorized into 5 5-star scheme. 
+
+Free spins can be skipped for a low-volatility version of the designed math, and only a low-paying symbol can form winning combinations. Free spins will not be awarded if the free spins scatter symbol is not presented on the reels (Listing 9.1).
+
+Listing 9.1 - Low volatile reels (raw data)
+	int baseGameReels[5][113] = {
+{8,8,8,8,8,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,},
+
+{6,6,6,6,6,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,},
+
+{7,7,7,7,7,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,},
+
+{8,8,8,8,8,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,},
+
+{6,6,6,6,6,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,},
+};
+
+int freeSpinsReels[5][113] = {
+{6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,},
+
+{7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,},
+
+{8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,},
+
+{9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,},
+
+{10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,},
+};
+
+Reels are used in 30 independent game simulations (Figure 9.1). The number 30 is taken empirically from the statistics and the theory of the Normal Probability Distribution. As it is seen, there is a funnel representing the RTP convergence. Measurements are done in increments of 10 thousand base game spins for a total of 1 million spins. 
+
+	Figure 9.1 Low-volatile RTP convergence
+
+High-volatility reels can be designed by skipping the free spins and offering only prizes from the highest-paying symbol (Listing 9.2). According to the paytable used, such a symbol is the wild.
+
+Listing 9.2 - Highly volatile reels (raw data)
+	int baseGameReels[5][113] = {
+{1,6,6,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,},
+
+{3,7,7,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,},
+
+{4,8,8,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,},
+
+{5,9,9,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,},
+
+{0,10,10,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,},
+};
+
+int freeSpinsReels[5][113] = {
+{6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,},
+
+{7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,},
+
+{8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,},
+
+{9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,},
+
+{10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,},
+};
+
+Once again, 30 independent spins are done (Figure 9.2). The funnel is much wider because the prizes are more distant from the central tendency. 
+
+	Figure 9.2 High-volatility RTP convergence
+
+An additional 30 independent runs are simulated using the original reels (Figure 9.3). 
+
+	Figure 9.3 Designed reels RTP convergence
+
+Comparison of Volatilities
+
+A comparison of volatilities can estimate the volatility achieved by designed reels. Such comparisons can be made numerically, but only visual analysis is given in the current situation (Figure 9.4).
+
+	Figure 9.4 Volatility funnels
+
+The convergence funnels are in different colors. The blue line shows the highly volatile reels, the red line shows the low volatile reels, and the green line shows the designed reels. The central tendency differs slightly on the graph. The reason is that the target RTP was not followed strictly. The main accent was RTP deviation. By examining the graph, it is evident that designed reels are suitable for relatively low volatility. Volatility can be adjusted by redesigning the reels further, which involves raising the number of big prizes and lowering the number of small prizes. Another way to adjust for volatility is by regulating the triggering of free spins.
+
+\chapter{?? - Analytical RTP}
+
+Final Remarks
+
+This book introduces the practical aspects of mathematical modeling in slot machine games. For the base of the modeling, a Monte Carlo simulation is used. Even though a theoretical approach can be applied, when the games are very complicated, the Monte Carlo simulation remains the only option. The book shows only the standard steps for creating a mathematical model. There are many other factors to consider in actual industrial production. Game studio managers may require many parameters to have values within particular ranges, except for the RTP. It is up to the reader to extend the knowledge acquired from this book.
+
+The authors would like to thank all readers for taking the time to read this book. The reader is encouraged to develop his/her knowledge and skills in this field and to share discoveries with the authors if they wish. 
+
+% --- BACK MATTER ---
+\backmatter
+
+\chapter*{About the Authors}
+The author is primarily affiliated with the Institute of Information and Communication Technologies, part of the Bulgarian Academy of Sciences.
+
+\begin{thebibliography}{9}
+\bibitem{Parvanov-2021} [1] Parvanov, D., Mateeva, G., Balabanov, T.: Classification of Images for Reverse Engineering of Slot Machines, Abstracts of the 16th Annual Meeting of the Bulgarian Section of SIAM, Fastumprint, 36-37, 2021, ISSN 1313-3357
+\bibitem{Balabanov-2021a} [2] Balabanov, T.: Volatility Index Estimation by Reverse Engineering, Proceedings of the International Scientific Conference UNITECH, vol. 1, 229-234, 2021, ISSN 1313-230X
+\bibitem{Balabanov-2021b} [3] Balabanov, T.: Estimation of Volatility based on the Estimation of Segmentation, Problems of Engineering Cybernetics and Robotics, vol. 77, 3-10, 2021, ISSN 2738-7356
+\bibitem{Petrov-2020} [4] Petrov, P., Kostadinov, G., Zhivkov, P., Velichkova, V., Balabanov, T.: Approximate Sequencing of Virtual Reels with Genetic Algorithms, Proceedings of the 23rd International Conference on Distributed Computer and Communication Networks: Control, Computation, Communications, 507-514, 2020, ISBN 978-5-91450-248-2
+\bibitem{Tomov-2017a} [5] Tomov, P., Zankinski. I., Balabanov, T.: Slot Machine Reels Reconstruction with Genetic Algorithms, Abstracts of the 12th Annual Meeting of the Bulgarian Section of SIAM, Fastumprint, 102-103, 2017, ISSN 1313-3357
+\bibitem{Tomov-2017b} [6] Tomov, P., Zankinski. I.., Balabanov, T.: Slot Machine Reels Reconstruction with Monte-Carlo Search, Proceedings of the International Scientific Conference UNITECH, vol. 2, 384-387, 2017, ISSN 1313-230X
+\bibitem{Balabanov-2015} [7] Balabanov, T., Zankinski. I.., Shumanov, B.: Slot Machine RTP Optimization and Symbols Wins Equalization with Discrete Differential Evolution, Proceedings of the International Conference on Large-Scale Scientific Computing, vol. 9374, 210–217, 2015, ISBN 978-3-319-26519-3
+\bibitem{Balabanov-2014} [8] Balabanov, T., Zankinski. I.., Shumanov, B.: Slot Machines RTP Optimization with Genetic Algorithms, Proceedings of the International Conference on Numerical Methods and Applications, vol. 8962, 55-61, 2014, ISBN 978-3-319-15584-5
+\bibitem{Keremedchiev-2017} [9] Keremedchiev, D., Tomov, P., Barova, M.: Slot Machine Base Game Evolutionary RTP Optimization, Proceedings of the International Conference on Numerical Analysis and Its Applications, vol. 10187, 406-413, 2017, ISBN 978-3-319-57098-3
+\bibitem{Kamana-2021a} [10] Kamana, P.A., Sifaleras, A., Samaras, N.: Slot Machine RTP Optimization Using Variable Neighborhood Search, Mathematical Problems in Engineering, 8784065, 2021, ISSN 1024-123X
+\bibitem{Kamana-2021b} [11] Kamana, P.A.: Design and Analysis of Slot Machine Games and RTP Optimization Using Variable Neighborhood Search (VNS), Master of Science Thesis, Thessaloniki, 2021
+\end{thebibliography}
+
+\end{document}
