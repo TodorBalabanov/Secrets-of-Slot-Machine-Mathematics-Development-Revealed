@@ -2,10 +2,12 @@
 
 \usepackage{xurl}
 \usepackage{listings}
+\usepackage{subcaption}
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{xcolor}
 \usepackage[none]{hyphenat}
+\usepackage{amssymb}
 
 % --- Document Geometry for KDP 5x8 ---
 % Adjust 'inner' (gutter) based on your page count (e.g., 0.625in for 300+ pages)
@@ -31,8 +33,12 @@
 \fancyhf{}
 \fancyhead[LE,RO]{\thepage}      % Page numbers on outside edges
 \fancyhead[RE]{\small\leftmark}  % Chapter title on even pages
-\fancyhead[LO]{\small\rightmark} % Section/Book title on odd pages
-\renewcommand{\headrulewidth}{0pt}
+\fancyhead[LO]{\small Secrets of Slot Machine Mathematics Development Revealed} % Book title on odd pages
+\renewcommand{\headrulewidth}{0.1pt}
+\fancyfoot[LE,RO]{}              % Clear outside edges of footers (since page # is in header)
+\fancyfoot[RE]{\small Todor Balabanov $\scriptstyle\blacklozenge$ 2026 \copyright} 
+\fancyfoot[LO]{\small Velbazhd Software LLC $\scriptstyle\blacklozenge$ Sofia $\scriptstyle\blacklozenge$ Bulgaria}
+\renewcommand{\footrulewidth}{0.1pt}
 
 % Fix for chapter pages (no headers).
 \fancypagestyle{plain}{
@@ -55,6 +61,10 @@
     breakindent=0pt,
     frame=single
 }
+
+% Fix the header style: remove "Chapter" AND remove automatic uppercase
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\chaptername}{}
 
 \begin{document}
 
@@ -200,7 +210,7 @@ Local legal regulations do not strictly govern the volatility of gambling games,
 
 Game creators observe a wide range of statistical parameters, but not all of these are of interest to legal authorities or players. One key parameter for dedicated players is the maximum possible win. Another important aspect is the frequency of each winning combination, which is technically intriguing. The probability of triggering free spins also plays a significant role in determining game volatility. Additionally, the win rates in the main game, during free spins, and in specific bonus games provide valuable insights during game development and testing. The maximum number of free spins can provide further insight into game volatility. There are no restrictions on bonus games; only the game creator's imagination limits the gameplay. This variety allows for an unlimited number of statistical parameters to be tracked.
 
-\chapter{Bingo Tropical Hot}
+`\chapter{Bingo Tropical Hot}
 
 There are several ways to present the mathematical design of slot games to an interested audience. In this book, we will recreate a mathematical model based on a game that has not yet been published. The selected game is "Bingo Tropical Hot" by RedFowl Engineering Ltd. All artwork and elements related to the intellectual property of "Bingo Tropical Hot" are protected by the manufacturer's copyrights. The use of these materials in this book is for illustrative purposes only and does not relate to any direct profit.
 
@@ -228,7 +238,100 @@ All wins are counted from the leftmost reel to the rightmost. Wins are formed on
 
 \section*{Game Symbols}
 
-	Figure 3.3 Symbols in Bingo Tropical Hot
+\begin{figure}[htbp]
+    \centering
+    % === ROW 1 ===
+    \begin{subfigure}[b]{0.18\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{image004}
+        \caption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.18\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{image005}
+        \caption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.18\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{image006}
+        \caption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.18\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{image007}
+        \caption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.18\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{image008}
+        \caption{}
+    \end{subfigure}
+    
+    \vspace{1ex}
+
+    % === ROW 2 ===
+    \begin{subfigure}[b]{0.18\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{image009}
+        \caption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.18\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{image010}
+        \caption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.18\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{image011}
+        \caption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.18\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{image012}
+        \caption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.18\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{image013}
+        \caption{}
+    \end{subfigure}
+
+    \vspace{1ex}
+
+    % === ROW 3 ===
+    \begin{subfigure}[b]{0.18\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{image014}
+        \caption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.18\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{image015}
+        \caption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.18\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{image016}
+        \caption{}
+    \end{subfigure}
+    \hfill
+    \hspace{0.18\textwidth}
+    \hfill
+    \hspace{0.18\textwidth} 
+
+    \caption{Symbols in Bingo Tropical Hot}
+    \label{image004016}
+\end{figure}
 
 The game features 13 symbols (see Figure 3.3). When betting 1 coin per line, different regular symbols yield varying prizes. Developing the mathematical model will involve adjusting the rewards for wins based on the number of matching symbol combinations. This game includes a wild symbol, which can substitute for all other symbols except the scatter symbol. However, the wild symbol does not pay out if it is part of a winning combination. This design choice helps simplify the determination of winning combinations. High-paying symbols that appear in smaller quantities can outperform less-paying wilds when they are part of a winning combination with fewer symbols. A standard rule is that only the highest prize per line is awarded.
 
@@ -254,19 +357,31 @@ The game features a bingo bonus component at its core. At the bottom of the main
 
 The mathematics behind slot machine games is typically outlined in a document known as a PAR Sheet. Most game studios create their PAR sheet as a Microsoft Excel file, but in current math modeling, a LibreOffice Calc file is used. This document includes all the key numbers and some aggregated statistics.
 
-Game Summary
+\section*{Game Summary}
 
 The first section of the PAR sheet usually contains a general description of the game (Figure 4.1).
 
-	Figure 4.1 Game summary
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{image025}
+  \caption{Game summary}
+  \url{}
+  \label{image025}
+\end{figure}
 
 The game summary sheet gathers various information derived from values in other sheets.
 
-Game Paytable
+\section*{Game Paytable}
 
 The second sheet holds the list of symbols with the amount of reward each symbol can provide. This data structure is known as the paytable, and it forms the basis of the mathematical model. In some games, wild symbols can award a prize on their own, though this is not always the case. Most games typically include a scatter symbol that grants prizes regardless of its position within a winning combination on the screen (Figrure 4.2).
 
-	Figure 4.2 The paytable of the game
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{image026}
+  \caption{The paytable of the game}
+  \url{}
+  \label{image026}
+\end{figure}
 
 Wins in this game are determined by the number of consecutive symbols that appear in a betting line combination. A high-paying symbol may award a win with just two symbols, but this will be confirmed in the future optimization of the mathematical model. It is important to note that the wild symbol does not provide a payout on its own. By omitting payouts for wild symbols, we can avoid confusion regarding which combinations are the most profitable on a single line.
 
@@ -274,27 +389,45 @@ The scatter symbol does pay out, but the free spins symbol does not yield a win 
 
 Initially, all prize values in the Paytable are set to one for mathematical modeling. These values will be adjusted later during the optimization process. Specific game parameters, including the number of symbols, the number of betting lines, free spin symbols, and scatter symbols, are determined by the art and game designers. Most of these parameters are not subject to mathematical optimization, as they are focused more on aesthetics and gaming experience.
 
-Game Lines
+\section*{Game Lines}
 
 The primary method for winning prizes on slot machines is through line combinations, where symbols must typically align from left to right. The number of betting lines can vary, ranging from a single line to all possible combinations. In some cases, lines may also be calculated from right to left, or even in both vertical directions - top to bottom and vice versa. Additionally, certain games employ cluster mechanics instead of traditional betting lines. For example, in Bingo Tropical Hot, there are only nine lines that are counted from left to right (Figure 4.3).
 
-	Figure 4.3 The betting lines in the game
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{image027}
+  \caption{The betting lines in the game}
+  \url{}
+  \label{image027}
+\end{figure}
 
 Each position in the betting lines sheet indicates the offset from the top of the screen for each reel. This representation simplifies the implementation of win calculations for the different betting lines by programmers.
 
-Base Game and Free Spins Reels
+\section*{Base Game and Free Spins Reels}
 
 There are various approaches to presenting game reels, with the most common being based on traditional mechanical games. This method represents virtual reels as a sequence of numbers that indicate the placement of symbols on each reel. In some rare cases, reels may be represented using a weighted table or in other analytical forms. The discrete probabilistic model of the reels is the most straightforward method for approval of the RTP.
 
 The length of the reels and the specific positions of the symbols are determined through mathematical optimization and game design choices. The final mathematical model must comply with all legal regulatory requirements and align with the financial profit expectations of the gambling game operator. Ultimately, it should also satisfy the players, as they are the ones investing their money into the game.
 
-	Figure 4.4 Base game reels
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{image023}
+  \caption{Base game reels}
+  \url{}
+  \label{image023}
+\end{figure}
 
 In the base game and during free spins, the reel sets typically differ. This difference is due to the expectation that free spins will be more profitable for the player. In some instances, multiple reel sets can be utilized for both the base game and free spins.
 
 For the current optimization of the math model, a single set of reels is used for the base game. Initially, each symbol appears only once on each reel, and the symbols are arranged in consecutive order. The scatter symbols and those that trigger free spins are restricted to the middle reels only (Figure 4.4).
 
-	Figure 4.5 Free spins reels
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{image024}
+  \caption{Free spins reels}
+  \url{}
+  \label{image024}
+\end{figure}
 
 The only change in the initial free spins reels is the removal of the symbol that triggers free spins (Figure 4.5). At this stage of game model optimization, retriggering free spins is not possible.
 
@@ -304,7 +437,7 @@ The gambling industry has widely adopted Microsoft Excel as the standard tool fo
 
 The mathematical modeling process for Bingo Tropical Hot will heavily rely on Monte Carlo simulations. Therefore, it’s essential that the simulation source code be closely aligned with Calc's data structures.
 
-Possible Programming Languages
+\section*{Possible Programming Languages}
 
 LibreOffice Calc supports several scripting languages through its UNO (Universal Network Objects) API. The primary scripting languages available are StarBasic, Python, JavaScript, BeanShell, Java, and other UNO-compatible languages. StarBasic is the most integrated language in LibreOffice and resembles VBA, although it is not entirely compatible with it. 
 
@@ -322,17 +455,23 @@ Another critical factor in selecting a programming language is the competence of
 
 To model the slot math, start by installing the LibreOffice software, which is available for the most popular operating systems. Next, install the Java development tools, such as openJDK or Oracle JDK. Finally, configure Java (Figure 6.1) in LibreOffice by navigating to Tools -> Options -> LibreOffice -> Advanced.
 
-	Figure 6.1 Java configuration in LibreOffice
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{image022}
+  \caption{Java configuration in LibreOffice}
+  \url{}
+  \label{image022}
+\end{figure}
 
 Slot games are based on combinatorial math models. There are various approaches to designing and simulating these games. A slot game can be developed entirely without a computer, using only a pencil and paper. Most elements of a slot game can be fine-tuned by calculating theoretical parameters. This book adopts a practical approach, recreating the game model through empirical adjustments and Monte Carlo simulations ( \url{https://en.wikipedia.org/wiki/Monte_Carlo_method} ). 
 
-Source Code Repository
+\section*{Source Code Repository}
 
 The software project of the simulation is publicly available on GitHub:
 
-https://github.com/TodorBalabanov/Secrets-of-Slot-Machine-Mathematics-Development-Revealed
+\url{https://github.com/TodorBalabanov/Secrets-of-Slot-Machine-Mathematics-Development-Revealed}
 
-Setting-up Gradle Project
+\section*{Setting-up Gradle Project}
 
 To create a Java plugin for LibreOffice, first establish a proper directory structure for the source code. The recommended structure is as follows: 
 
@@ -474,7 +613,13 @@ clear && gradlew clean build deploy
 
 After the deployment process, the JAR file along with the descriptive file will be available in the LibreOffice Java plugins directory, making the plugin ready for use.
 
-	Figure 6.2 Running the macro
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{image017}
+  \caption{Running the macro}
+  \url{}
+  \label{image017}
+\end{figure}
 
 Access the newly created plugin from the Tools -> Macros -> Run Macro... menu (Figure 6.2).
 
@@ -524,7 +669,7 @@ Many popular software products utilize a plugin-based architecture, and LibreOff
 
 In the case of the Java plugin, it accesses the active document via the XModel object. A reference to the document itself is provided as an XSpreadsheetDocument object. From this document object, users can access the LibreCalc sheets. Once the first sheet is selected, text can be written in the cell identified by the logical address A1.
 
-Source of Entropy
+\section*{Source of Entropy}
 
 As previously mentioned, modern computerized gambling games depend significantly on a reliable source of entropy. There are several options available, but when it comes to the Java programming language, the two primary choices are the Random class and the SecureRandom class. The SecureRandom class has the advantage of providing cryptographically secure numbers, but it comes at a cost of its performance, which is generally slower compared to the Random class (Listing 7.3).
 
@@ -559,7 +704,7 @@ public class Simulator {
 
 The instance of the RNG is private, as it will only be used within the simulation class. The field is marked as final because the RNG instance will be created only once. It is also static, ensuring that each method in the class uses the same single instance of the RNG.
 
-Paytable
+\section*{Paytable}
 
 The game paytable is a fundamental element in each slot machine. It shows the payout for each winning combination. Most of the case wins are calculated from left to right. When reels are five, usually wins are formed by 3, 4, or 5 consecutive symbols. The Bingo Tropical Hot paytable can be represented as a two-dimensional array (Listing 7.4). The first dimension gives the number of consequent symbols. In contrast, the second shows the index of a particular symbol. Each cell in the array provides the prize amount. 
 
@@ -583,7 +728,7 @@ The Scatter symbol and Bingo bonuses pay out according to the total bet. The pri
 
 All values for the game’s discrete model will be loaded from the PAR sheet document. The initial values in the PAR sheet are only indicative and serve only as a starting point for the mathematical modeling.
 
-Pay Lines
+\section*{Pay Lines}
 
 The game features 9 paylines, with the possibility of winning combinations of x2, x3, x4, or x5 on each line. To present the paylines efficiently, a data structure will be utilized. Specifically, a two-dimensional array will be employed for this purpose, though other data structures may also be suitable. In this book, simplicity is a primary objective. The paylines are visually represented like images (Figure 3.2).
 
@@ -602,7 +747,7 @@ Listing 7.5 - Pay lines array model
 
 The first dimension represents lines by their index. The second dimension indicates the index for each reel that should be used for the winning combination. The value in each cell denotes the offset from the top of the screen. For example, the central line is marked with ones, while the V-shaped line is represented by the sequence: zero, one, two, one, and zero.
 
-Reels
+\section*{Reels}
 
 Virtual game reels are a fundamental component of slot machine gambling games. Reels represent the discrete arrangement of symbols. In standard games without bonus features, the primary focus of mathematicians is on optimizing these reels. In the game "Bingo Tropical Hot," while the reels are optimized, the discrete distribution also applies to the bonus game values of bingo. Mathematicians aim to develop distributions that satisfy legal authorities, game operators, and, most importantly, the players.
 
@@ -631,7 +776,7 @@ Another key consideration is the length itself. Longer reels offer more options 
 
 In real-life production, reel lengths typically range from 10 to 500. For the Bingo Tropical Hot game, there should be prizes for achieving a bingo and for triggering free spins. If the reels are too short, these prizes will appear too frequently, which can disrupt the game's balance.
 
-List of Supportive Variables
+\section*{List of Supportive Variables}
 
 In addition to the primary data structures, a list of supporting variables should also be included (Listing 7.7).
 
@@ -668,7 +813,7 @@ Statistics on total losses and total winnings are crucial for calculating the RT
 
 While maximum achieved wins are not particularly important, they can be helpful in some comprehensive analyses. Hit frequencies are valuable for estimating the hit rate, which informs the game's volatility. During gameplay, the free spin wheel awards several free spins along with a specific multiplier, and this information is stored in separate variables.
 
-List of Supportive Arrays
+\section*{List of Supportive Arrays}
 
 Some types of supportive information are better organized in arrays (Listing 7.8) rather than stored in single variables.
 
@@ -747,7 +892,7 @@ Each generated screen in the base game or during free spins is temporarily store
 
 Once the common data structures have been established, it is time to implement standard algorithms that utilize these structures. The relationship between data structures and algorithms is that efficient algorithms can be achieved through well-designed data structures.
 
-Bingo Bonus Cards
+\section*{Bingo Bonus Cards}
 
 By having the discrete distribution of bingo cards, a random number is enough to be generated, and values for the line and bing can be calculated (Listing 8.1). 
 
@@ -755,7 +900,7 @@ Listing 8.1 - Bingo bonus cards
 
 The values inside the bingo cards are randomly generated. At each bonus game restart event the bingo bonus game starts with fresh bingo cards and complete new bingo game.
 
-Spin of Virtual Reels
+\section*{Spin of Virtual Reels}
 
 The spinning reels are the most significant random event in traditional slot games (Listing 8.2).
 
@@ -779,7 +924,7 @@ private static void spin(int reels[][]) {
 
 There are five reels, but only three rows are visible at a time. The function is designed to work with various reel arrays. The modulus calculation ensures that array index out-of-range errors will not occur.
 
-Scatter Win Calculation
+\section*{Scatter Win Calculation}
 
 When the game screen is filled with symbols, it is time to calculate the wins. The most straightforward calculation is the scatter win (Listing 8.3).
 
@@ -832,7 +977,7 @@ Listing 8.4 - Free spins number and multiplier calculation
 
 The Treasure symbol is used to trigger the free spins mode, but it does not award a prize as indicated in the paytable. The number of free spins and the multiplier during the free spins mode are calculated in the same way as for the paying scatter (see Listing 8.4). The only difference lies in the index of the symbol in the paytable. Analyzing the statistics of scatter wins and their frequency can be valuable during the game balance phase.
 
-Single Line Win Calculation
+\section*{Single Line Win Calculation}
 
 The main prizes in the game are awarded for lucky combinations formed on nine predefined lines. Each combination is created from left to right, and the Wild symbol can substitute for all other symbols except for scatters.
 
@@ -974,7 +1119,7 @@ int lineWin(int &number, int &symbol, int line[5], int multiplier) {
 
 Most of the time, prizes in the game will be given by regular lines. For a particular win, the number of consecutive symbols should be counted. The presence of the wild symbol should also be observed. The number of successive symbols is enough to look up in the paytable and get the prize value (Listing 6.8). In free spins, the win multiplier is also taken into account. The final result of the line win is determined by the highest winning combination. The winning symbol and number of consecutive occurrences are returned as an output reference parameter for statistics collection. 
 
-Lines Wins Calculation
+\section*{Lines Wins Calculation}
 
 In most games, Monte Carlo simulation can be done only for a single betting line (mainly the central one). The simulation will be conducted for all 20 lines in this book to enhance confidence in handling scatter wins and free spins (Listing 8.9). 
 
@@ -1011,7 +1156,7 @@ int linesWin(int multiplier) {
 
 Each betting line is extracted as a separate single-dimension array. The information for the index offset is taken from the lines data structure. Statistics for the wins from lines are kept at this point. 
 
-Single Reels Run
+\section*{Single Reels Run}
 
 The main gameplay involves rotating the reels. Rotation commonly happens in the base game, but spins are also run when free spins are awarded. For the free spins, a setup procedure is required to clarify the number of spins and the multiplier to be used (Listing 6.10).
 
@@ -1730,7 +1875,13 @@ int freeSpinsReels[5][113] = {
 
 Reels are used in 30 independent game simulations (Figure 9.1). The number 30 is taken empirically from the statistics and the theory of the Normal Probability Distribution. As it is seen, there is a funnel representing the RTP convergence. Measurements are done in increments of 10 thousand base game spins for a total of 1 million spins. 
 
-	Figure 9.1 Low-volatile RTP convergence
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{image021}
+  \caption{Low-volatile RTP convergence}
+  \url{}
+  \label{image021}
+\end{figure}
 
 High-volatility reels can be designed by skipping the free spins and offering only prizes from the highest-paying symbol (Listing 9.2). According to the paytable used, such a symbol is the wild.
 
@@ -1763,17 +1914,35 @@ int freeSpinsReels[5][113] = {
 
 Once again, 30 independent spins are done (Figure 9.2). The funnel is much wider because the prizes are more distant from the central tendency. 
 
-	Figure 9.2 High-volatility RTP convergence
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{image018}
+  \caption{High-volatility RTP convergence}
+  \url{}
+  \label{image018}
+\end{figure}
 
 An additional 30 independent runs are simulated using the original reels (Figure 9.3). 
 
-	Figure 9.3 Designed reels RTP convergence
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{image020}
+  \caption{Designed reels RTP convergence}
+  \url{}
+  \label{image020}
+\end{figure}
 
 Comparison of Volatilities
 
 A comparison of volatilities can estimate the volatility achieved by designed reels. Such comparisons can be made numerically, but only visual analysis is given in the current situation (Figure 9.4).
 
-	Figure 9.4 Volatility funnels
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{image019}
+  \caption{Volatility funnels}
+  \url{}
+  \label{image019}
+\end{figure}
 
 The convergence funnels are in different colors. The blue line shows the highly volatile reels, the red line shows the low volatile reels, and the green line shows the designed reels. The central tendency differs slightly on the graph. The reason is that the target RTP was not followed strictly. The main accent was RTP deviation. By examining the graph, it is evident that designed reels are suitable for relatively low volatility. Volatility can be adjusted by redesigning the reels further, which involves raising the number of big prizes and lowering the number of small prizes. Another way to adjust for volatility is by regulating the triggering of free spins.
 
@@ -1788,21 +1957,21 @@ The authors would like to thank all readers for taking the time to read this boo
 % --- BACK MATTER ---
 \backmatter
 
-\chapter*{About the Authors}
-The author is primarily affiliated with the Institute of Information and Communication Technologies, part of the Bulgarian Academy of Sciences.
+\chapter*{About the Author}
+Todor has a Ph.D. in Informatics and Computer Sciences. He also has an MSc in Internet Software Technologies, a BSc in Computer Systems and Technologies, and a BSc in Informatics. Currently, he is an associate at the Institute of Information and Communication Technologies, part of the Bulgarian Academy of Sciences. He has taught at some of the most highly rated Bulgarian universities, like New Bulgarian University, Technical University of Sofia, and Sofia University. He has written books about software development and applied statistics. Todor has many scientific publications. What he likes the most are good challenges. In his leisure time, he enjoys traveling and going out with friends. He is unmarried and has one child.
 
 \begin{thebibliography}{9}
-\bibitem{Parvanov-2021} [1] Parvanov, D., Mateeva, G., Balabanov, T.: Classification of Images for Reverse Engineering of Slot Machines, Abstracts of the 16th Annual Meeting of the Bulgarian Section of SIAM, Fastumprint, 36-37, 2021, ISSN 1313-3357
-\bibitem{Balabanov-2021a} [2] Balabanov, T.: Volatility Index Estimation by Reverse Engineering, Proceedings of the International Scientific Conference UNITECH, vol. 1, 229-234, 2021, ISSN 1313-230X
-\bibitem{Balabanov-2021b} [3] Balabanov, T.: Estimation of Volatility based on the Estimation of Segmentation, Problems of Engineering Cybernetics and Robotics, vol. 77, 3-10, 2021, ISSN 2738-7356
-\bibitem{Petrov-2020} [4] Petrov, P., Kostadinov, G., Zhivkov, P., Velichkova, V., Balabanov, T.: Approximate Sequencing of Virtual Reels with Genetic Algorithms, Proceedings of the 23rd International Conference on Distributed Computer and Communication Networks: Control, Computation, Communications, 507-514, 2020, ISBN 978-5-91450-248-2
-\bibitem{Tomov-2017a} [5] Tomov, P., Zankinski. I., Balabanov, T.: Slot Machine Reels Reconstruction with Genetic Algorithms, Abstracts of the 12th Annual Meeting of the Bulgarian Section of SIAM, Fastumprint, 102-103, 2017, ISSN 1313-3357
-\bibitem{Tomov-2017b} [6] Tomov, P., Zankinski. I.., Balabanov, T.: Slot Machine Reels Reconstruction with Monte-Carlo Search, Proceedings of the International Scientific Conference UNITECH, vol. 2, 384-387, 2017, ISSN 1313-230X
-\bibitem{Balabanov-2015} [7] Balabanov, T., Zankinski. I.., Shumanov, B.: Slot Machine RTP Optimization and Symbols Wins Equalization with Discrete Differential Evolution, Proceedings of the International Conference on Large-Scale Scientific Computing, vol. 9374, 210–217, 2015, ISBN 978-3-319-26519-3
-\bibitem{Balabanov-2014} [8] Balabanov, T., Zankinski. I.., Shumanov, B.: Slot Machines RTP Optimization with Genetic Algorithms, Proceedings of the International Conference on Numerical Methods and Applications, vol. 8962, 55-61, 2014, ISBN 978-3-319-15584-5
-\bibitem{Keremedchiev-2017} [9] Keremedchiev, D., Tomov, P., Barova, M.: Slot Machine Base Game Evolutionary RTP Optimization, Proceedings of the International Conference on Numerical Analysis and Its Applications, vol. 10187, 406-413, 2017, ISBN 978-3-319-57098-3
-\bibitem{Kamana-2021a} [10] Kamana, P.A., Sifaleras, A., Samaras, N.: Slot Machine RTP Optimization Using Variable Neighborhood Search, Mathematical Problems in Engineering, 8784065, 2021, ISSN 1024-123X
-\bibitem{Kamana-2021b} [11] Kamana, P.A.: Design and Analysis of Slot Machine Games and RTP Optimization Using Variable Neighborhood Search (VNS), Master of Science Thesis, Thessaloniki, 2021
+\bibitem{Parvanov-2021} Parvanov, D., Mateeva, G., Balabanov, T.: Classification of Images for Reverse Engineering of Slot Machines, Abstracts of the 16th Annual Meeting of the Bulgarian Section of SIAM, Fastumprint, 36-37, 2021, ISSN 1313-3357
+\bibitem{Balabanov-2021a} Balabanov, T.: Volatility Index Estimation by Reverse Engineering, Proceedings of the International Scientific Conference UNITECH, vol. 1, 229-234, 2021, ISSN 1313-230X
+\bibitem{Balabanov-2021b} Balabanov, T.: Estimation of Volatility based on the Estimation of Segmentation, Problems of Engineering Cybernetics and Robotics, vol. 77, 3-10, 2021, ISSN 2738-7356
+\bibitem{Petrov-2020} Petrov, P., Kostadinov, G., Zhivkov, P., Velichkova, V., Balabanov, T.: Approximate Sequencing of Virtual Reels with Genetic Algorithms, Proceedings of the 23rd International Conference on Distributed Computer and Communication Networks: Control, Computation, Communications, 507-514, 2020, ISBN 978-5-91450-248-2
+\bibitem{Tomov-2017a} Tomov, P., Zankinski. I., Balabanov, T.: Slot Machine Reels Reconstruction with Genetic Algorithms, Abstracts of the 12th Annual Meeting of the Bulgarian Section of SIAM, Fastumprint, 102-103, 2017, ISSN 1313-3357
+\bibitem{Tomov-2017b} Tomov, P., Zankinski. I.., Balabanov, T.: Slot Machine Reels Reconstruction with Monte-Carlo Search, Proceedings of the International Scientific Conference UNITECH, vol. 2, 384-387, 2017, ISSN 1313-230X
+\bibitem{Balabanov-2015} Balabanov, T., Zankinski. I.., Shumanov, B.: Slot Machine RTP Optimization and Symbols Wins Equalization with Discrete Differential Evolution, Proceedings of the International Conference on Large-Scale Scientific Computing, vol. 9374, 210–217, 2015, ISBN 978-3-319-26519-3
+\bibitem{Balabanov-2014} Balabanov, T., Zankinski. I.., Shumanov, B.: Slot Machines RTP Optimization with Genetic Algorithms, Proceedings of the International Conference on Numerical Methods and Applications, vol. 8962, 55-61, 2014, ISBN 978-3-319-15584-5
+\bibitem{Keremedchiev-2017} Keremedchiev, D., Tomov, P., Barova, M.: Slot Machine Base Game Evolutionary RTP Optimization, Proceedings of the International Conference on Numerical Analysis and Its Applications, vol. 10187, 406-413, 2017, ISBN 978-3-319-57098-3
+\bibitem{Kamana-2021a} Kamana, P.A., Sifaleras, A., Samaras, N.: Slot Machine RTP Optimization Using Variable Neighborhood Search, Mathematical Problems in Engineering, 8784065, 2021, ISSN 1024-123X
+\bibitem{Kamana-2021b} Kamana, P.A.: Design and Analysis of Slot Machine Games and RTP Optimization Using Variable Neighborhood Search (VNS), Master of Science Thesis, Thessaloniki, 2021
 \end{thebibliography}
 
 \end{document}
