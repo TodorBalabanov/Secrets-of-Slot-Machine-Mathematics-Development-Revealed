@@ -1,4 +1,4 @@
-\documentclass[11pt,twoside,openany]{book}
+\documentclass[12pt,twoside,openany]{book}
 
 \usepackage{xurl}
 \usepackage{listings}
@@ -159,7 +159,7 @@ Ivelin Todorov is a long-time Bulgarian national ice hockey player, a junior of 
 
 \chapter*{Preface}
 
-Slot machines are among the most popular gambling games worldwide. They are often referred to as fruit machines, poker machines, or one-armed bandits. Slot machines operate as games of chance, requiring no special skills to play. In many countries, gambling is prohibited; however, in places where it is legal, only adults are permitted to participate.
+Slot machines are among the most popular gambling games worldwide. They are often referred to as fruit machines, poker machines, or one-armed bandits. Slot machines operate as games of chance, requiring no special skills to play. In many countries, gambling is prohibited, but in places where it is legal, only adults are permitted to participate.
 
 Casinos favor slot machines due to the substantial revenue they generate, which is often higher than that from other types of gambling games. Since the pandemic began in 2019, there has been a significant increase in online gambling. This growth has driven an expansion in the manufacturing of gambling games, creating a demand for faster and more efficient software development processes. Additionally, all legal gambling games must undergo strict certification procedures and comply with local regulations.
 
@@ -173,7 +173,6 @@ Early slot machine games were mechanical and emerged at the end of the 19th cent
 
 In the early 1960s, electromechanical slot machines were introduced. These machines featured electromechanical construction and an automated payout system. By the mid-1970s, video slot machines emerged, transforming mechanical drums into virtual reels. The common element across all types of slots is the spinning reels. In games beyond the earliest versions, skilled mathematicians took on the primary role of designing the symbols displayed on the reels. This process combines both art and science. The scientific aspect focuses on the necessary statistical parameters, while the artistic side aims to ensure player satisfaction during gameplay.
 
-
 Creating a slot game design is relatively straightforward mathematically, but it poses significant challenges artistically. On the mathematical side, theoretical calculations are using combinatorial analytical formulas and heuristic calculations through Monte Carlo simulations. This book primarily focuses on the practical and heuristic aspects of slot machine design.
 
 \chapter{Basic Slot Game Statistics}
@@ -182,7 +181,7 @@ All gambling games are closely linked to probability theory and statistics. Most
 
 \section*{Return to Player}
 
-All gambling games of chance have a key statistic known as Return to Player (RTP). This metric indicates the amount of money a player can expect to receive back after playing a game. RTP is expressed as a percentage. For instance, if a player bets \$100 on a game with a 98\% RTP, the expected return after a single game spin would be \$98. Mathematically, the RTP represents the expected value and can be calculated using a specific formula:
+All gambling games of chance have a key statistic known as Return to Player. This metric indicates the amount of money a player can expect to receive back after playing a game. RTP is expressed as a percentage. For instance, if a player bets \$100 on a game with a 98\% RTP, the expected return after a single game spin would be \$98. Mathematically, the RTP represents the expected value and can be calculated using a specific formula:
 
 \begin{equation}
 E(X) = \sum x_i p_i
@@ -191,7 +190,7 @@ E(X) = \sum x_i p_i
 
 In the given context, let $x_i$ represent a specific probabilistic event, and $p_i$ denote the probability of that event occurring. The Return to Player (RTP) parameter is regulated by law in all jurisdictions where gambling is legal. These regulations require game studios to monitor the RTP in their products, and they must have this monitoring approved by certified laboratories.
 
-In the design, production, and testing of a slot machine game, the Return to Player (RTP) is often broken down into its individual components, which together contribute to the overall value. When there is a discrepancy in the total RTP, examining the specific game features at a faster pace can accelerate the problem-solving process. This breakdown is a valuable quality assurance method for monitoring.
+In the design, production, and testing of a slot machine game, the Return to Player is often broken down into its individual components, which together contribute to the overall value. When there is a discrepancy in the total RTP, examining the specific game features at a faster pace can accelerate the problem-solving process. This breakdown is a valuable quality assurance method for monitoring.
 
 \section*{Game Volatility}
 
@@ -208,9 +207,9 @@ Local legal regulations do not strictly govern the volatility of gambling games,
 
 \section*{Other Parameters}
 
-Game creators observe a wide range of statistical parameters, but not all of these are of interest to legal authorities or players. One key parameter for dedicated players is the maximum possible win. Another important aspect is the frequency of each winning combination, which is technically intriguing. The probability of triggering free spins also plays a significant role in determining game volatility. Additionally, the win rates in the main game, during free spins, and in specific bonus games provide valuable insights during game development and testing. The maximum number of free spins can provide further insight into game volatility. There are no restrictions on bonus games; only the game creator's imagination limits the gameplay. This variety allows for an unlimited number of statistical parameters to be tracked.
+Game creators observe a wide range of statistical parameters, but not all of these are of interest to legal authorities or players. One key parameter for dedicated players is the maximum possible win. Another important aspect is the frequency of each winning combination, which is technically intriguing. The probability of triggering free spins also plays a significant role in determining game volatility. Additionally, the win rates in the main game, during free spins, and in specific bonus games provide valuable insights during game development and testing. The maximum number of free spins can provide further insight into game volatility. There are no restrictions on bonus games, and only the game creator's imagination limits the gameplay. This variety allows for an unlimited number of statistical parameters to be tracked.
 
-`\chapter{Bingo Tropical Hot}
+\chapter{Bingo Tropical Hot}
 
 There are several ways to present the mathematical design of slot games to an interested audience. In this book, we will recreate a mathematical model based on a game that has not yet been published. The selected game is "Bingo Tropical Hot" by RedFowl Engineering Ltd. All artwork and elements related to the intellectual property of "Bingo Tropical Hot" are protected by the manufacturer's copyrights. The use of these materials in this book is for illustrative purposes only and does not relate to any direct profit.
 
@@ -224,7 +223,7 @@ There are several ways to present the mathematical design of slot games to an in
   \label{image002}
 \end{figure}
 
-The game consists of 5 reels and 3 visible rows (Figure 3.1). It features 9 pay lines (Figure 3.2). The total bet is calculated by multiplying the bet per line by the number of betting lines.
+The game consists of 5 reels and 3 visible rows (Figure \ref{image002}). It features 9 pay lines (Figure \ref{image028}). The total bet is calculated by multiplying the bet per line by the number of betting lines.
 
 \begin{figure}[htbp]
   \centering
@@ -333,7 +332,7 @@ All wins are counted from the leftmost reel to the rightmost. Wins are formed on
     \label{image004016}
 \end{figure}
 
-The game features 13 symbols (see Figure 3.3). When betting 1 coin per line, different regular symbols yield varying prizes. Developing the mathematical model will involve adjusting the rewards for wins based on the number of matching symbol combinations. This game includes a wild symbol, which can substitute for all other symbols except the scatter symbol. However, the wild symbol does not pay out if it is part of a winning combination. This design choice helps simplify the determination of winning combinations. High-paying symbols that appear in smaller quantities can outperform less-paying wilds when they are part of a winning combination with fewer symbols. A standard rule is that only the highest prize per line is awarded.
+The game features 13 symbols (see Figure \ref{image004016}). When betting 1 coin per line, different regular symbols yield varying prizes. Developing the mathematical model will involve adjusting the rewards for wins based on the number of matching symbol combinations. This game includes a wild symbol, which can substitute for all other symbols except the scatter symbol. However, the wild symbol does not pay out if it is part of a winning combination. This design choice helps simplify the determination of winning combinations. High-paying symbols that appear in smaller quantities can outperform less-paying wilds when they are part of a winning combination with fewer symbols. A standard rule is that only the highest prize per line is awarded.
 
 Regular symbols can form line-winning combinations, but the game also features a scatter symbol. Scatter wins occur when the scatter symbol appears anywhere on the screen, and these symbols do not need to be adjacent to each other. Only the highest number of scatter symbols will be rewarded with a prize. Scatter wins are independent of the single-line bet and are calculated based on the total bet amount. The payout for the scatter symbol is still subject to future modeling.
 
@@ -351,7 +350,7 @@ The game includes a free spins scatter symbol, which typically appears only on r
   \label{image003}
 \end{figure}
 
-The game features a bingo bonus component at its core. At the bottom of the main screen, six bingo cards are displayed (Figure 3.4). Bingo balls are drawn in the top right corner of the screen, using a standard set of bingo balls. Two types of bonuses are available: line combinations and bingo combinations. The amounts for both bonuses are determined through mathematical modeling. After a bingo bonus is awarded, the cards are reset. The bingo bonus in this slot machine game has a significant impact on the overall RTP, necessitating adjustments to all other prize amounts accordingly.
+The game features a bingo bonus component at its core. At the bottom of the main screen, six bingo cards are displayed (Figure \ref{image003}). Bingo balls are drawn in the top right corner of the screen, using a standard set of bingo balls. Two types of bonuses are available - line combinations and bingo combinations. The amounts for both bonuses are determined through mathematical modeling. After a bingo bonus is awarded, the cards are reset. The bingo bonus in this slot machine game has a significant impact on the overall RTP, necessitating adjustments to all other prize amounts accordingly.
 
 \chapter{PAR Sheet}
 
@@ -359,7 +358,7 @@ The mathematics behind slot machine games is typically outlined in a document kn
 
 \section*{Game Summary}
 
-The first section of the PAR sheet usually contains a general description of the game (Figure 4.1).
+The first section of the PAR sheet usually contains a general description of the game (Figure \ref{image025}).
 
 \begin{figure}[htbp]
   \centering
@@ -373,7 +372,7 @@ The game summary sheet gathers various information derived from values in other 
 
 \section*{Game Paytable}
 
-The second sheet holds the list of symbols with the amount of reward each symbol can provide. This data structure is known as the paytable, and it forms the basis of the mathematical model. In some games, wild symbols can award a prize on their own, though this is not always the case. Most games typically include a scatter symbol that grants prizes regardless of its position within a winning combination on the screen (Figrure 4.2).
+The second sheet holds the list of symbols with the amount of reward each symbol can provide. This data structure is known as the paytable, and it forms the basis of the mathematical model. In some games, wild symbols can award a prize on their own, though this is not always the case. Most games typically include a scatter symbol that grants prizes regardless of its position within a winning combination on the screen (Figrure \ref{image026}).
 
 \begin{figure}[htbp]
   \centering
@@ -391,7 +390,7 @@ Initially, all prize values in the Paytable are set to one for mathematical mode
 
 \section*{Game Lines}
 
-The primary method for winning prizes on slot machines is through line combinations, where symbols must typically align from left to right. The number of betting lines can vary, ranging from a single line to all possible combinations. In some cases, lines may also be calculated from right to left, or even in both vertical directions - top to bottom and vice versa. Additionally, certain games employ cluster mechanics instead of traditional betting lines. For example, in Bingo Tropical Hot, there are only nine lines that are counted from left to right (Figure 4.3).
+The primary method for winning prizes on slot machines is through line combinations, where symbols must typically align from left to right. The number of betting lines can vary, ranging from a single line to all possible combinations. In some cases, lines may also be calculated from right to left, or even in both vertical directions - top to bottom and vice versa. Additionally, certain games employ cluster mechanics instead of traditional betting lines. For example, in Bingo Tropical Hot, there are only nine lines that are counted from left to right (Figure \ref{image027}).
 
 \begin{figure}[htbp]
   \centering
@@ -419,7 +418,7 @@ The length of the reels and the specific positions of the symbols are determined
 
 In the base game and during free spins, the reel sets typically differ. This difference is due to the expectation that free spins will be more profitable for the player. In some instances, multiple reel sets can be utilized for both the base game and free spins.
 
-For the current optimization of the math model, a single set of reels is used for the base game. Initially, each symbol appears only once on each reel, and the symbols are arranged in consecutive order. The scatter symbols and those that trigger free spins are restricted to the middle reels only (Figure 4.4).
+For the current optimization of the math model, a single set of reels is used for the base game. Initially, each symbol appears only once on each reel, and the symbols are arranged in consecutive order. The scatter symbols and those that trigger free spins are restricted to the middle reels only (Figure \ref{image023}).
 
 \begin{figure}[htbp]
   \centering
@@ -429,7 +428,7 @@ For the current optimization of the math model, a single set of reels is used fo
   \label{image024}
 \end{figure}
 
-The only change in the initial free spins reels is the removal of the symbol that triggers free spins (Figure 4.5). At this stage of game model optimization, retriggering free spins is not possible.
+The only change in the initial free spins reels is the removal of the symbol that triggers free spins (Figure \ref{image024}). At this stage of game model optimization, retriggering free spins is not possible.
 
 \chapter{Programming Language Selection}
 
@@ -443,7 +442,7 @@ LibreOffice Calc supports several scripting languages through its UNO (Universal
 
 Modern versions of LibreOffice support Python natively, allowing for interaction with LibreOffice Calc through its UNO API. Python scripts can be stored internally within LibreOffice documents. Additionally, LibreOffice supports JavaScript through a Rhino-based variant via the Script Provider, which operates within LibreOffice’s JVM-based scripting framework. BeanShell, a lightweight Java-like scripting language, is also supported through LibreOffice’s Java-based scripting framework. 
 
-Java serves as the most advanced programming language for writing macros and extensions in LibreOffice. Since the UNO API is language-independent, scripting can also be performed using C++, .NET, or other languages via the UNO bridge; however, these methods are typically used for external programs rather than for embedded macros.
+Java serves as the most advanced programming language for writing macros and extensions in LibreOffice. Since the UNO API is language-independent, scripting can also be performed using C++, .NET, or other languages via the UNO bridge, but these methods are typically used for external programs rather than for embedded macros.
 
 The selection of a programming language is a common consideration in software development projects. Several criteria are used to evaluate languages, with performance, the richness of software libraries, available documentation, and robustness often being the most important factors.
 
@@ -453,7 +452,7 @@ Another critical factor in selecting a programming language is the competence of
 
 \chapter{Setup of Simulation Project}
 
-To model the slot math, start by installing the LibreOffice software, which is available for the most popular operating systems. Next, install the Java development tools, such as openJDK or Oracle JDK. Finally, configure Java (Figure 6.1) in LibreOffice by navigating to Tools -> Options -> LibreOffice -> Advanced.
+To model the slot math, start by installing the LibreOffice software, which is available for the most popular operating systems. Next, install the Java development tools, such as openJDK or Oracle JDK. Finally, configure Java (Figure \ref{image022}) in LibreOffice by navigating to Tools -> Options -> LibreOffice -> Advanced.
 
 \begin{figure}[htbp]
   \centering
@@ -473,9 +472,9 @@ The software project of the simulation is publicly available on GitHub:
 
 \section*{Setting-up Gradle Project}
 
-To create a Java plugin for LibreOffice, first establish a proper directory structure for the source code. The recommended structure is as follows: 
+To create a Java plugin for LibreOffice, first establish a proper directory structure for the source code. The recommended structure is as follows (Listing \ref{listing001}).
 
-\begin{lstlisting}
+\begin{lstlisting}[language=bash, caption={Project structure}, label=listing001]
 simulator/
    build.gradle
    settings.gradle
@@ -491,15 +490,15 @@ simulator/
 
 In this structure, the files `build.gradle` and `settings.gradle` define the parameters for building the project. The `parcel-descriptor.xml` file contains important information for integrating the Java plugin with LibreOffice. The initial source code for the game simulator will be placed in the `Simulator.java` file.
 
-The Gradle build system settings are specified in the `settings.gradle` file, which for the current project only includes the project name (Listing 6.1).
+The Gradle build system settings are specified in the `settings.gradle` file, which for the current project only includes the project name (Listing \ref{listing002}).
 
-Listing 6.1 - settings.gradle
+\begin{lstlisting}[language=bash, caption={settings.gradle}, label=listing002]
 	rootProject.name = 'Bingo-Tropical-Hot-Simulator'
+\end{lstlisting}
 
-All important project configuration options are specified in the `build.gradle` file (Listing 6.2). The version of the JAR file will be 1.0.0, and this version will be reflected in the name of the JAR file. It is considered a best practice for each Java software solution to reside in its own package. For this development project, the package will be `eu.veldsoft.bths`. Within the Gradle script, the exact locations of the LibreOffice directories are defined to ensure that the compiled plugin can be deployed appropriately. The deployment process involves copying the Java archive and the descriptor file into the appropriate LibreOffice directory structure.
+All important project configuration options are specified in the `build.gradle` file (Listing \ref{listing003}). The version of the JAR file will be 1.0.0, and this version will be reflected in the name of the JAR file. It is considered a best practice for each Java software solution to reside in its own package. For this development project, the package will be `eu.veldsoft.bths`. Within the Gradle script, the exact locations of the LibreOffice directories are defined to ensure that the compiled plugin can be deployed appropriately. The deployment process involves copying the Java archive and the descriptor file into the appropriate LibreOffice directory structure.
 
-Listing 6.2 - build.gradle
-\begin{lstlisting}
+\begin{lstlisting}[language=bash, caption={build.gradle}, label=listing003]
 plugins {
     id 'java'
 }
@@ -514,10 +513,13 @@ def detectLibreOfficeClassesDir() {
     def candidates = []
 
     if (System.properties['os.name'].toLowerCase().contains('win')) {
-        candidates << "${System.getenv('ProgramFiles')}\\LibreOffice\\program\\classes"
-        candidates << "${System.getenv('ProgramFiles(x86)')}\\LibreOffice\\program\\classes"
+        candidates << 
+        "${System.getenv('ProgramFiles')}\\LibreOffice\\program\\classes"
+        candidates << 
+        "${System.getenv('ProgramFiles(x86)')}\\LibreOffice\\program\\classes"
     } else if (System.properties['os.name'].toLowerCase().contains('mac')) {
-        candidates << "/Applications/LibreOffice.app/Contents/Resources/java"
+        candidates << 
+        "/Applications/LibreOffice.app/Contents/Resources/java"
     } else {
         // Assume Linux/Unix-like
         candidates << "/usr/lib/libreoffice/program/classes"
@@ -530,7 +532,9 @@ def detectLibreOfficeClassesDir() {
 def libreOfficeClassesDir = detectLibreOfficeClassesDir()
 
 if (libreOfficeClassesDir == null) {
-    throw new GradleException("Could not find libreoffice.jar - please install LibreOffice or set LIBREOFFICE_HOME.")
+    throw new GradleException(
+	"Could not find libreoffice.jar - 
+	please install LibreOffice or set LIBREOFFICE_HOME.")
 }
 
 repositories {
@@ -563,23 +567,28 @@ tasks.register('deploy', Copy) {
     from("${buildDir}/libs/${jar.archiveFileName.get()}")
     from("parcel-descriptor.xml")
 
-    def loUserScripts = System.getProperty('os.name').toLowerCase().contains('win') ?
-        "${System.getenv('APPDATA')}\\LibreOffice\\4\\user\\Scripts\\java\\Bingo-Tropical-Hot-Simulator" :
-        "${System.getProperty('user.home')}/.config/libreoffice/4/user/Scripts/java/Bingo-Tropical-Hot-Simulator"
+    def loUserScripts = System.getProperty('os.name').toLowerCase().
+    contains('win') ?
+        "${System.getenv('APPDATA')}\\LibreOffice\\4\\user\\
+        Scripts\\java\\Bingo-Tropical-Hot-Simulator" :
+        "${System.getProperty('user.home')}/.config/libreoffice/4/user/
+        Scripts/java/Bingo-Tropical-Hot-Simulator"
 
     into(loUserScripts)
 }
 \end{lstlisting}
 
-Each JAR plugin must be accompanied by a descriptor file named `parcel-descriptor.xml` (Listing 6.3). This descriptor defines the programming language used, provides the name and description of the plugin, and specifies the entry point function. Additionally, it contains crucial information about the JAR file that houses the plugin itself.
+Each JAR plugin must be accompanied by a descriptor file named `parcel-descriptor.xml` (Listing \ref{listing004}). This descriptor defines the programming language used, provides the name and description of the plugin, and specifies the entry point function. Additionally, it contains crucial information about the JAR file that houses the plugin itself.
 
-Listing 6.3 - parcel-descriptor.xml
-	<?xml version="1.0" encoding="UTF-8"?>
+\begin{lstlisting}[language=xml, caption={parcel-descriptor.xml}, label=listing004]
+<?xml version="1.0" encoding="UTF-8"?>
 <parcel language="Java" xmlns:parcel="scripting.dtd">
   <script language="Java">
     <locale lang="en">
       <displayname value="Bingo Tropical Hot Simulator" />
-      <description>Run simulation of Bingo Tropical Hot slot machine.</description>
+      <description>
+      Run simulation of Bingo Tropical Hot slot machine.
+      </description>
     </locale>
     <functionname value="eu.veldsoft.bths.Simulator.simulate"/>
     <logicalname value="eu.veldsoft.bths.Simulator.simulate"/>
@@ -588,22 +597,29 @@ Listing 6.3 - parcel-descriptor.xml
     </languagedepprops>
   </script>
 </parcel>
+\end{lstlisting}
 
 The macro source code will be provided within a class named `eu.veldsoft.bths.Simulator`.
 
 After creating the directory, a Gradle wrapper should be generated by using the following command:
 
+\begin{lstlisting}
 gradle wrapper
+\end{lstlisting}
 
 The `gradlew` command is a small script included in Gradle-based projects, which allows anyone to run Gradle without needing to install it system-wide.
 
 To build the JAR file, use this command:
 
+\begin{lstlisting}
 gradlew clean build
+\end{lstlisting}
 
 To deploy the created plugin, use the following command:
 
+\begin{lstlisting}
 gradlew deploy
+\end{lstlisting}
 
 The commands can be executed in a sequence: 
 
