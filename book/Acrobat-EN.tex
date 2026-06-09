@@ -654,10 +654,10 @@ public class Simulator {
 }
 \end{lstlisting}
 
-To ensure that the development tools are set up correctly and that the building process is accurate, a good approach is to write simple source code in the style of a "Hello World" program. The easiest way to start is by entering some text into cell A1 (Listing 7.2).
+To ensure that the development tools are set up correctly and that the building process is accurate, a good approach is to write simple source code in the style of a "Hello World" program. The easiest way to start is by entering some text into cell A1 (Listing \ref{listing010}).
 
-Listing 7.2 - Writing text in a cell
-	package eu.veldsoft.bths;
+\begin{lstlisting}[language=bash, caption={Writing text in a cell}, label=listing010]
+package eu.veldsoft.bths;
 
 import com.sun.star.script.provider.XScriptContext;
 import com.sun.star.uno.UnoRuntime;
@@ -670,9 +670,12 @@ public class Simulator {
     public static void simulate(XScriptContext ctx) {
         try {
             XModel model = ctx.getDocument();
-            XSpreadsheetDocument document = UnoRuntime.queryInterface(XSpreadsheetDocument.class, model);
-            XIndexAccess sheets = UnoRuntime.queryInterface(XIndexAccess.class, document.getSheets());
-            XSpreadsheet first = UnoRuntime.queryInterface(XSpreadsheet.class, sheets.getByIndex(0));
+            XSpreadsheetDocument document = 
+            UnoRuntime.queryInterface(XSpreadsheetDocument.class, model);
+            XIndexAccess sheets = 
+            UnoRuntime.queryInterface(XIndexAccess.class, document.getSheets());
+            XSpreadsheet first = 
+            UnoRuntime.queryInterface(XSpreadsheet.class, sheets.getByIndex(0));
 
 
             first.getCellByPosition(0, 0).setFormula("Simulation!");
@@ -681,6 +684,7 @@ public class Simulator {
         }
     }
 }
+\end{lstlisting}
 
 Many popular software products utilize a plugin-based architecture, and LibreOffice is among them. This product features a comprehensive internal document object model. One significant advantage of plugin-based software solutions is that they allow access to this internal document object model through various scripting languages.
 
@@ -688,10 +692,10 @@ In the case of the Java plugin, it accesses the active document via the XModel o
 
 \section*{Source of Entropy}
 
-As previously mentioned, modern computerized gambling games depend significantly on a reliable source of entropy. There are several options available, but when it comes to the Java programming language, the two primary choices are the Random class and the SecureRandom class. The SecureRandom class has the advantage of providing cryptographically secure numbers, but it comes at a cost of its performance, which is generally slower compared to the Random class (Listing 7.3).
+As previously mentioned, modern computerized gambling games depend significantly on a reliable source of entropy. There are several options available, but when it comes to the Java programming language, the two primary choices are the Random class and the SecureRandom class. The SecureRandom class has the advantage of providing cryptographically secure numbers, but it comes at a cost of its performance, which is generally slower compared to the Random class (Listing \ref{listing011}).
 
-Listing 7.3 - RNG class import
-	package eu.veldsoft.bths;
+\begin{lstlisting}[language=bash, caption={RNG class import}, label=listing011]
+package eu.veldsoft.bths;
 
 import java.security.SecureRandom;
 
@@ -708,9 +712,12 @@ public class Simulator {
     public static void simulate(XScriptContext ctx) {
         try {
             XModel model = ctx.getDocument();
-            XSpreadsheetDocument document = UnoRuntime.queryInterface(XSpreadsheetDocument.class, model);
-            XIndexAccess sheets = UnoRuntime.queryInterface(XIndexAccess.class, document.getSheets());
-            XSpreadsheet first = UnoRuntime.queryInterface(XSpreadsheet.class, sheets.getByIndex(0));
+            XSpreadsheetDocument document = 
+            UnoRuntime.queryInterface(XSpreadsheetDocument.class, model);
+            XIndexAccess sheets = 
+            UnoRuntime.queryInterface(XIndexAccess.class, document.getSheets());
+            XSpreadsheet first = 
+            UnoRuntime.queryInterface(XSpreadsheet.class, sheets.getByIndex(0));
 
             first.getCellByPosition(0, 0).setFormula("Simulation!");
         } catch (Exception e) {
@@ -718,24 +725,39 @@ public class Simulator {
         }
     }
 }
+\end{lstlisting}
 
 The instance of the RNG is private, as it will only be used within the simulation class. The field is marked as final because the RNG instance will be created only once. It is also static, ensuring that each method in the class uses the same single instance of the RNG.
 
 \section*{Paytable}
 
-The game paytable is a fundamental element in each slot machine. It shows the payout for each winning combination. Most of the case wins are calculated from left to right. When reels are five, usually wins are formed by 3, 4, or 5 consecutive symbols. The Bingo Tropical Hot paytable can be represented as a two-dimensional array (Listing 7.4). The first dimension gives the number of consequent symbols. In contrast, the second shows the index of a particular symbol. Each cell in the array provides the prize amount. 
+The game paytable is a fundamental element in each slot machine. It shows the payout for each winning combination. Most of the case wins are calculated from left to right. When reels are five, usually wins are formed by 3, 4, or 5 consecutive symbols. The Bingo Tropical Hot paytable can be represented as a two-dimensional array (Listing \ref{listing012}). The first dimension gives the number of consequent symbols. In contrast, the second shows the index of a particular symbol. Each cell in the array provides the prize amount. 
 
-Listing 7.4 - Paytable array model
-	private static int paytable[][] = {
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,},
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,},
-        {0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,1,0,0,},
-        {0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,},
-        {0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,},
-};
+\begin{lstlisting}[language=bash, caption={Paytable array model}, label=listing012]
+private static int paytable[][] = {};
 
-The first dimension has a size of 6, as it includes 0 for the number of consecutive symbols, with the longest winning combination consisting of 5 consecutive symbols. In the second dimension, the prizes are indexed from 0 to 18. The prize value in each cell indicates the winnings for a 1-coin bet per line for the regular symbols. The simulation will be conducted using a 1-coin bet per line, and all other denominations are invariant.
+XSpreadsheet paytable = UnoRuntime.queryInterface(XSpreadsheet.class, 
+sheets.getByName("Paytable"));
+int tableRows = 0;
+int tableColumns = 0;
+for (int c = 4; paytable.getCellByPosition(c,1).getType()!=
+CellContentType.EMPTY; c++) {
+	tableColumns++;
+}
+for (int r = 1; paytable.getCellByPosition(4, r).getType()!=
+CellContentType.EMPTY; r++) {
+	tableRows++;
+}
+Simulator.paytable = new int[tableRows][tableColumns];
+for (int c = 0; c<tableColumns; c++) {
+	for (int r = 0; r<tableRows; r++) {
+		Simulator.paytable[r][c] = (int)paytable.getCellByPosition(4+c,
+		1+r).getValue();
+	}
+}
+\end{lstlisting}
+
+The first dimension has a size of 6, as it includes 0 for the number of consecutive symbols, with the longest winning combination consisting of 5 consecutive symbols. In the second dimension, the prizes are indexed from 0 to 20. The prize value in each cell indicates the winnings for a 1-coin bet per line for the regular symbols. The simulation will be conducted using a 1-coin bet per line, and all other denominations are invariant.
 
 The Wild symbol itself does not award any prizes. Therefore, it has zeros in its row on the paytable. As designed, line prizes will be awarded only by the regular symbols, with or without the participation of the Wild symbol.
 
@@ -747,45 +769,67 @@ All values for the game’s discrete model will be loaded from the PAR sheet doc
 
 \section*{Pay Lines}
 
-The game features 9 paylines, with the possibility of winning combinations of x2, x3, x4, or x5 on each line. To present the paylines efficiently, a data structure will be utilized. Specifically, a two-dimensional array will be employed for this purpose, though other data structures may also be suitable. In this book, simplicity is a primary objective. The paylines are visually represented like images (Figure 3.2).
+The game features 9 paylines, with the possibility of winning combinations of x2, x3, x4, or x5 on each line. To present the paylines efficiently, a data structure will be utilized. Specifically, a two-dimensional array will be employed for this purpose (Listing \ref{listing013}), though other data structures may also be suitable. In this book, simplicity is a primary objective. The paylines are visually represented like images (Figure \ref{image028}).
 
-Listing 7.5 - Pay lines array model
-	private static int lines[][] = {
-        {1,1,1,1,1,},
-        {0,0,0,0,0,},
-        {2,2,2,2,2,},
-        {0,1,2,1,0,},
-        {2,1,0,1,2,},
-        {0,0,1,2,2,},
-        {2,2,1,0,0,},
-        {1,0,1,2,1,},
-        {1,2,1,0,1,},
-};
+\begin{lstlisting}[language=bash, caption={Pay lines array model}, label=listing013]
+private static int lines[][] = {};
+
+XSpreadsheet lines = UnoRuntime.queryInterface(XSpreadsheet.class, 
+sheets.getByName("Lines"));
+Simulator.lines = new int[numberOfBettingLines][numberOfColumns];
+for (int c = 0; c<numberOfColumns; c++) {
+	for (int l = 0; l<numberOfBettingLines; l++) {
+		Simulator.lines[l][c] = 
+		(int)lines.getCellByPosition(2+c,1+l).getValue();
+	}
+}
+\end{lstlisting}
 
 The first dimension represents lines by their index. The second dimension indicates the index for each reel that should be used for the winning combination. The value in each cell denotes the offset from the top of the screen. For example, the central line is marked with ones, while the V-shaped line is represented by the sequence: zero, one, two, one, and zero.
 
 \section*{Reels}
 
-Virtual game reels are a fundamental component of slot machine gambling games. Reels represent the discrete arrangement of symbols. In standard games without bonus features, the primary focus of mathematicians is on optimizing these reels. In the game "Bingo Tropical Hot," while the reels are optimized, the discrete distribution also applies to the bonus game values of bingo. Mathematicians aim to develop distributions that satisfy legal authorities, game operators, and, most importantly, the players.
+Virtual game reels are a fundamental component of slot machine gambling games. Reels represent the discrete arrangement of symbols. In standard games without bonus features, the primary focus of mathematicians is on optimizing these reels. In the game "Bingo Tropical Hot", while the reels are optimized, the discrete distribution also applies to the bonus game values of bingo. Mathematicians aim to develop distributions that satisfy legal authorities, game operators, and, most importantly, the players.
 
-Only the most basic slot games do not offer free spins. Free spins are awarded under specific conditions, such as the appearance of a certain number of scatter symbols on the screen. During free spins, players are not charged a bet, hence they are considered "free." It is common for the reels in the main game to differ from those used during free spins. A highly efficient method for modeling these reels is to use a two-dimensional array. In this array, the first dimension indexes the reel, while the second dimension indexes the group of symbols that are visible on the screen.
+Only the most basic slot games do not offer free spins. Free spins are awarded under specific conditions, such as the appearance of a certain number of scatter symbols on the screen. During free spins, players are not charged a bet, hence they are considered "free". It is common for the reels in the main game to differ from those used during free spins. A highly efficient method for modeling these reels is to use a two-dimensional array (Listing \ref{listing014}). In this array, the first dimension indexes the reel, while the second dimension indexes the group of symbols that are visible on the screen.
 
-Listing 7.6 - Reels array model
-	private static int baseGameReels[][] = {
-        {1,3,4,5,6,7,8,9,10,11,12,},
-        {1,3,4,5,6,7,8,9,10,11,12,15,16,},
-        {1,3,4,5,6,7,8,9,10,11,12,15,16,},
-        {1,3,4,5,6,7,8,9,10,11,12,15,16,},
-        {1,3,4,5,6,7,8,9,10,11,12,},
-};
+\begin{lstlisting}[language=bash, caption={Reels array model}, label=listing014]
+private static int baseGameReels[][] = {};
 
-private static int freeSpinsReels[][] = {
-        {1,3,4,5,6,7,8,9,10,11,12,},
-        {1,3,4,5,6,7,8,9,10,11,12,16,},
-        {1,3,4,5,6,7,8,9,10,11,12,16,},
-        {1,3,4,5,6,7,8,9,10,11,12,16,},
-        {1,3,4,5,6,7,8,9,10,11,12,},
-};
+XSpreadsheet baseGameReels = UnoRuntime.queryInterface(XSpreadsheet.class, 
+sheets.getByName("Base Reels"));
+Simulator.baseGameReels = new int[numberOfColumns][];
+for (int c = 0; c<numberOfColumns; c++) {
+	int length = 0;
+	for (int r = 1; baseGameReels.getCellByPosition(c,r).getType()!=
+	CellContentType.EMPTY; r++) {
+		length++;
+	}
+	Simulator.baseGameReels[c] = new int[length];
+	for (int r = 0; r<length; r++) {
+		Simulator.baseGameReels[c][r] = (int)baseGameReels.
+		getCellByPosition(c,1+r).getValue();
+	}
+}
+
+private static int freeSpinsReels[][] = {};
+
+XSpreadsheet freeSpinsReels = UnoRuntime.queryInterface(XSpreadsheet.class, 
+sheets.getByName("Free Reels"));
+Simulator.freeSpinsReels = new int[numberOfColumns][];
+for (int c = 0; c<numberOfColumns; c++) {
+	int length = 0;
+	for (int r = 1; freeSpinsReels.getCellByPosition(c,r).getType()!=
+	CellContentType.EMPTY; r++) {
+		length++;
+	}
+	Simulator.freeSpinsReels[c] = new int[length];
+	for (int r = 0; r<length; r++) {
+		Simulator.freeSpinsReels[c][r] = (int)freeSpinsReels.
+		getCellByPosition(c,1+r).getValue();
+	}
+}
+\end{lstlisting}
 
 The length of the reels is a subjective decision, and it is important to note that each reel can have a different length. From a programmer's perspective, varying lengths offer greater flexibility but can also lead to software bugs. Different lengths can help mathematicians more easily achieve the desired statistical parameters for the game. 
 
@@ -795,10 +839,10 @@ In real-life production, reel lengths typically range from 10 to 500. For the Bi
 
 \section*{List of Supportive Variables}
 
-In addition to the primary data structures, a list of supporting variables should also be included (Listing 7.7).
+In addition to the primary data structures, a list of supporting variables should also be included (Listing \ref{}).
 
 Listing 7.7 - List of supportive variables
-	private static int singleBet = 1;
+private static int singleBet = 1;
 private static int totalBet = 20;
 private static long wonMoney = 0L;
 private static long lostMoney = 0L;
