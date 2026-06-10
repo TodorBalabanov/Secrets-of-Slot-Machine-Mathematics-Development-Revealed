@@ -839,11 +839,11 @@ In real-life production, reel lengths typically range from 10 to 500. For the Bi
 
 \section*{List of Supportive Variables}
 
-In addition to the primary data structures, a list of supporting variables should also be included (Listing \ref{}).
+In addition to the primary data structures, a list of supporting variables should also be included (Listing \ref{listing015}).
 
-Listing 7.7 - List of supportive variables
-private static int singleBet = 1;
-private static int totalBet = 20;
+\begin{lstlisting}[language=bash, caption={List of supportive variables}, label=listing015]
+private static int singleBet = 0;
+private static int totalBet = 0;
 private static long wonMoney = 0L;
 private static long lostMoney = 0L;
 private static long totalNumberOfGames = 0L;
@@ -859,14 +859,23 @@ private static long freeSpinsMaxWin = 0L;
 private static long bonusGameMaxWin = 0L;
 private static long baseGameHitFrequency = 0L;
 private static long freeSpinsHitFrequency = 0L;
-private static long bonuseGameHitFrequency = 0L;
+private static long bonusGameHitFrequency = 0L;
+private static long bingoLineMoney = 0L;
+private static long bingoFullHouseMoney = 0L;
+private static long bingoLineHitFrequency = 0L;
+private static long bingoFullHouseHitFrequency = 0L;
+private static Set<Integer> wilds = new HashSet<>();
+private static Set<Integer> payingScatters = new HashSet<>();
+private static Set<Integer> freeSpinsTrigerScatters = new HashSet<>();
+private static Set<Integer> bingoLineSymbols = new HashSet<>();
+private static Set<Integer> bingoFullHouseSymbols = new HashSet<>();
+private static int numbersInRow[] = {};
+private static int bingoLineIndex = -1;
+private static int bingoCardIndex = -1;
 private static int freeSpinsAmount = 0;
 private static int freeSpinsMultiplier = 0;
-private static Set<Integer> wilds = Set.of( 1 );
-private static Set<Integer> payingScatters = Set.of( 16 );
-private static Set<Integer> freeSpinsTrigerScatters = Set.of( 15 );
-private static int rewardFreeSpins[] = {0,0,0,3,5,7};
-private static int freeSpinsMultipliers[] = {0,0,0,1,2,3};
+private static long numberOfSimulations = 0L;
+\end{lstlisting}
 
 The single bet is stored in a separate variable and is set to 1 coin. For the Monte Carlo simulations, a denomination of 1 coin is considered safe. In a real game, the single bet can vary. The total bet is calculated by multiplying the single bet by the number of betting lines. 
 
@@ -876,76 +885,46 @@ While maximum achieved wins are not particularly important, they can be helpful 
 
 \section*{List of Supportive Arrays}
 
-Some types of supportive information are better organized in arrays (Listing 7.8) rather than stored in single variables.
+Some types of supportive information are better organized in arrays (Listing \ref{listing016}) rather than stored in single variables.
 
-Listing 7.8 - List of supportive arrays
-	private static int view[][] = {
-        { -1, -1, -1 },
-        { -1, -1, -1 },
-        { -1, -1, -1 },
-        { -1, -1, -1 },
-        { -1, -1, -1 },
-};
-
+\begin{lstlisting}[language=bash, caption={List of supportive arrays}, label=listing016]
+private static int view[][] = {};
 private static int bingoCards[][] = {
-        { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-        { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 0, 0, 0, 0, 0, 0, 0, 0 },
-        { 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 0, 0, 0, 0, 0, 0, 0, 0 },
-        { 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 0, 0, 0, 0, 0, 0, 0, 0 },
-        { 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 0, 0, 0, 0, 0, 0, 0, 0 },
-        { 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 0, 0, 0, 0, 0, 0, 0, 0 },
-        { 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 0, 0, 0, 0, 0, 0, 0, 0 },
-        { 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 0, 0, 0, 0, 0, 0, 0, 0 },
-        { 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 0, 0, 0, 0, 0, 0, 0 },
+	{  1,  2,  3,  4,  5,  6,  7,  8,  9,  0,  0, 0, 0, 0, 0, 0, 0, 0 },
+	{ 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,  0, 0, 0, 0, 0, 0, 0, 0 },
+	{ 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,  0, 0, 0, 0, 0, 0, 0, 0 },
+	{ 30, 31, 32, 33, 34, 35, 36, 37, 38, 39,  0, 0, 0, 0, 0, 0, 0, 0 },
+	{ 40, 41, 42, 43, 44, 45, 46, 47, 48, 49,  0, 0, 0, 0, 0, 0, 0, 0 },
+	{ 50, 51, 52, 53, 54, 55, 56, 57, 58, 59,  0, 0, 0, 0, 0, 0, 0, 0 },
+	{ 60, 61, 62, 63, 64, 65, 66, 67, 68, 69,  0, 0, 0, 0, 0, 0, 0, 0 },
+	{ 70, 71, 72, 73, 74, 75, 76, 77, 78, 79,  0, 0, 0, 0, 0, 0, 0, 0 },
+	{ 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 0, 0, 0, 0, 0, 0, 0 },
 };
-
 private static boolean bingoNumbersOut[][] = {
-        { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
-        { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
-        { false, false, false, false, false, false, false, false, false, false, false, false, false, false,        false, false, false, false},
-        { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
-        { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
-        { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
-        { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,        false},
-        { false, false, false, false, false, false, false, false, false, false, false, false, false, false,        false, false, false, false },
-        { false, false, false, false, false, false, false, false, false, false, false,        false, false, false, false, false, false, false },
+	{ false, false, false, false, false, false, false, false, false, false, 
+	false, false, false, false, false, false, false, false},
+	{ false, false, false, false, false, false, false, false, false, false, 
+	false, false, false, false, false, false, false, false},
+	{ false, false, false, false, false, false, false, false, false, false, 
+	false, false, false, false, false, false, false, false},
+	{ false, false, false, false, false, false, false, false, false, false, 
+	false, false, false, false, false, false, false, false},
+	{ false, false, false, false, false, false, false, false, false, false, 
+	false, false, false, false, false, false, false, false},
+	{ false, false, false, false, false, false, false, false, false, false, 
+	false, false, false, false, false, false, false, false},
+	{ false, false, false, false, false, false, false, false, false, false, 
+	false, false, false, false, false, false, false, false},
+	{ false, false, false, false, false, false, false, false, false, false, 
+	false, false, false, false, false, false, false, false },
+	{ false, false, false, false, false, false, false, false, false, false, 
+	false, false, false, false, false, false, false, false },
 };
-
-private static long baseGameSymbolsMoney[][] = {
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-};
-
-private static long baseGameSymbolsHitFrequency[][] = {
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-};
-
-private static long freeSpinsSymbolsMoney[][] = {
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-};
-
-private static long freeSpinsSymbolsHitFrequency[][] = {
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-};
+private static long baseGameSymbolsMoney[][] = {};
+private static long baseGameSymbolsHitFrequency[][] = {};
+private static long freeSpinsSymbolsMoney[][] = {};
+private static long freeSpinsSymbolsHitFrequency[][] = {};
+\end{lstlisting}
 
 Each generated screen in the base game or during free spins is temporarily stored in a 3x5 array. We maintain a record of wins for each winning combination in two-dimensional arrays that match the size of the paytable. The same approach is used to track the hit frequency for each winning combination. Bingo bonus cards are also represented as a temporary array.
 
@@ -955,31 +934,31 @@ Once the common data structures have been established, it is time to implement s
 
 \section*{Bingo Bonus Cards}
 
-By having the discrete distribution of bingo cards, a random number is enough to be generated, and values for the line and bing can be calculated (Listing 8.1). 
+By having the discrete distribution of bingo cards, a random number is enough to be generated, and values for the line and bing can be calculated (Listing \ref{listing017}). 
 
-Listing 8.1 - Bingo bonus cards
+\begin{lstlisting}[language=bash, caption={Bingo bonus cards}, label=listing017]
+\end{lstlisting}
 
 The values inside the bingo cards are randomly generated. At each bonus game restart event the bingo bonus game starts with fresh bingo cards and complete new bingo game.
 
 \section*{Spin of Virtual Reels}
 
-The spinning reels are the most significant random event in traditional slot games (Listing 8.2).
+The spinning reels are the most significant random event in traditional slot games (Listing \ref{listing018}).
 
-Listing 8.2 - Reels spin
-\begin{lstlisting}
+\begin{lstlisting}[language=bash, caption={Reels spin}, label=listing018]
 private static void spin(int reels[][]) {
-        for (int i = 0, up, middle, down; i < reels.length; i++) {
-                up = PRNG.nextInt( reels[i].length );
-                middle = up + 1;
-                down = up + 2;
+	for (int i = 0, up, middle, down; i < reels.length; i++) {
+		up = PRNG.nextInt( reels[i].length );
+		middle = up + 1;
+		down = up + 2;
 
-                middle = middle % reels[i].length;
-                down = down % reels[i].length;
+		middle = middle % reels[i].length;
+		down = down % reels[i].length;
 
-                view[i][0] = reels[i][up];
-                view[i][1] = reels[i][middle];
-                view[i][2] = reels[i][down];
-        }
+		view[i][0] = reels[i][up];
+		view[i][1] = reels[i][middle];
+		view[i][2] = reels[i][down];
+	}
 }
 \end{lstlisting}
 
@@ -987,231 +966,163 @@ There are five reels, but only three rows are visible at a time. The function is
 
 \section*{Scatter Win Calculation}
 
-When the game screen is filled with symbols, it is time to calculate the wins. The most straightforward calculation is the scatter win (Listing 8.3).
+When the game screen is filled with symbols, it is time to calculate the wins. The most straightforward calculation is the scatter win (Listing \ref{listing019}).
 
-Listing 8.3 - Scatters win calculation
-\begin{lstlisting}
-private static int scatterWin(int scatter) {
-        int numberOfScatters = 0;
-        for (int i = 0; i < view.length; i++) {
-                for (int j = 0; j < view[i].length; j++) {
-                        if (view[i][j] == scatter) {
-                                numberOfScatters++;
-                        }
-                }
-        }
+\begin{lstlisting}[language=bash, caption={Scatters win calculation}, label=listing019]
+private static int scatterWin(int scatter, int multiplier) {
+	int numberOfScatters = 0;
+	for (int i = 0; i < view.length; i++) {
+		for (int j = 0; j < view[i].length; j++) {
+			if (view[i][j] == scatter) {
+				numberOfScatters++;
+			}
+		}
+	}
 
-        int win = paytable[numberOfScatters][scatter];
+	int win = paytable[scatter][numberOfScatters] * multiplier;
 
-        if (win > 0 && freeSpinsAmount == 0) {
-                baseGameSymbolsMoney[numberOfScatters][scatter] += win;
-                baseGameSymbolsHitFrequency[numberOfScatters][scatter]++;
-        } else if (win > 0 && freeSpinsAmount > 0) {
-                freeSpinsSymbolsMoney[numberOfScatters][scatter] += win;
-                freeSpinsSymbolsHitFrequency[numberOfScatters][scatter]++;
-        }
+	if (win > 0 && freeSpinsAmount == 0) {
+		baseGameSymbolsMoney[scatter][numberOfScatters] += win;
+		baseGameSymbolsHitFrequency[scatter][numberOfScatters]++;
+	} else if (win > 0 && freeSpinsAmount > 0) {
+		freeSpinsSymbolsMoney[scatter][numberOfScatters] += win;
+		freeSpinsSymbolsHitFrequency[scatter][numberOfScatters]++;
+	}
 
-        return win;
+	return win;
 }
 \end{lstlisting}
 
 The scatter symbol is located at index 16 in the paytable. The scatter symbol at index 15 is specifically used to activate free spins. There is a separate supportive array that contains the identifiers for the scatters. After counting the number of scatters displayed on the screen, it is easy to look up the corresponding prize amount. Keeping track of scatter wins and their frequency can be valuable during the game balance phase. 
 
-Listing 8.4 - Free spins number and multiplier calculation
-	private static int[] rewardFreeSpins(int scatter) {
-        int result[] = {0,0};
+\begin{lstlisting}[language=bash, caption={Free spins number and multiplier calculation}, label=listing020]
+private static int[] rewardFreeSpins(int scatter) {
+	int result[] = {0,0};
 
-        int numberOfScatters = 0;
-        for (int i = 0; i < view.length; i++) {
-                for (int j = 0; j < view[i].length; j++) {
-                        if (view[i][j] == scatter) {
-                                numberOfScatters++;
-                        }
-                }
-        }
+	int numberOfScatters = 0;
+	for (int i = 0; i < view.length; i++) {
+		for (int j = 0; j < view[i].length; j++) {
+			if (view[i][j] == scatter) {
+				numberOfScatters++;
+			}
+		}
+	}
 
-        result[0] = rewardFreeSpins[numberOfScatters];
-        result[1] = freeSpinsMultipliers[numberOfScatters];
-        
-        return result;
+	result[0] = rewardFreeSpins[numberOfScatters];
+	result[1] = freeSpinsMultipliers[numberOfScatters];
+
+	return result;
 }
+\end{lstlisting}
 
-The Treasure symbol is used to trigger the free spins mode, but it does not award a prize as indicated in the paytable. The number of free spins and the multiplier during the free spins mode are calculated in the same way as for the paying scatter (see Listing 8.4). The only difference lies in the index of the symbol in the paytable. Analyzing the statistics of scatter wins and their frequency can be valuable during the game balance phase.
+The Treasure symbol is used to trigger the free spins mode, but it does not award a prize as indicated in the paytable. The number of free spins and the multiplier during the free spins mode are calculated in the same way as for the paying scatter (Listing \ref{listing020}). The only difference lies in the index of the symbol in the paytable. Analyzing the statistics of scatter wins and their frequency can be valuable during the game balance phase.
 
 \section*{Single Line Win Calculation}
 
 The main prizes in the game are awarded for lucky combinations formed on nine predefined lines. Each combination is created from left to right, and the Wild symbol can substitute for all other symbols except for scatters.
 
-While the Wild symbol does not directly award a prize, there are games where it can contribute to a payout, especially when it is part of a group of high-paying symbols. Therefore, it is important to separately check for any prizes associated with the Wild symbol (Listing 8.5).
+While the Wild symbol does not directly award a prize, there are games where it can contribute to a payout, especially when it is part of a group of high-paying symbols. Therefore, it is important to separately check for any prizes associated with the Wild symbol (Listing \ref{listing021}).
 
-Listing 8.5 - Wild combination win calculation
-	private static int[] wildLineWin(int line[], int wild) {
-        if (line[0] != wild) {
-                return new int[] {0,-1,0};
-        }
+\begin{lstlisting}[language=bash, caption={Wild combination win calculation}, label=listing021]
+private static int[] wildLineWin(int line[], int wild, int multiplier) {
+	if( wilds.contains(line[0]) == false) {
+		return new int[] {0,-1,0};
+	}
 
-        int number = 0;
-        for (int i = 0; i < line.length; i++) {
-                if (line[i] != wild) {
-                        break;
-                }
-                number++;
-        }
+	int number = 0;
+	for (int i = 0; i < line.length; i++) {
+		if (line[i] != wild) {
+			break;
+		}
+		number++;
+	}
 
-        int result[] = {0,0,0};
-        result[0] = paytable[number][wild];
-        result[1] = wild;
-        result[2] = number;
-        return result;
+	int result[] = {0,0,0};
+	result[0] = paytable[number][wild] * multiplier;
+	result[1] = wild;
+	result[2] = number;
+	return result;
 }
+\end{lstlisting}
 
 The line is represented as a one-dimensional array, which is passed as an input parameter. The function returns an array of values that includes the index of the symbol that formed the winning combination and the count of its occurrences. During free spins, a multiplier may be applied, but this is managed outside of this function. The win value is determined by counting the consecutive Wilds and referencing the paytable.
 
-Another unusual feature in the game is the possibility of winning in different formations by varying amounts of sevens. This rule has similarities to the wild symbol (Listing 8.7) but is related only to the sevens. It has the same problem as with the wild, which wins are more significant - the win of equal sevens or the win with mixed sevens. 
+\begin{lstlisting}[language=bash, caption={Regular line win calculation}, label=listing022]
+private static int[] lineWin(int line[], int multiplier) {
+	if( wilds.contains(line[0]) == true) {
+		return new int[] {0,-1,0};
+	}
 
-Listing 8.7 - Mixed sevens win calculation
-\begin{lstlisting}
-int differentSevensLineWin(int &number, int &symbol, int line[5], int multiplier) {
-        if (line[0] != 3 && line[0] != 4 && line[0] != 5) {
-                symbol = -1;
-                return 0;
-        }
+	int symbol = line[0];
+	for (int i = 0; i < line.length; i++) {
+		if (wilds.contains(line[i])) {
+			line[i] = symbol;
+		} else {
+			break;
+		}
+	}
 
-        number = 0;
-        bool different = false;
-        for (int i = 0; i < 5; i++) {
-                if (line[i] != 3 && line[i] != 4 && line[i] != 5) {
-                        break;
-                }
+	int number = 0;
+	for (int i = 0; i < line.length; i++) {
+		if (line[i] == symbol) {
+			number++;
+		} else {
+			break;
+		}
+	}
 
-                if (line[i] != line[0]) {
-                        different = true;
-                }
+	int result[] = {0, -1, 0};
+	result[0] = paytable[symbol][number] * multiplier;
+	result[1] = symbol;
+	result[2] = number;
 
-                number++;
-        }
-
-        if (different == false) {
-                symbol = -1;
-                return 0;
-        }
-
-        symbol = 6;
-        return paytable[number][6];
+	return result;
 }
 \end{lstlisting}
 
-The function works only for lines with mixed sevens. If it is not the case, the function returns zero, and no symbol is appointed. For statistical collection needs, the symbol that forms the prize should be changed when the prize comes from mixed sevens, because mixed sevens have no direct representation as a separate game symbol. 
-
-Listing 8.8 - Regular line win calculation
-\begin{lstlisting}
-int lineWin(int &number, int &symbol, int line[5], int multiplier) {
-        int number1 = 0;
-        int number2 = 0;
-        int symbol1 = -1;
-        int symbol2 = -1;
-        int win1 = differentSevensLineWin(number1, symbol1, line, multiplier);
-        int win2 = wildLineWin(number2, symbol2, line, multiplier);
-
-        int symbol3 = line[0];
-        for (int i = 0; i < 5; i++) {
-                if (line[i] != 2) {
-                        symbol3 = line[i];
-                        break;
-                }
-        }
-
-        for (int i = 0; i < 5; i++) {
-                if (line[i] == 2) {
-                        line[i] = symbol3;
-                } else {
-                        break;
-                }
-        }
-
-        int number3 = 0;
-        for (int i = 0; i < 5; i++) {
-                if (line[i] == symbol3) {
-                        number3++;
-                } else {
-                        break;
-                }
-        }
-
-        int win3 = paytable[number3][symbol3] * multiplier;
-
-        if (win1 > win2) {
-                if (win1 > win3) {
-                        number = number1;
-                        symbol = symbol1;
-                        return win1;
-                } else {
-                        number = number3;
-                        symbol = symbol3;
-                        return win3;
-                }
-        } else if (win1 < win2) {
-                if (win2 > win3) {
-                        number = number2;
-                        symbol = symbol2;
-                        return win2;
-                } else {
-                        number = number3;
-                        symbol = symbol3;
-                        return win3;
-                }
-        } else {
-                if (win1 > win3 && win2 > win3) {
-                        number = number1;
-                        symbol = symbol1;
-                        return win1;
-                } else {
-                        number = number3;
-                        symbol = symbol3;
-                        return win3;
-                }
-        }
-
-        number = 0;
-        symbol = -1;
-        return 0;
-}
-\end{lstlisting}
-
-Most of the time, prizes in the game will be given by regular lines. For a particular win, the number of consecutive symbols should be counted. The presence of the wild symbol should also be observed. The number of successive symbols is enough to look up in the paytable and get the prize value (Listing 6.8). In free spins, the win multiplier is also taken into account. The final result of the line win is determined by the highest winning combination. The winning symbol and number of consecutive occurrences are returned as an output reference parameter for statistics collection. 
+Most of the time, prizes in the game will be given by regular lines. For a particular win, the number of consecutive symbols should be counted. The presence of the wild symbol should also be observed. The number of successive symbols is enough to look up in the paytable and get the prize value (Listing \ref{listing022}). In free spins, the win multiplier is also taken into account. The final result of the line win is determined by the highest winning combination. The winning symbol and number of consecutive occurrences are returned as an output reference parameter for statistics collection. 
 
 \section*{Lines Wins Calculation}
 
-In most games, Monte Carlo simulation can be done only for a single betting line (mainly the central one). The simulation will be conducted for all 20 lines in this book to enhance confidence in handling scatter wins and free spins (Listing 8.9). 
+In most games, Monte Carlo simulation can be done only for a single betting line (mainly the central one). The simulation will be conducted for all 9 lines in this book to enhance confidence in handling scatter wins and free spins (Listing \ref{listing023}). 
 
-Listing 8.9 - All lines wins calculation
-\begin{lstlisting}
-int linesWin(int multiplier) {
-        int win = 0;
+\begin{lstlisting}[language=bash, caption={All lines wins calculation}, label=listing023]
+private static int linesWin() {
+	int currentWin = 0;
 
-        for (int l = 0; l < 20; l++) {
-                int line[5] = { -1, -1, -1, -1, -1 };
-                for (int i = 0; i < 5; i++) {
-                        int index = lines[l][i];
-                        line[i] = view[i][index];
-                }
+	for (int l = 0; l < lines.length; l++) {
+		int line[] = new int[view.length];
+		for (int c = 0; c < view.length; c++) {
+			line[c] = view[c][ lines[l][c] ];
+		}
 
-                int number = 0;
-                int symbol = -1;
-                int result = lineWin(number, symbol, line, multiplier);
+		int result[] = {0, -1, 0};
+		/* Get bigger win. */ {
+			int result1[] = lineWin(line.clone(), 
+			(freeSpinsAmount > 0 ? freeSpinsMultiplier : 1) );
+			int result2[] = wildLineWin(line.clone(), line[0], 
+			(freeSpinsAmount > 0 ? freeSpinsMultiplier : 1) );
+			result = (result1[0] > result2[0]) ? result1 : result2;
+		}
 
-                if (result > 0 && freeSpinsAmount == 0) {
-                        baseGameSymbolsMoney[number][symbol] += result;
-                        baseGameSymbolsHitFrequency[number][symbol]++;
-                } else if (win > 0 && freeSpinsAmount > 0) {
-                        freeSpinsSymbolsMoney[number][symbol] += result;
-                        freeSpinsSymbolsHitFrequency[number][symbol]++;
-                }
+		int win = result[0];
+		int symbol = result[1];
+		int number = result[2];
 
-                win += result;
-        }
+		if (win > 0) {
+			currentWin += win;
 
-        return (win);
+			if (freeSpinsAmount == 0) {
+				baseGameSymbolsMoney[symbol][number] += win;
+				baseGameSymbolsHitFrequency[symbol][number]++;
+			} else {
+				freeSpinsSymbolsMoney[symbol][number] += win;
+				freeSpinsSymbolsHitFrequency[symbol][number]++;
+			}
+		}
+	}
+
+	return currentWin;
 }
 \end{lstlisting}
 
@@ -1219,106 +1130,164 @@ Each betting line is extracted as a separate single-dimension array. The informa
 
 \section*{Single Reels Run}
 
-The main gameplay involves rotating the reels. Rotation commonly happens in the base game, but spins are also run when free spins are awarded. For the free spins, a setup procedure is required to clarify the number of spins and the multiplier to be used (Listing 6.10).
+The main gameplay involves rotating the reels. Rotation commonly happens in the base game, but spins are also run when free spins are awarded. For the free spins, a setup procedure is required to clarify the number of spins and the multiplier to be used (Listing \ref{listing024}).
 
-Listing 8.10 - Setting up free spins parameters
-\begin{lstlisting}
-void freeSpinsSetup() {
-        int numberOfScatters = 0;
-        for (int i = 0; i < 5; i++) {
-                for (int j = 0; j < 3; j++) {
-                        if (view[i][j] == 1) {
-                                numberOfScatters++;
-                        }
-                }
-        }
+\begin{lstlisting}[language=bash, caption={Setting up free spins parameters}, label=listing024]
+private static void setupFreeSpins() {
+	boolean isInitialStart = (freeSpinsAmount <= 0);
 
-        if (numberOfScatters == 3 && freeSpinsAmount == 0) {
-                freeSpins(freeSpinsAmount, freeSpinsMultiplier);
-                freeSpinsRestartAmount = freeSpinsAmount;
-                totalNumberOfFreeSpinsStarts++;
-        } else if (numberOfScatters == 3 && freeSpinsAmount > 0) {
-                freeSpinsAmount += freeSpinsRestartAmount;
-                totalNumberOfFreeSpinsRestarts++;
-        }
+	if (freeSpinsAmount <= 0) {
+		freeSpinsAmount = 0;
+		freeSpinsMultiplier = 0;
+	}
+
+	for(int scatter: freeSpinsTrigerScatters) {
+		int parameters[] = rewardFreeSpins(scatter);
+
+		if(parameters[0] <= 0) {
+			continue;
+		}
+
+		if(isInitialStart == true) {
+			totalNumberOfFreeSpinsStarts++;
+		} else {
+			totalNumberOfFreeSpinsRestarts++;
+		}
+
+		freeSpinsAmount += parameters[0];
+		freeSpinsMultiplier = Math.max(freeSpinsMultiplier, 
+		parameters[1]);
+	}
 }
 \end{lstlisting}
 
-To run the free spins, the condition is that at least 3 free spin scatters appear on the screen. If it is in the base game, the number of free spins and multiplier value are taken from the wheel distribution. When free spins are awarded during free spins, the multiplier is kept the same, and the newly awarded number of free spins is the same amount as the initial one. Statistics of free spins starts and restarts are also collected. 
+To run the free spins, the condition is that at least 3 free spin scatters appear on the screen. If it is in the base game, the number of free spins and multiplier value are taken from the array distributions. When free spins are awarded during free spins, the multiplier is kept the same, and the newly awarded number of free spins is the same amount as the pointed in the array. Statistics of free spins starts and restarts are also collected. 
 
-Listing 8.11 - Single free spin
-\begin{lstlisting}
-void singleFreeSpin() {
-        spin(freeSpinsReels, 113);
+\begin{lstlisting}[language=bash, caption={Single free spin}, label=listing025]
+private static void singleFreeSpin() {
+	spin(freeSpinsReels);
 
-        int win = linesWin(freeSpinsMultiplier) + scatterWin() + freeSpinsWin();
+	int win2 = 0;
+	for(int scatter : payingScatters) {
+		win2 += scatterWin(scatter, freeSpinsMultiplier);
+	}
+	if(win2 > 0) {
+		freeSpinsMoney += win2;
+	}
 
-        wonMoney += win;
-        freeSpinsMoney += win;
+	int win1 = linesWin();
+	if(win1 > 0) {
+		freeSpinsMoney += win1;
+	}
 
-        if (win > 0) {
-                freeSpinsHitFrequency++;
-        }
+	int totalWin = win1 + win2;
 
-        if (freeSpinsMaxWin < win) {
-                freeSpinsMaxWin = win;
-        }
+	if(totalWin > 0) {
+		freeSpinsHitFrequency++;
+	}
 
-        freeSpinsSetup();
+	if(totalWin > freeSpinsMaxWin) {
+		freeSpinsMaxWin = totalWin;
+	}
+
+	wonMoney += totalWin;
+	totalNumberOfFreeSpins++;
 }
 \end{lstlisting}
 
-A single free spin starts with a rotation of the free spins reels (Listing 8.11). Prizes can be awarded from three different sources, and they are calculated. Statistics of total won money and money won in free spins are gathered. Hit frequency is updated, and if needed, the maximum win is also updated. 
+A single free spin starts with a rotation of the free spins reels (Listing \ref{listing025}). Prizes can be awarded from two different sources, and they are calculated. Statistics of total won money and money won in free spins are gathered. Hit frequency is updated, and if needed, the maximum win is also updated.
 
-Listing 8.12 - Single base game
-\begin{lstlisting}
-void singleBaseGame() {
-        spin(baseGameReels, 113);
+\begin{lstlisting}[language=bash, caption={Single base game}, label=listing026]
+private static void singleBaseGame() {
+	spin(baseGameReels);
 
-        int win = linesWin(1) + scatterWin() + freeSpinsWin();
+	setupFreeSpins();
 
-        wonMoney += win;
-        baseGameMoney += win;
+	markBallOut();
 
-        if (win > 0) {
-                baseGameHitFrequency++;
-        }
+	int win3 = 0;
+	if (checkForBingoLine() == true) {
+		win3 = paytable[bingoLineSymbols.iterator().next()][1];
+		bonusGameMoney += win3;
+		bingoLineMoney += win3;
+		bingoLineHitFrequency++;
+		if(bonusGameMaxWin < win3) {
+			bonusGameMaxWin = win3;
+		}
+	}
 
-        if (baseGameMaxWin < win) {
-                baseGameMaxWin = win;
-        }
+	int win4 = 0;
+	if (checkForFullHouse() == true) {
+		win4 = paytable[bingoFullHouseSymbols.iterator().next()][1];
+		bonusGameMoney += win4;
+		bingoFullHouseMoney += win4;
+		bingoFullHouseHitFrequency++;
 
-        freeSpinsAmount = 0;
-        freeSpinsMultiplier = 1;
-        freeSpinsRestartAmount = 0;
-        freeSpinsSetup();
+		if(bonusGameMaxWin < win4) {
+			bonusGameMaxWin = win4;
+		}
 
-        while (freeSpinsAmount > 0) {
-                totalNumberOfFreeSpins++;
-                singleFreeSpin();
-                freeSpinsAmount--;
-        }
+		generateRandomBingoCard();
+	}
+
+	if(win3+win4 > 0) {
+		bonusGameHitFrequency++;
+	}
+
+	int win2 = 0;
+	for(int scatter : payingScatters) {
+		win2 += scatterWin(scatter, 1);
+	}
+	if(win2 > 0) {
+		baseGameMoney += win2;
+	}
+
+	int win1 = linesWin();
+	if(win1 > 0) {
+		baseGameMoney += win1;
+	}
+
+	int totalWin = win1 + win2 + win3 + win4;
+
+	if(totalWin > 0) {
+		baseGameHitFrequency++;
+	}
+
+	if(totalWin > baseGameMaxWin) {
+		baseGameMaxWin = totalWin;
+	}
+
+	wonMoney += totalWin;
+	totalNumberOfGames++;
 }
 \end{lstlisting}
 
-The base game goes similarly to free spins (Listing 8.12). First, the reels are rotated. Second, the calculation of the win from the three components is handled. Third, statistics for total won money, money won in the base game, hit frequency, and maximum win statistics are collected. If there were free spins, set up for the free spins, and execution of all free spins is performed. 
+The base game goes similarly to free spins (Listing \ref{listing026}). First, the reels are rotated. Second, the calculation of the win from the four components is handled. Third, statistics for total won money, money won in the base game, hit frequency, and maximum win statistics are collected. If there were free spins, set up for the free spins, and execution of all free spins is performed. 
 
-Listing 8.13 - Monte Carlo simulation run
-\begin{lstlisting}
-void monteCarloSimulation() {
-        for (long g = 0L; g < 100000000L; g++) {
-                totalNumberOfGames++;
-                lostMoney += totalBet;
-                singleBaseGame();
+\begin{lstlisting}[language=bash, caption={Monte Carlo simulation run}, label=listing027]
+public static void simulate(XScriptContext ctx) {
+	readDataStructures(ctx);
+	resetStatistics();
 
-                if (totalNumberOfGames % 10000 == 0) {
-                        cerr << (double) wonMoney / (double) lostMoney << endl;
-                }
-        }
+	for(int g=0; g<numberOfSimulations; g++) {
+		long beforePlay = wonMoney;
+		lostMoney += totalBet;
+		singleBaseGame();
+		while(freeSpinsAmount > 0) {
+			singleFreeSpin();
+			freeSpinsAmount--;
+		}
+		long roundWin = wonMoney - beforePlay;
+		if(maxWin < roundWin) {
+			maxWin = roundWin;
+		}
+	}
+
+	reportStatistics(ctx);
 }
 \end{lstlisting}
 
-The Monte Carlo simulation involves a large number of game plays (Listing 8.13). Empirically, it is well known in the industry that 100 million runs are reasonable for statistics collection. In a highly volatile game, this number can be increased. For each base game run, the total amount of lost money is increased by the size of the total bet, and the counter of played games has risen. For estimating the game volatility, at each 10,000 games, the RTP is written into the standard error stream. The standard error stream easily separates the general statistics from the runtime statistics. 
+The Monte Carlo simulation involves a large number of game plays (Listing \ref{listing027}). Empirically, it is well known in the industry that 100 million runs are reasonable for statistics collection. In a highly volatile game, this number can be increased. For each base game run, the total amount of lost money is increased by the size of the total bet, and the counter of played games has risen. For estimating the game volatility, at each 10 thousand games, the RTP is written into the sheet.
 
 \chapter{?? - Simulation Results Reporting}
 
