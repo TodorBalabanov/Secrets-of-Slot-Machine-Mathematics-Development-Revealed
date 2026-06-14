@@ -4,7 +4,7 @@ The repository collects supporting materials for the book "Secrets of Slot Machi
 
 ## Building the Plugin
 
-clear && gradlew clean build deploy
+clear && gradle clean build deploy
 
 ## Formatting the Source Code
 

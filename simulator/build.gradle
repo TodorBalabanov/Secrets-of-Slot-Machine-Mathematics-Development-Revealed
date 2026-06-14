@@ -11,6 +11,15 @@ version = '1.0.0'
 def detectLibreOfficeClassesDir() {
     def candidates = []
 
+    // 1. Check for the environment variable first
+    def loHome = System.getenv('LIBREOFFICE_HOME')
+    if (loHome) {
+        candidates << "${loHome}\\program\\classes"
+        candidates << "${loHome}/program/classes"
+        candidates << loHome // Fallback if the user points directly to the classes dir
+    }
+
+    // 2. Add standard OS default paths
     if (System.properties['os.name'].toLowerCase().contains('win')) {
         candidates << "${System.getenv('ProgramFiles')}\\LibreOffice\\program\\classes"
         candidates << "${System.getenv('ProgramFiles(x86)')}\\LibreOffice\\program\\classes"
@@ -22,13 +31,16 @@ def detectLibreOfficeClassesDir() {
         candidates << "/usr/share/libreoffice/program/classes"
     }
 
-    return candidates.find { new File(it, "libreoffice.jar").exists() }
+    // 3. Look for EITHER the aggregated jar OR one of the core split jars (e.g., juh.jar)
+    return candidates.find { dir ->
+        new File(dir, "libreoffice.jar").exists() || new File(dir, "juh.jar").exists()
+    }
 }
 
 def libreOfficeClassesDir = detectLibreOfficeClassesDir()
 
 if (libreOfficeClassesDir == null) {
-    throw new GradleException("Could not find libreoffice.jar — please install LibreOffice or set LIBREOFFICE_HOME.")
+    throw new GradleException("Could not find LibreOffice JARs. Please install LibreOffice or set the LIBREOFFICE_HOME environment variable to your installation directory.")
 }
 
 repositories {
@@ -38,7 +50,9 @@ repositories {
 }
 
 dependencies {
-    implementation name: 'libreoffice'
+    // Dynamically include all JARs found in the LibreOffice classes directory.
+    // This safely handles both the single 'libreoffice.jar' and the split 'juh.jar', 'jurt.jar', etc.
+    implementation fileTree(dir: libreOfficeClassesDir, include: ['*.jar'])
 }
 
 java {
@@ -58,12 +72,22 @@ jar {
 
 tasks.register('deploy', Copy) {
     dependsOn jar
-    from("${buildDir}/libs/${jar.archiveFileName.get()}")
+    
+    // Uses lazy archive property instead of the deprecated buildDir
+    from jar.archiveFile
     from("parcel-descriptor.xml")
 
-    def loUserScripts = System.getProperty('os.name').toLowerCase().contains('win') ?
-        "${System.getenv('APPDATA')}\\LibreOffice\\4\\user\\Scripts\\java\\Bingo-Tropical-Hot-Simulator" :
-        "${System.getProperty('user.home')}/.config/libreoffice/4/user/Scripts/java/Bingo-Tropical-Hot-Simulator"
+    // Properly handles deployment paths across all major OSes, including macOS
+    def loUserScripts
+    def osName = System.getProperty('os.name').toLowerCase()
+    
+    if (osName.contains('win')) {
+        loUserScripts = "${System.getenv('APPDATA')}\\LibreOffice\\4\\user\\Scripts\\java\\Bingo-Tropical-Hot-Simulator"
+    } else if (osName.contains('mac')) {
+        loUserScripts = "${System.getProperty('user.home')}/Library/Application Support/LibreOffice/4/user/Scripts/java/Bingo-Tropical-Hot-Simulator"
+    } else {
+        loUserScripts = "${System.getProperty('user.home')}/.config/libreoffice/4/user/Scripts/java/Bingo-Tropical-Hot-Simulator"
+    }
 
     into(loUserScripts)
 }
