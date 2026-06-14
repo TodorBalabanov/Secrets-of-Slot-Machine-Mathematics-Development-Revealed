@@ -317,32 +317,6 @@ public class Simulator {
 		return wasItChanged;
 	}
 
-	/**
-	 * Reset bingo cards for a new game.
-	 */
-	private static void resetBingoCards() {
-		final int NUMBER_OF_SHAKES = 10 + PRNG.nextInt(11);
-
-		int shakes = 0;
-		boolean goOn = false;
-		do {
-			if (shakes <= 0) {
-				shuffleBingoCards();
-				shakes = NUMBER_OF_SHAKES;
-			}
-
-			goOn = fixRows();
-			goOn = fixThreeRows() || goOn;
-			shakes--;
-		} while (goOn == true);
-
-		for (int i = 0; i < bingoNumbersOut.length; i++) {
-			for (int j = 0; j < bingoNumbersOut[i].length; j++) {
-				bingoNumbersOut[i][j] = false;
-			}
-		}
-	}
-
 	/** Index of the bingo line in the bingo card. */
 	private static int bingoLineIndex = -1;
 
@@ -353,7 +327,7 @@ public class Simulator {
 	 * Generate random bingo card with 6 talons in it. Also mark the card as empty.
 	 */
 	private static void generateRandomBingoCard() {
-		final int NUMBER_OF_SHAKES = 30;
+		final int NUMBER_OF_SHAKES = 20 + PRNG.nextInt(11);
 
 		int shakes = 0;
 		boolean goOn = false;
@@ -530,16 +504,17 @@ public class Simulator {
 	private static int linesWin() {
 		int currentWin = 0;
 
+		int line1[] = new int[view.length];
+		int line2[] = new int[view.length];
 		for (int l = 0; l < lines.length; l++) {
-			int line[] = new int[view.length];
 			for (int c = 0; c < view.length; c++) {
-				line[c] = view[c][ lines[l][c] ];
+				line1[c] = line2[c] = view[c][ lines[l][c] ];
 			}
 
 			int result[] = {0, -1, 0};
 			/* Get bigger win. */ {
-				int result1[] = lineWin(line.clone(), (freeSpinsAmount > 0 ? freeSpinsMultiplier : 1) );
-				int result2[] = wildLineWin(line.clone(), line[0], (freeSpinsAmount > 0 ? freeSpinsMultiplier : 1) );
+				int result1[] = lineWin(line1, (freeSpinsAmount > 0 ? freeSpinsMultiplier : 1) );
+				int result2[] = wildLineWin(line2, line2[0], (freeSpinsAmount > 0 ? freeSpinsMultiplier : 1) );
 				result = (result1[0] > result2[0]) ? result1 : result2;
 			}
 

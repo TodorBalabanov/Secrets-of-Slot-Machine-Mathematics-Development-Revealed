@@ -643,7 +643,7 @@ Access the newly created plugin from the Tools -> Macros -> Run Macro... menu (F
 
 Software development consists of two main components - data structures and algorithms. These elements are closely interconnected - good data modeling results in efficient and high-performing algorithms. In many software development processes, data structure modeling is completed before implementing algorithms (Listing \ref{listing009}). This same approach will be followed in this writing.
 
-\begin{lstlisting}[language=bash, caption={Macro single entry point}, label=listing009]
+\begin{lstlisting}[language=Java, caption={Macro single entry point}, label=listing009]
 package eu.veldsoft.bths;
 
 import com.sun.star.script.provider.XScriptContext;
@@ -656,7 +656,7 @@ public class Simulator {
 
 To ensure that the development tools are set up correctly and that the building process is accurate, a good approach is to write simple source code in the style of a "Hello World" program. The easiest way to start is by entering some text into cell A1 (Listing \ref{listing010}).
 
-\begin{lstlisting}[language=bash, caption={Writing text in a cell}, label=listing010]
+\begin{lstlisting}[language=Java, caption={Writing text in a cell}, label=listing010]
 package eu.veldsoft.bths;
 
 import com.sun.star.script.provider.XScriptContext;
@@ -694,7 +694,7 @@ In the case of the Java plugin, it accesses the active document via the XModel o
 
 As previously mentioned, modern computerized gambling games depend significantly on a reliable source of entropy. There are several options available, but when it comes to the Java programming language, the two primary choices are the Random class and the SecureRandom class. The SecureRandom class has the advantage of providing cryptographically secure numbers, but it comes at a cost of its performance, which is generally slower compared to the Random class (Listing \ref{listing011}).
 
-\begin{lstlisting}[language=bash, caption={RNG class import}, label=listing011]
+\begin{lstlisting}[language=Java, caption={RNG class import}, label=listing011]
 package eu.veldsoft.bths;
 
 import java.security.SecureRandom;
@@ -733,7 +733,7 @@ The instance of the RNG is private, as it will only be used within the simulatio
 
 The game paytable is a fundamental element in each slot machine. It shows the payout for each winning combination. Most of the case wins are calculated from left to right. When reels are five, usually wins are formed by 3, 4, or 5 consecutive symbols. The Bingo Tropical Hot paytable can be represented as a two-dimensional array (Listing \ref{listing012}). The first dimension gives the number of consequent symbols. In contrast, the second shows the index of a particular symbol. Each cell in the array provides the prize amount. 
 
-\begin{lstlisting}[language=bash, caption={Paytable array model}, label=listing012]
+\begin{lstlisting}[language=Java, caption={Paytable array model}, label=listing012]
 private static int paytable[][] = {};
 
 XSpreadsheet paytable = UnoRuntime.queryInterface(XSpreadsheet.class, 
@@ -771,7 +771,7 @@ All values for the game’s discrete model will be loaded from the PAR sheet doc
 
 The game features 9 paylines, with the possibility of winning combinations of x2, x3, x4, or x5 on each line. To present the paylines efficiently, a data structure will be utilized. Specifically, a two-dimensional array will be employed for this purpose (Listing \ref{listing013}), though other data structures may also be suitable. In this book, simplicity is a primary objective. The paylines are visually represented like images (Figure \ref{image028}).
 
-\begin{lstlisting}[language=bash, caption={Pay lines array model}, label=listing013]
+\begin{lstlisting}[language=Java, caption={Pay lines array model}, label=listing013]
 private static int lines[][] = {};
 
 XSpreadsheet lines = UnoRuntime.queryInterface(XSpreadsheet.class, 
@@ -793,7 +793,7 @@ Virtual game reels are a fundamental component of slot machine gambling games. R
 
 Only the most basic slot games do not offer free spins. Free spins are awarded under specific conditions, such as the appearance of a certain number of scatter symbols on the screen. During free spins, players are not charged a bet, hence they are considered "free". It is common for the reels in the main game to differ from those used during free spins. A highly efficient method for modeling these reels is to use a two-dimensional array (Listing \ref{listing014}). In this array, the first dimension indexes the reel, while the second dimension indexes the group of symbols that are visible on the screen.
 
-\begin{lstlisting}[language=bash, caption={Reels array model}, label=listing014]
+\begin{lstlisting}[language=Java, caption={Reels array model}, label=listing014]
 private static int baseGameReels[][] = {};
 
 XSpreadsheet baseGameReels = UnoRuntime.queryInterface(XSpreadsheet.class, 
@@ -841,7 +841,7 @@ In real-life production, reel lengths typically range from 10 to 500. For the Bi
 
 In addition to the primary data structures, a list of supporting variables should also be included (Listing \ref{listing015}).
 
-\begin{lstlisting}[language=bash, caption={List of supportive variables}, label=listing015]
+\begin{lstlisting}[language=Java, caption={List of supportive variables}, label=listing015]
 private static int singleBet = 0;
 private static int totalBet = 0;
 private static long wonMoney = 0L;
@@ -887,7 +887,7 @@ While maximum achieved wins are not particularly important, they can be helpful 
 
 Some types of supportive information are better organized in arrays (Listing \ref{listing016}) rather than stored in single variables.
 
-\begin{lstlisting}[language=bash, caption={List of supportive arrays}, label=listing016]
+\begin{lstlisting}[language=Java, caption={List of supportive arrays}, label=listing016]
 private static int view[][] = {};
 private static int bingoCards[][] = {
 	{  1,  2,  3,  4,  5,  6,  7,  8,  9,  0,  0, 0, 0, 0, 0, 0, 0, 0 },
@@ -936,7 +936,150 @@ Once the common data structures have been established, it is time to implement s
 
 By having the discrete distribution of bingo cards, a random number is enough to be generated, and values for the line and bing can be calculated (Listing \ref{listing017}). 
 
-\begin{lstlisting}[language=bash, caption={Bingo bonus cards}, label=listing017]
+\begin{lstlisting}[language=Java, caption={Bingo bonus cards}, label=listing017]
+private static void shuffleBingoCards() {
+	int length = 0;
+	for (int i = 0; i < bingoCards.length; i++) {
+		for (int last = bingoCards[i].length - 1, r = -1, swap = -1; 
+		last > 0; last--) {
+			r = PRNG.nextInt(last + 1);
+			swap = bingoCards[i][last];
+			bingoCards[i][last] = bingoCards[i][r];
+			bingoCards[i][r] = swap;
+		}
+
+		if(bingoCards[i].length > length) {
+			length = bingoCards[i].length;
+		}
+	}
+
+	numbersInRow = new int[length];
+	for (int j = 0; j < length; j++) {
+		numbersInRow[j] = 0;
+	}
+
+	for (int j = 0; j < numbersInRow.length; j++) {
+		for (int i = 0; i < bingoCards.length; i++) {
+			numbersInRow[j] += (bingoCards[i][j] != 0 ? 1 : 0);
+		}
+	}
+}
+
+private static boolean fixThreeRows() {
+	boolean wasItChanged = false;
+
+	for (int i = 0; i < bingoCards.length; i++) {
+		int a = -1;
+		int b = -1;
+
+		for (int j = 0; j < numbersInRow.length; j += 3) {
+			if (0 == (bingoCards[i][j + 0] != 0 ? 1 : 0)
+					+ (bingoCards[i][j + 1] != 0 ? 1 : 0)
+					+ (bingoCards[i][j + 2] != 0 ? 1 : 0)) {
+				a = j + PRNG.nextInt(3);
+			}
+			if (3 == (bingoCards[i][j + 0] != 0 ? 1 : 0)
+					+ (bingoCards[i][j + 1] != 0 ? 1 : 0)
+					+ (bingoCards[i][j + 2] != 0 ? 1 : 0)) {
+				b = j + PRNG.nextInt(3);
+			}
+		}
+
+		if (a == -1 && b == -1) {
+			continue;
+		}
+		if (a == -1) {
+			do {
+				a = PRNG.nextInt(numbersInRow.length);
+			} while (bingoCards[i][a] != 0);
+		}
+		if (b == -1) {
+			do {
+				b = PRNG.nextInt(numbersInRow.length);
+			} while (bingoCards[i][b] == 0);
+		}
+
+		int swap = bingoCards[i][a];
+		bingoCards[i][a] = bingoCards[i][b];
+		bingoCards[i][b] = swap;
+		numbersInRow[a]++;
+		numbersInRow[b]--;
+		wasItChanged = true;
+	}
+
+	return wasItChanged;
+}
+
+private static boolean fixThreeRows() {
+	boolean wasItChanged = false;
+
+	for (int i = 0; i < bingoCards.length; i++) {
+		int a = -1;
+		int b = -1;
+
+		for (int j = 0; j < numbersInRow.length; j += 3) {
+			if (0 == (bingoCards[i][j + 0] != 0 ? 1 : 0)
+					+ (bingoCards[i][j + 1] != 0 ? 1 : 0)
+					+ (bingoCards[i][j + 2] != 0 ? 1 : 0)) {
+				a = j + PRNG.nextInt(3);
+			}
+			if (3 == (bingoCards[i][j + 0] != 0 ? 1 : 0)
+					+ (bingoCards[i][j + 1] != 0 ? 1 : 0)
+					+ (bingoCards[i][j + 2] != 0 ? 1 : 0)) {
+				b = j + PRNG.nextInt(3);
+			}
+		}
+
+		if (a == -1 && b == -1) {
+			continue;
+		}
+		if (a == -1) {
+			do {
+				a = PRNG.nextInt(numbersInRow.length);
+			} while (bingoCards[i][a] != 0);
+		}
+		if (b == -1) {
+			do {
+				b = PRNG.nextInt(numbersInRow.length);
+			} while (bingoCards[i][b] == 0);
+		}
+
+		int swap = bingoCards[i][a];
+		bingoCards[i][a] = bingoCards[i][b];
+		bingoCards[i][b] = swap;
+		numbersInRow[a]++;
+		numbersInRow[b]--;
+		wasItChanged = true;
+	}
+
+	return wasItChanged;
+}
+
+private static void generateRandomBingoCard() {
+	final int NUMBER_OF_SHAKES = 20 + PRNG.nextInt(11);
+
+	int shakes = 0;
+	boolean goOn = false;
+	do {
+		if (shakes <= 0) {
+			shuffleBingoCards();
+			shakes = NUMBER_OF_SHAKES;
+		}
+
+		goOn = fixRows();
+		goOn = fixThreeRows() || goOn;
+		shakes--;
+	} while (goOn == true);
+
+	for (int i = 0; i < bingoNumbersOut.length; i++) {
+		for (int j = 0; j < bingoNumbersOut[0].length; j++) {
+			bingoNumbersOut[i][j] = false;
+		}
+	}
+
+	bingoLineIndex = -1;
+	bingoCardIndex = -1;
+}
 \end{lstlisting}
 
 The values inside the bingo cards are randomly generated. At each bonus game restart event the bingo bonus game starts with fresh bingo cards and complete new bingo game.
@@ -945,7 +1088,7 @@ The values inside the bingo cards are randomly generated. At each bonus game res
 
 The spinning reels are the most significant random event in traditional slot games (Listing \ref{listing018}).
 
-\begin{lstlisting}[language=bash, caption={Reels spin}, label=listing018]
+\begin{lstlisting}[language=Java, caption={Reels spin}, label=listing018]
 private static void spin(int reels[][]) {
 	for (int i = 0, up, middle, down; i < reels.length; i++) {
 		up = PRNG.nextInt( reels[i].length );
@@ -968,7 +1111,7 @@ There are five reels, but only three rows are visible at a time. The function is
 
 When the game screen is filled with symbols, it is time to calculate the wins. The most straightforward calculation is the scatter win (Listing \ref{listing019}).
 
-\begin{lstlisting}[language=bash, caption={Scatters win calculation}, label=listing019]
+\begin{lstlisting}[language=Java, caption={Scatters win calculation}, label=listing019]
 private static int scatterWin(int scatter, int multiplier) {
 	int numberOfScatters = 0;
 	for (int i = 0; i < view.length; i++) {
@@ -995,7 +1138,7 @@ private static int scatterWin(int scatter, int multiplier) {
 
 The scatter symbol is located at index 16 in the paytable. The scatter symbol at index 15 is specifically used to activate free spins. There is a separate supportive array that contains the identifiers for the scatters. After counting the number of scatters displayed on the screen, it is easy to look up the corresponding prize amount. Keeping track of scatter wins and their frequency can be valuable during the game balance phase. 
 
-\begin{lstlisting}[language=bash, caption={Free spins number and multiplier calculation}, label=listing020]
+\begin{lstlisting}[language=Java, caption={Free spins number and multiplier calculation}, label=listing020]
 private static int[] rewardFreeSpins(int scatter) {
 	int result[] = {0,0};
 
@@ -1023,7 +1166,7 @@ The main prizes in the game are awarded for lucky combinations formed on nine pr
 
 While the Wild symbol does not directly award a prize, there are games where it can contribute to a payout, especially when it is part of a group of high-paying symbols. Therefore, it is important to separately check for any prizes associated with the Wild symbol (Listing \ref{listing021}).
 
-\begin{lstlisting}[language=bash, caption={Wild combination win calculation}, label=listing021]
+\begin{lstlisting}[language=Java, caption={Wild combination win calculation}, label=listing021]
 private static int[] wildLineWin(int line[], int wild, int multiplier) {
 	if( wilds.contains(line[0]) == false) {
 		return new int[] {0,-1,0};
@@ -1047,7 +1190,7 @@ private static int[] wildLineWin(int line[], int wild, int multiplier) {
 
 The line is represented as a one-dimensional array, which is passed as an input parameter. The function returns an array of values that includes the index of the symbol that formed the winning combination and the count of its occurrences. During free spins, a multiplier may be applied, but this is managed outside of this function. The win value is determined by counting the consecutive Wilds and referencing the paytable.
 
-\begin{lstlisting}[language=bash, caption={Regular line win calculation}, label=listing022]
+\begin{lstlisting}[language=Java, caption={Regular line win calculation}, label=listing022]
 private static int[] lineWin(int line[], int multiplier) {
 	if( wilds.contains(line[0]) == true) {
 		return new int[] {0,-1,0};
@@ -1086,7 +1229,7 @@ Most of the time, prizes in the game will be given by regular lines. For a parti
 
 In most games, Monte Carlo simulation can be done only for a single betting line (mainly the central one). The simulation will be conducted for all 9 lines in this book to enhance confidence in handling scatter wins and free spins (Listing \ref{listing023}). 
 
-\begin{lstlisting}[language=bash, caption={All lines wins calculation}, label=listing023]
+\begin{lstlisting}[language=Java, caption={All lines wins calculation}, label=listing023]
 private static int linesWin() {
 	int currentWin = 0;
 
@@ -1132,7 +1275,7 @@ Each betting line is extracted as a separate single-dimension array. The informa
 
 The main gameplay involves rotating the reels. Rotation commonly happens in the base game, but spins are also run when free spins are awarded. For the free spins, a setup procedure is required to clarify the number of spins and the multiplier to be used (Listing \ref{listing024}).
 
-\begin{lstlisting}[language=bash, caption={Setting up free spins parameters}, label=listing024]
+\begin{lstlisting}[language=Java, caption={Setting up free spins parameters}, label=listing024]
 private static void setupFreeSpins() {
 	boolean isInitialStart = (freeSpinsAmount <= 0);
 
@@ -1163,7 +1306,7 @@ private static void setupFreeSpins() {
 
 To run the free spins, the condition is that at least 3 free spin scatters appear on the screen. If it is in the base game, the number of free spins and multiplier value are taken from the array distributions. When free spins are awarded during free spins, the multiplier is kept the same, and the newly awarded number of free spins is the same amount as the pointed in the array. Statistics of free spins starts and restarts are also collected. 
 
-\begin{lstlisting}[language=bash, caption={Single free spin}, label=listing025]
+\begin{lstlisting}[language=Java, caption={Single free spin}, label=listing025]
 private static void singleFreeSpin() {
 	spin(freeSpinsReels);
 
@@ -1197,7 +1340,7 @@ private static void singleFreeSpin() {
 
 A single free spin starts with a rotation of the free spins reels (Listing \ref{listing025}). Prizes can be awarded from two different sources, and they are calculated. Statistics of total won money and money won in free spins are gathered. Hit frequency is updated, and if needed, the maximum win is also updated.
 
-\begin{lstlisting}[language=bash, caption={Single base game}, label=listing026]
+\begin{lstlisting}[language=Java, caption={Single base game}, label=listing026]
 private static void singleBaseGame() {
 	spin(baseGameReels);
 
@@ -1264,7 +1407,7 @@ private static void singleBaseGame() {
 
 The base game goes similarly to free spins (Listing \ref{listing026}). First, the reels are rotated. Second, the calculation of the win from the four components is handled. Third, statistics for total won money, money won in the base game, hit frequency, and maximum win statistics are collected. If there were free spins, set up for the free spins, and execution of all free spins is performed. 
 
-\begin{lstlisting}[language=bash, caption={Monte Carlo simulation run}, label=listing027]
+\begin{lstlisting}[language=Java, caption={Monte Carlo simulation run}, label=listing027]
 public static void simulate(XScriptContext ctx) {
 	readDataStructures(ctx);
 	resetStatistics();
@@ -1289,7 +1432,7 @@ public static void simulate(XScriptContext ctx) {
 
 The Monte Carlo simulation involves a large number of game plays (Listing \ref{listing027}). Empirically, it is well known in the industry that 100 million runs are reasonable for statistics collection. In a highly volatile game, this number can be increased. For each base game run, the total amount of lost money is increased by the size of the total bet, and the counter of played games has risen. For estimating the game volatility, at each 10 thousand games, the RTP is written into the sheet.
 
-\chapter{?? - Simulation Results Reporting}
+\chapter{Simulation Results Reporting}
 
 Two standard reports from the simulation are needed - a data structures report and a calculated statistics report (Listing 7.1). 
 
