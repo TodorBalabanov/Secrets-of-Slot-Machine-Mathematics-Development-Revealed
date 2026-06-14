@@ -1039,6 +1039,28 @@ public class Simulator {
 	}
 
 	/**
+	 * Report data structures into a new sheet.
+	 *
+	 * @param ctx Script context.
+	 */
+	private static void reportStructures(XScriptContext ctx) {
+		try {
+			XModel model = ctx.getDocument();
+			XSpreadsheetDocument document = UnoRuntime.queryInterface(XSpreadsheetDocument.class, model);
+			XSpreadsheets sheets = document.getSheets();
+
+			/* Simulation report sheet. */
+			short index = (short)sheets.getElementNames().length;
+			String name = "Structure Report - " + (new Date()).toString().replace(":", " ");
+			sheets.insertNewByName(name, index);
+
+			XSpreadsheet structures = UnoRuntime.queryInterface(XSpreadsheet.class,sheets.getByName(name));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
 	 * Report simulation statistics into a new sheet.
 	 *
 	 * @param ctx Script context.
@@ -1299,6 +1321,7 @@ public class Simulator {
 			}
 		}
 
+		reportStructures(ctx);
 		reportStatistics(ctx);
 	}
 }

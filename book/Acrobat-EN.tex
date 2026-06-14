@@ -126,7 +126,7 @@ Printed by request
 
 \tableofcontents
 \listoffigures
-\listoftables
+%\listoftables
 \lstlistoflistings
 
 % Clear the page and suppress the header/footer for the transition
@@ -1434,309 +1434,44 @@ The Monte Carlo simulation involves a large number of game plays (Listing \ref{l
 
 \chapter{Simulation Results Reporting}
 
-Two standard reports from the simulation are needed - a data structures report and a calculated statistics report (Listing 7.1). 
+Two standard reports from the simulation are needed - a data structures report and a calculated statistics report (Listing \ref{listing028}). 
 
-Listing 7.1 - Simulation and reports run
-\begin{lstlisting}
-int main() {
-        srand(time(NULL));
+\begin{lstlisting}[language=Java, caption={Simulation and reports run}, label=listing028]
+public static void simulate(XScriptContext ctx) {
+	readDataStructures(ctx);
+	resetStatistics();
 
-        monteCarloSimulation();
+	for(int g=0; g<numberOfSimulations; g++) {
+		long beforePlay = wonMoney;
+		lostMoney += totalBet;
+		singleBaseGame();
+		while(freeSpinsAmount > 0) {
+			singleFreeSpin();
+			freeSpinsAmount--;
+		}
+		long roundWin = wonMoney - beforePlay;
+		if(maxWin < roundWin) {
+			maxWin = roundWin;
+		}
+	}
 
-        printDataStructures();
-        cout << endl;
-
-        printStatistics();
-        cout << endl;
-
-        return 0;
+	reportStructures(ctx);
+	reportStatistics(ctx);
 }
 \end{lstlisting}
 
-Data Structures
+\section*{Data Structures}
 
-Printing data structures is necessary to verify the information used during the simulation (Listing 7.2). 
+Printing data structures is necessary to verify the information used during the simulation (Listing \ref{listing029}). 
 
-Listing 7.2 - Data structures report
-\begin{lstlisting}
-void printDataStructures() {
-        cout << "Paytable:" << endl;
-        for (int i = 0; i < 10; i++) {
-                cout << "\t" << i << " of";
-        }
-        cout << endl;
-        for (int j = 0; j < 11; j++) {
-                cout << j << "\t";
-                for (int i = 0; i < 10; i++) {
-                        cout << paytable[i][j] << "\t";
-                }
-                cout << endl;
-        }
-        cout << endl;
-
-        cout << "Lines:" << endl;
-        for (int i = 0; i < 20; i++) {
-                for (int j = 0; j < 5; j++) {
-                        cout << lines[i][j] << " ";
-                }
-                cout << endl;
-        }
-        cout << endl;
-
-        cout << "Base Game Reels:" << endl;
-        for (int i = 0; i < 5; i++) {
-                for (int j = 0; j < 113; j++) {
-                        cout << setw(3) << baseGameReels[i][j];
-                }
-                cout << endl;
-        }
-        cout << endl;
-
-        cout << "Free Spins Reels:" << endl;
-        for (int i = 0; i < 5; i++) {
-                for (int j = 0; j < 113; j++) {
-                        cout << setw(3) << freeSpinsReels[i][j];
-                }
-                cout << endl;
-        }
-        cout << endl;
-
-        cout << "Base Game Reels:" << endl;
-        {
-                int counters[5][11] = {
-                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-                };
-                for (int i = 0; i < 5; i++) {
-                        for (int j = 0; j < 113; j++) {
-                                counters[i][baseGameReels[i][j]]++;
-                        }
-                }
-                for (int i = 0; i < 5; i++) {
-                        cout << "\tReel " << (i + 1);
-                }
-                cout << endl;
-                for (int j = 0; j < 11; j++) {
-                        cout << j << "\t";
-                        for (int i = 0; i < 5; i++) {
-                                cout << counters[i][j] << "\t";
-                        }
-                        cout << endl;
-                }
-                cout << "---------------------------------------------" << endl;
-                cout << "Total:\t";
-                long combinations = 1L;
-                for (int i = 0; i < 5; i++) {
-                        int sum = 0;
-                        for (int j = 0; j < 11; j++) {
-                                sum += counters[i][j];
-                        }
-                        cout << sum << "\t";
-                        if (sum != 0) {
-                                combinations *= sum;
-                        }
-                }
-                cout << endl;
-                cout << "---------------------------------------------" << endl;
-                cout << "Combinations:\t" + combinations;
-        }
-        cout << endl;
-
-        cout << "Free Spins Reels:" << endl;
-        {
-                int counters[5][11] = {
-                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-                };
-                for (int i = 0; i < 5; i++) {
-                        for (int j = 0; j < 113; j++) {
-                                counters[i][freeSpinsReels[i][j]]++;
-                        }
-                }
-                for (int i = 0; i < 5; i++) {
-                        cout << "\tReel " << (i + 1);
-                }
-                cout << endl;
-                for (int j = 0; j < 11; j++) {
-                        cout << j << "\t";
-                        for (int i = 0; i < 5; i++) {
-                                cout << counters[i][j] << "\t";
-                        }
-                        cout << endl;
-                }
-                cout << "---------------------------------------------" << endl;
-                cout << "Total:\t";
-                long combinations = 1L;
-                for (int i = 0; i < 5; i++) {
-                        int sum = 0;
-                        for (int j = 0; j < 11; j++) {
-                                sum += counters[i][j];
-                        }
-                        cout << sum << "\t";
-                        if (sum != 0) {
-                                combinations *= sum;
-                        }
-                }
-                cout << endl;
-                cout << "---------------------------------------------" << endl;
-                cout << "Combinations:\t" << combinations;
-        }
-        cout << endl;
-        cout << endl;
-
-        cout << "Free Spins Wheel:" << endl;
-        for (int i = 0; i < 2; i++) {
-                for (int j = 0; j < 614; j++) {
-                        cout << setw(3) << freeSpinsWheel[i][j];
-                }
-                cout << endl;
-        }
-}
+\begin{lstlisting}[language=Java, caption={Data structures report}, label=listing029]
 \end{lstlisting}
 
-All common data structures are printed - paytable, lines, raw symbols on the reels, counted symbols on the reels, and wheel distribution. The most valuable part of the Monte Carlo simulation is the statistical report (Listing 7.3). 
+All common data structures are printed - paytable, lines, raw symbols on the reels, counted symbols on the reels, free and bonus coefficients. The most valuable part of the Monte Carlo simulation is the statistical report (Listing \ref{listing030}). 
 
-Collected Statistics
+\section*{Collected Statistics}
 
-Listing 7.3 - Statistical report
-\begin{lstlisting}
-void printStatistics() {
-        cout << "Won money:\t" << wonMoney << endl;
-        cout << "Lost money:\t" << lostMoney << endl;
-        cout << "Total Number of Games:\t" << totalNumberOfGames << endl;
-        cout << endl;
-        cout << "Total RTP:\t" << ((double) wonMoney / (double) lostMoney) << "\t\t"
-                        << (100.0D * (double) wonMoney / (double) lostMoney) << "%" << endl;
-        cout << "Base Game RTP:\t" << ((double) baseGameMoney / (double) lostMoney)
-                        << "\t\t" << (100.0D * (double) baseGameMoney / (double) lostMoney)
-                        << "%" << endl;
-        cout << "Free Spins RTP:\t" << ((double) freeSpinsMoney / (double) lostMoney)
-                        << "\t\t" << (100.0D * (double) freeSpinsMoney / (double) lostMoney)
-                        << "%" << endl;
-        cout << endl;
-        cout << "Hit Rate in Base Game:\t"
-                        << ((double) baseGameHitFrequency / (double) totalNumberOfGames)
-                        << "\t\t"
-                        << (100.0D * (double) baseGameHitFrequency
-                                        / (double) totalNumberOfGames) << "%" << endl;
-        cout << "Hit Rate in Free Spins:\t"
-                        << ((double) freeSpinsHitFrequency / (double) totalNumberOfFreeSpins)
-                        << "\t\t"
-                        << (100.0D * (double) freeSpinsHitFrequency
-                                        / (double) totalNumberOfFreeSpins) << "%" << endl;
-        cout << "Hit Rate Base Game into Free Spins:\t"
-                        << ((double) totalNumberOfFreeSpinsStarts
-                                        / (double) totalNumberOfGames) << "\t\t"
-                        << (100.0D * (double) (totalNumberOfFreeSpinsStarts)
-                                        / (double) totalNumberOfGames) << "%" << endl;
-        cout << "Hit Rate Free Spins into Free Spins:\t"
-                        << ((double) totalNumberOfFreeSpinsRestarts
-                                        / (double) totalNumberOfFreeSpinsStarts) << "\t\t"
-                        << (100.0D * (double) (totalNumberOfFreeSpinsRestarts)
-                                        / (double) totalNumberOfFreeSpinsStarts) << "%" << endl;
-        cout << endl;
-        cout << "Max Win in Base Game:\t" << baseGameMaxWin << endl;
-        cout << "Max Win in Free Spins:\t" << freeSpinsMaxWin << endl;
-
-        cout << endl;
-        cout << endl;
-        cout << "Base Game Symbols RTP:" << endl;
-        cout << "\t";
-        for (int i = 0; i < 10; i++) {
-                cout << i << "of\t";
-        }
-        cout << endl;
-        for (int j = 0; j < 11; j++) {
-                cout << j << "\t";
-                for (int i = 0; i < 10; i++) {
-                        cout << (double) baseGameSymbolsMoney[i][j] / (double) lostMoney
-                                        << "\t";
-                }
-                cout << endl;
-        }
-        cout << endl;
-        cout << "Base Game Symbols Hit Frequency:" << endl;
-        cout << "\t";
-        for (int i = 0; i < 10; i++) {
-                cout << i << "of\t";
-        }
-        cout << endl;
-        for (int j = 0; j < 11; j++) {
-                cout << j << "\t";
-                for (int i = 0; i < 10; i++) {
-                        cout << (double) baseGameSymbolsHitFrequency[i][j] << "\t";
-                }
-                cout << endl;
-        }
-        cout << endl;
-        cout << "Base Game Symbols Hit Rate:" << endl;
-        cout << "\t";
-        for (int i = 0; i < 10; i++) {
-                cout << i << "of\t";
-        }
-        cout << endl;
-        for (int j = 0; j < 11; j++) {
-                cout << j << "\t";
-                for (int i = 0; i < 10; i++) {
-                        cout
-                                        << (double) baseGameSymbolsHitFrequency[i][j]
-                                                        / (double) totalNumberOfGames << "\t";
-                }
-                cout << endl;
-        }
-
-        cout << endl;
-        cout << "Free Spins Symbols RTP:" << endl;
-        cout << "\t";
-        for (int i = 0; i < 10; i++) {
-                cout << i << "of\t";
-        }
-        cout << endl;
-        for (int j = 0; j < 11; j++) {
-                cout << j << "\t";
-                for (int i = 0; i < 10; i++) {
-                        cout << (double) freeSpinsSymbolsMoney[i][j] / (double) lostMoney
-                                        << "\t";
-                }
-                cout << endl;
-        }
-        cout << endl;
-        cout << "Free Spins Symbols Hit Frequency:" << endl;
-        cout << "\t";
-        for (int i = 0; i < 10; i++) {
-                cout << i << "of\t";
-        }
-        cout << endl;
-        for (int j = 0; j < 11; j++) {
-                cout << j << "\t";
-                for (int i = 0; i < 10; i++) {
-                        cout << (double) freeSpinsSymbolsHitFrequency[i][j] << "\t";
-                }
-                cout << endl;
-        }
-        cout << endl;
-        cout << "Free Spins Symbols Hit Rate:" << endl;
-        cout << "\t";
-        for (int i = 0; i < 10; i++) {
-                cout << i << "of\t";
-        }
-        cout << endl;
-        for (int j = 0; j < 11; j++) {
-                cout << j << "\t";
-                for (int i = 0; i < 10; i++) {
-                        cout
-                                        << (double) freeSpinsSymbolsHitFrequency[i][j]
-                                                        / (double) totalNumberOfGames << "\t";
-                }
-                cout << endl;
-        }
-}
+\begin{lstlisting}[language=Java, caption={Statistical report}, label=listing030]
 \end{lstlisting}
 
 The most important values are lost money and won money. The ratio of won to lost games, multiplied by 100, gives the RTP. The RTP, differentiated by base game, free spins, and different components, is also reported. Such differentiation can be extremely valuable in bug hunting. 
