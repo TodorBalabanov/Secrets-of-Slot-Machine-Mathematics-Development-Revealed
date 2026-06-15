@@ -1061,6 +1061,55 @@ public class Simulator {
 			}
 			offset += paytable.length;
 			offset += 1;
+
+			structures.getCellByPosition(0, offset).setFormula("Lines:");
+			offset += 1;
+			for(int j = 0; j < lines.length; j++) {
+				for(int i = 0, l=lines[j].length; i < lines[j].length; i++) {
+					structures.getCellByPosition(i, offset+j).setFormula("" + lines[j][i]);
+					setDigits(document, structures, 1+l+i, offset+j);
+					resize = (1+l+i > resize) ? 1+l+i : resize;
+				}
+			}
+			offset += lines.length;
+			offset += 1;
+
+			structures.getCellByPosition(0, offset).setFormula("Base Game Reels:");
+			offset += 1;
+			for(int j = 0; j < baseGameReels.length; j++) {
+				for(int i = 0, l=baseGameReels[j].length; i < baseGameReels[j].length; i++) {
+					structures.getCellByPosition(i, offset+j).setFormula("" + baseGameReels[j][i]);
+					setDigits(document, structures, 1+l+i, offset+j);
+					resize = (1+l+i > resize) ? 1+l+i : resize;
+				}
+			}
+			offset += baseGameReels.length;
+			offset += 1;
+
+			structures.getCellByPosition(0, offset).setFormula("Free Spin Reels:");
+			offset += 1;
+			for(int j = 0; j < freeSpinsReels.length; j++) {
+				for(int i = 0, l=freeSpinsReels[j].length; i < freeSpinsReels[j].length; i++) {
+					structures.getCellByPosition(i, offset+j).setFormula("" + freeSpinsReels[j][i]);
+					setDigits(document, structures, 1+l+i, offset+j);
+					resize = (1+l+i > resize) ? 1+l+i : resize;
+				}
+			}
+			offset += freeSpinsReels.length;
+			offset += 1;
+
+			int[][] freeSpinsSetup = new int[][]{rewardFreeSpins, freeSpinsMultipliers};
+			structures.getCellByPosition(0, offset).setFormula("Free Spin Setup:");
+			offset += 1;
+			for(int j = 0; j < freeSpinsSetup.length; j++) {
+				for(int i = 0, l=freeSpinsSetup[j].length; i < freeSpinsSetup[j].length; i++) {
+					structures.getCellByPosition(i, offset+j).setFormula("" + freeSpinsSetup[j][i]);
+					setDigits(document, structures, 1+l+i, offset+j);
+					resize = (1+l+i > resize) ? 1+l+i : resize;
+				}
+			}
+			offset += freeSpinsSetup.length;
+			offset += 1;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
