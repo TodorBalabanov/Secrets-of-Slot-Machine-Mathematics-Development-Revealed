@@ -1033,86 +1033,82 @@ public class Simulator {
 	 *
 	 * @param ctx Script context.
 	 */
-	private static void reportStructures(XScriptContext ctx) {
-		try {
-			XModel model = ctx.getDocument();
-			XSpreadsheetDocument document = UnoRuntime.queryInterface(XSpreadsheetDocument.class, model);
-			XSpreadsheets sheets = document.getSheets();
+	private static void reportStructures(XScriptContext ctx) throws Exception {
+		XModel model = ctx.getDocument();
+		XSpreadsheetDocument document = UnoRuntime.queryInterface(XSpreadsheetDocument.class, model);
+		XSpreadsheets sheets = document.getSheets();
 
-			/* Simulation report sheet. */
-			short index = (short)sheets.getElementNames().length;
-			String name = "Structure Report - " + (new Date()).toString().replace(":", " ");
-			sheets.insertNewByName(name, index);
+		/* Structure report sheet. */
+		short index = (short)sheets.getElementNames().length;
+		String name = "Structure Report - " + (new Date()).toString().replace(":", " ");
+		sheets.insertNewByName(name, index);
 
-			XSpreadsheet structures = UnoRuntime.queryInterface(XSpreadsheet.class,sheets.getByName(name));
+		XSpreadsheet structures = UnoRuntime.queryInterface(XSpreadsheet.class,sheets.getByName(name));
 
-			/* Sheet offset for rows. */
-			int offset = 0;
-			int resize = 0;
+		/* Sheet offset for rows. */
+		int offset = 0;
+		int resize = 0;
 
-			structures.getCellByPosition(0, offset).setFormula("Paytable:");
-			offset += 1;
-			for(int j = 0; j < paytable.length; j++) {
-				for(int i = 0, l=paytable[j].length; i < paytable[j].length; i++) {
-					structures.getCellByPosition(i, offset+j).setFormula("" + paytable[j][i]);
-					setDigits(document, structures, 1+l+i, offset+j);
-					resize = (1+l+i > resize) ? 1+l+i : resize;
-				}
+		structures.getCellByPosition(0, offset).setFormula("Paytable:");
+		offset += 1;
+		for(int j = 0; j < paytable.length; j++) {
+			for(int i = 0, l=paytable[j].length; i < paytable[j].length; i++) {
+				structures.getCellByPosition(i, offset+j).setFormula("" + paytable[j][i]);
+				setDigits(document, structures, 1+l+i, offset+j);
+				resize = (1+l+i > resize) ? 1+l+i : resize;
 			}
-			offset += paytable.length;
-			offset += 1;
-
-			structures.getCellByPosition(0, offset).setFormula("Lines:");
-			offset += 1;
-			for(int j = 0; j < lines.length; j++) {
-				for(int i = 0, l=lines[j].length; i < lines[j].length; i++) {
-					structures.getCellByPosition(i, offset+j).setFormula("" + lines[j][i]);
-					setDigits(document, structures, 1+l+i, offset+j);
-					resize = (1+l+i > resize) ? 1+l+i : resize;
-				}
-			}
-			offset += lines.length;
-			offset += 1;
-
-			structures.getCellByPosition(0, offset).setFormula("Base Game Reels:");
-			offset += 1;
-			for(int j = 0; j < baseGameReels.length; j++) {
-				for(int i = 0, l=baseGameReels[j].length; i < baseGameReels[j].length; i++) {
-					structures.getCellByPosition(i, offset+j).setFormula("" + baseGameReels[j][i]);
-					setDigits(document, structures, 1+l+i, offset+j);
-					resize = (1+l+i > resize) ? 1+l+i : resize;
-				}
-			}
-			offset += baseGameReels.length;
-			offset += 1;
-
-			structures.getCellByPosition(0, offset).setFormula("Free Spin Reels:");
-			offset += 1;
-			for(int j = 0; j < freeSpinsReels.length; j++) {
-				for(int i = 0, l=freeSpinsReels[j].length; i < freeSpinsReels[j].length; i++) {
-					structures.getCellByPosition(i, offset+j).setFormula("" + freeSpinsReels[j][i]);
-					setDigits(document, structures, 1+l+i, offset+j);
-					resize = (1+l+i > resize) ? 1+l+i : resize;
-				}
-			}
-			offset += freeSpinsReels.length;
-			offset += 1;
-
-			int[][] freeSpinsSetup = new int[][]{rewardFreeSpins, freeSpinsMultipliers};
-			structures.getCellByPosition(0, offset).setFormula("Free Spin Setup:");
-			offset += 1;
-			for(int j = 0; j < freeSpinsSetup.length; j++) {
-				for(int i = 0, l=freeSpinsSetup[j].length; i < freeSpinsSetup[j].length; i++) {
-					structures.getCellByPosition(i, offset+j).setFormula("" + freeSpinsSetup[j][i]);
-					setDigits(document, structures, 1+l+i, offset+j);
-					resize = (1+l+i > resize) ? 1+l+i : resize;
-				}
-			}
-			offset += freeSpinsSetup.length;
-			offset += 1;
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
+		offset += paytable.length;
+		offset += 1;
+
+		structures.getCellByPosition(0, offset).setFormula("Lines:");
+		offset += 1;
+		for(int j = 0; j < lines.length; j++) {
+			for(int i = 0, l=lines[j].length; i < lines[j].length; i++) {
+				structures.getCellByPosition(i, offset+j).setFormula("" + lines[j][i]);
+				setDigits(document, structures, 1+l+i, offset+j);
+				resize = (1+l+i > resize) ? 1+l+i : resize;
+			}
+		}
+		offset += lines.length;
+		offset += 1;
+
+		structures.getCellByPosition(0, offset).setFormula("Base Game Reels:");
+		offset += 1;
+		for(int j = 0; j < baseGameReels.length; j++) {
+			for(int i = 0, l=baseGameReels[j].length; i < baseGameReels[j].length; i++) {
+				structures.getCellByPosition(i, offset+j).setFormula("" + baseGameReels[j][i]);
+				setDigits(document, structures, 1+l+i, offset+j);
+				resize = (1+l+i > resize) ? 1+l+i : resize;
+			}
+		}
+		offset += baseGameReels.length;
+		offset += 1;
+
+		structures.getCellByPosition(0, offset).setFormula("Free Spin Reels:");
+		offset += 1;
+		for(int j = 0; j < freeSpinsReels.length; j++) {
+			for(int i = 0, l=freeSpinsReels[j].length; i < freeSpinsReels[j].length; i++) {
+				structures.getCellByPosition(i, offset+j).setFormula("" + freeSpinsReels[j][i]);
+				setDigits(document, structures, 1+l+i, offset+j);
+				resize = (1+l+i > resize) ? 1+l+i : resize;
+			}
+		}
+		offset += freeSpinsReels.length;
+		offset += 1;
+
+		int[][] freeSpinsSetup = new int[][]{rewardFreeSpins, freeSpinsMultipliers};
+		structures.getCellByPosition(0, offset).setFormula("Free Spin Setup:");
+		offset += 1;
+		for(int j = 0; j < freeSpinsSetup.length; j++) {
+			for(int i = 0, l=freeSpinsSetup[j].length; i < freeSpinsSetup[j].length; i++) {
+				structures.getCellByPosition(i, offset+j).setFormula("" + freeSpinsSetup[j][i]);
+				setDigits(document, structures, 1+l+i, offset+j);
+				resize = (1+l+i > resize) ? 1+l+i : resize;
+			}
+		}
+		offset += freeSpinsSetup.length;
+		offset += 1;
 	}
 
 	/**
@@ -1120,237 +1116,233 @@ public class Simulator {
 	 *
 	 * @param ctx Script context.
 	 */
-	private static void reportStatistics(XScriptContext ctx) {
-		try {
-			XModel model = ctx.getDocument();
-			XSpreadsheetDocument document = UnoRuntime.queryInterface(XSpreadsheetDocument.class, model);
-			XSpreadsheets sheets = document.getSheets();
+	private static void reportStatistics(XScriptContext ctx) throws Exception {
+		XModel model = ctx.getDocument();
+		XSpreadsheetDocument document = UnoRuntime.queryInterface(XSpreadsheetDocument.class, model);
+		XSpreadsheets sheets = document.getSheets();
 
-			/* Simulation report sheet. */
-			short index = (short)sheets.getElementNames().length;
-			String name = "Simulaton Report - " + (new Date()).toString().replace(":", " ");
-			sheets.insertNewByName(name, index);
+		/* Simulation report sheet. */
+		short index = (short)sheets.getElementNames().length;
+		String name = "Simulaton Report - " + (new Date()).toString().replace(":", " ");
+		sheets.insertNewByName(name, index);
 
-			XSpreadsheet report = UnoRuntime.queryInterface(XSpreadsheet.class,sheets.getByName(name));
+		XSpreadsheet report = UnoRuntime.queryInterface(XSpreadsheet.class,sheets.getByName(name));
 
-			/* Sheet offset for rows. */
-			int offset = 0;
-			int resize = 0;
+		/* Sheet offset for rows. */
+		int offset = 0;
+		int resize = 0;
 
-			report.getCellByPosition(0, offset).setFormula("Total Loss:");
-			report.getCellByPosition(1, offset).setFormula("" + lostMoney);
-			offset += 1;
+		report.getCellByPosition(0, offset).setFormula("Total Loss:");
+		report.getCellByPosition(1, offset).setFormula("" + lostMoney);
+		offset += 1;
 
-			report.getCellByPosition(0, offset).setFormula("Total Win:");
-			report.getCellByPosition(1, offset).setFormula("" + wonMoney);
-			offset += 1;
+		report.getCellByPosition(0, offset).setFormula("Total Win:");
+		report.getCellByPosition(1, offset).setFormula("" + wonMoney);
+		offset += 1;
 
-			/* Prevent division by zero exception. */
-			lostMoney = (lostMoney == 0L ? 1L : lostMoney);
+		/* Prevent division by zero exception. */
+		lostMoney = (lostMoney == 0L ? 1L : lostMoney);
 
-			report.getCellByPosition(0, offset).setFormula("Total RTP [%]:");
-			report.getCellByPosition(1, offset).setFormula("" + (double)wonMoney / (double)lostMoney);
-			setPercent(document, report, 1, offset);
+		report.getCellByPosition(0, offset).setFormula("Total RTP [%]:");
+		report.getCellByPosition(1, offset).setFormula("" + (double)wonMoney / (double)lostMoney);
+		setPercent(document, report, 1, offset);
 
-			offset += 2;
+		offset += 2;
 
-			report.getCellByPosition(0, offset).setFormula("Number of Games:");
-			report.getCellByPosition(1, offset).setFormula("" + totalNumberOfGames);
-			offset += 1;
+		report.getCellByPosition(0, offset).setFormula("Number of Games:");
+		report.getCellByPosition(1, offset).setFormula("" + totalNumberOfGames);
+		offset += 1;
 
-			report.getCellByPosition(0, offset).setFormula("Number of Free Spins:");
-			report.getCellByPosition(1, offset).setFormula("" + totalNumberOfFreeSpins);
-			offset += 1;
+		report.getCellByPosition(0, offset).setFormula("Number of Free Spins:");
+		report.getCellByPosition(1, offset).setFormula("" + totalNumberOfFreeSpins);
+		offset += 1;
 
-			report.getCellByPosition(0, offset).setFormula("Number of Free Spins Starts:");
-			report.getCellByPosition(1, offset).setFormula("" + totalNumberOfFreeSpinsStarts);
-			offset += 1;
+		report.getCellByPosition(0, offset).setFormula("Number of Free Spins Starts:");
+		report.getCellByPosition(1, offset).setFormula("" + totalNumberOfFreeSpinsStarts);
+		offset += 1;
 
-			report.getCellByPosition(0, offset).setFormula("Number of Free Spins Restarts:");
-			report.getCellByPosition(1, offset).setFormula("" + totalNumberOfFreeSpinsRestarts);
-			offset += 2;
+		report.getCellByPosition(0, offset).setFormula("Number of Free Spins Restarts:");
+		report.getCellByPosition(1, offset).setFormula("" + totalNumberOfFreeSpinsRestarts);
+		offset += 2;
 
-			report.getCellByPosition(0, offset).setFormula("Base Game Win:");
-			report.getCellByPosition(1, offset).setFormula("" + baseGameMoney);
-			offset += 1;
+		report.getCellByPosition(0, offset).setFormula("Base Game Win:");
+		report.getCellByPosition(1, offset).setFormula("" + baseGameMoney);
+		offset += 1;
 
-			report.getCellByPosition(0, offset).setFormula("Free Spins Win:");
-			report.getCellByPosition(1, offset).setFormula("" + freeSpinsMoney);
-			offset += 1;
+		report.getCellByPosition(0, offset).setFormula("Free Spins Win:");
+		report.getCellByPosition(1, offset).setFormula("" + freeSpinsMoney);
+		offset += 1;
 
-			report.getCellByPosition(0, offset).setFormula("Bonus Game Win:");
-			report.getCellByPosition(1, offset).setFormula("" + bonusGameMoney);
-			offset += 2;
+		report.getCellByPosition(0, offset).setFormula("Bonus Game Win:");
+		report.getCellByPosition(1, offset).setFormula("" + bonusGameMoney);
+		offset += 2;
 
-			report.getCellByPosition(0, offset).setFormula("Base Game RTP [%]:");
-			report.getCellByPosition(1, offset).setFormula("" + ( (double)baseGameMoney / (double)lostMoney ) );
-			setPercent(document, report, 1, offset);
-			offset += 1;
+		report.getCellByPosition(0, offset).setFormula("Base Game RTP [%]:");
+		report.getCellByPosition(1, offset).setFormula("" + ( (double)baseGameMoney / (double)lostMoney ) );
+		setPercent(document, report, 1, offset);
+		offset += 1;
 
-			report.getCellByPosition(0, offset).setFormula("Free Spins RTP [%]:");
-			report.getCellByPosition(1, offset).setFormula("" + ( (double)freeSpinsMoney / (double)lostMoney ) );
-			setPercent(document, report, 1, offset);
-			offset += 1;
+		report.getCellByPosition(0, offset).setFormula("Free Spins RTP [%]:");
+		report.getCellByPosition(1, offset).setFormula("" + ( (double)freeSpinsMoney / (double)lostMoney ) );
+		setPercent(document, report, 1, offset);
+		offset += 1;
 
-			report.getCellByPosition(0, offset).setFormula("Bonus Game RTP [%]:");
-			report.getCellByPosition(1, offset).setFormula("" + ( (double)bonusGameMoney / (double)lostMoney ) );
-			setPercent(document, report, 1, offset);
-			offset += 2;
+		report.getCellByPosition(0, offset).setFormula("Bonus Game RTP [%]:");
+		report.getCellByPosition(1, offset).setFormula("" + ( (double)bonusGameMoney / (double)lostMoney ) );
+		setPercent(document, report, 1, offset);
+		offset += 2;
 
-			report.getCellByPosition(0, offset).setFormula("Max Win:");
-			report.getCellByPosition(1, offset).setFormula("" + maxWin);
-			offset += 1;
+		report.getCellByPosition(0, offset).setFormula("Max Win:");
+		report.getCellByPosition(1, offset).setFormula("" + maxWin);
+		offset += 1;
 
-			report.getCellByPosition(0, offset).setFormula("Base Game Max Win:");
-			report.getCellByPosition(1, offset).setFormula("" + baseGameMaxWin);
-			offset += 1;
+		report.getCellByPosition(0, offset).setFormula("Base Game Max Win:");
+		report.getCellByPosition(1, offset).setFormula("" + baseGameMaxWin);
+		offset += 1;
 
-			report.getCellByPosition(0, offset).setFormula("Free Spins Max Win:");
-			report.getCellByPosition(1, offset).setFormula("" + freeSpinsMaxWin);
-			offset += 1;
+		report.getCellByPosition(0, offset).setFormula("Free Spins Max Win:");
+		report.getCellByPosition(1, offset).setFormula("" + freeSpinsMaxWin);
+		offset += 1;
 
-			report.getCellByPosition(0, offset).setFormula("Bonus Game Max Win:");
-			report.getCellByPosition(1, offset).setFormula("" + bonusGameMaxWin);
-			offset += 2;
+		report.getCellByPosition(0, offset).setFormula("Bonus Game Max Win:");
+		report.getCellByPosition(1, offset).setFormula("" + bonusGameMaxWin);
+		offset += 2;
 
-			report.getCellByPosition(0, offset).setFormula("Base Game Hit Frequency:");
-			report.getCellByPosition(1, offset).setFormula("" + baseGameHitFrequency);
-			offset += 1;
+		report.getCellByPosition(0, offset).setFormula("Base Game Hit Frequency:");
+		report.getCellByPosition(1, offset).setFormula("" + baseGameHitFrequency);
+		offset += 1;
 
-			report.getCellByPosition(0, offset).setFormula("Free Spins Hit Frequency:");
-			report.getCellByPosition(1, offset).setFormula("" + freeSpinsHitFrequency);
-			offset += 1;
+		report.getCellByPosition(0, offset).setFormula("Free Spins Hit Frequency:");
+		report.getCellByPosition(1, offset).setFormula("" + freeSpinsHitFrequency);
+		offset += 1;
 
-			report.getCellByPosition(0, offset).setFormula("Bonus Game Hit Frequency:");
-			report.getCellByPosition(1, offset).setFormula("" + bonusGameHitFrequency);
-			offset += 2;
+		report.getCellByPosition(0, offset).setFormula("Bonus Game Hit Frequency:");
+		report.getCellByPosition(1, offset).setFormula("" + bonusGameHitFrequency);
+		offset += 2;
 
-			report.getCellByPosition(0, offset).setFormula("Bingo Line Win:");
-			report.getCellByPosition(1, offset).setFormula("" + bingoLineMoney);
-			offset += 1;
+		report.getCellByPosition(0, offset).setFormula("Bingo Line Win:");
+		report.getCellByPosition(1, offset).setFormula("" + bingoLineMoney);
+		offset += 1;
 
-			report.getCellByPosition(0, offset).setFormula("Bingo Full House Win:");
-			report.getCellByPosition(1, offset).setFormula("" + bingoFullHouseMoney);
-			offset += 2;
+		report.getCellByPosition(0, offset).setFormula("Bingo Full House Win:");
+		report.getCellByPosition(1, offset).setFormula("" + bingoFullHouseMoney);
+		offset += 2;
 
-			report.getCellByPosition(0, offset).setFormula("Bingo Line RTP [%]:");
-			report.getCellByPosition(1, offset).setFormula("" + ( (double)bingoLineMoney / (double)lostMoney ) );
-			setPercent(document, report, 1, offset);
-			offset += 1;
+		report.getCellByPosition(0, offset).setFormula("Bingo Line RTP [%]:");
+		report.getCellByPosition(1, offset).setFormula("" + ( (double)bingoLineMoney / (double)lostMoney ) );
+		setPercent(document, report, 1, offset);
+		offset += 1;
 
-			report.getCellByPosition(0, offset).setFormula("Bingo Full House RTP [%]:");
-			report.getCellByPosition(1, offset).setFormula("" + ( (double)bingoFullHouseMoney / (double)lostMoney ) );
-			setPercent(document, report, 1, offset);
-			offset += 2;
+		report.getCellByPosition(0, offset).setFormula("Bingo Full House RTP [%]:");
+		report.getCellByPosition(1, offset).setFormula("" + ( (double)bingoFullHouseMoney / (double)lostMoney ) );
+		setPercent(document, report, 1, offset);
+		offset += 2;
 
-			report.getCellByPosition(0, offset).setFormula("Bingo Line Hit Frequency:");
-			report.getCellByPosition(1, offset).setFormula("" + bingoLineHitFrequency);
-			offset += 1;
+		report.getCellByPosition(0, offset).setFormula("Bingo Line Hit Frequency:");
+		report.getCellByPosition(1, offset).setFormula("" + bingoLineHitFrequency);
+		offset += 1;
 
-			report.getCellByPosition(0, offset).setFormula("Bingo Full House Hit Frequency:");
-			report.getCellByPosition(1, offset).setFormula("" + bingoFullHouseHitFrequency);
-			offset += 2;
+		report.getCellByPosition(0, offset).setFormula("Bingo Full House Hit Frequency:");
+		report.getCellByPosition(1, offset).setFormula("" + bingoFullHouseHitFrequency);
+		offset += 2;
 
-			report.getCellByPosition(0, offset).setFormula("Base Game Symbols Win:");
-			offset += 1;
-			for(int i = 0, l=baseGameSymbolsMoney[0].length; i < baseGameSymbolsMoney[0].length; i++) {
-				report.getCellByPosition(1+i, offset).setFormula( "" + i + " of" );
-				resize = (1+i > resize) ? 1+i : resize;
-				report.getCellByPosition(2+l+i, offset).setFormula( "" + i + " of" );
-				resize = (2+l+i > resize) ? 2+l+i : resize;
-			}
-			offset += 1;
-			for(int j = 0; j < symbols.length; j++) {
-				report.getCellByPosition(0, offset+j).setFormula( symbols[j] );
-			}
-			for(int j = 0; j < baseGameSymbolsMoney.length; j++) {
-				for(int i = 0, l=baseGameSymbolsMoney[j].length; i < baseGameSymbolsMoney[j].length; i++) {
-					report.getCellByPosition(1+i, offset+j).setFormula("" + baseGameSymbolsMoney[j][i]);
-					resize = (1+i > resize) ? 1+i : resize;
-					report.getCellByPosition(2+l+i, offset+j).setFormula("" + baseGameSymbolsMoney[j][i]/(double)lostMoney);
-					setDigits(document, report, 2+l+i, offset+j);
-					resize = (2+l+i > resize) ? 2+l+i : resize;
-				}
-			}
-			offset += baseGameSymbolsMoney.length;
-			offset += 1;
-
-			report.getCellByPosition(0, offset).setFormula("Free Spins Symbols Win:");
-			offset += 1;
-			for(int i = 0, l=freeSpinsSymbolsMoney[0].length; i < freeSpinsSymbolsMoney[0].length; i++) {
-				report.getCellByPosition(1+i, offset).setFormula("" + i + " of");
-				resize = (1+i > resize) ? 1+i : resize;
-				report.getCellByPosition(2+l+i, offset).setFormula( "" + i + " of" );
-				resize = (2+l+i > resize) ? 2+l+i : resize;
-			}
-			offset += 1;
-			for(int j = 0; j < symbols.length; j++) {
-				report.getCellByPosition(0, offset+j).setFormula( symbols[j] );
-			}
-			for(int j = 0; j < freeSpinsSymbolsMoney.length; j++) {
-				for(int i = 0, l=freeSpinsSymbolsMoney[j].length; i < freeSpinsSymbolsMoney[j].length; i++) {
-					report.getCellByPosition(1+i, offset+j).setFormula("" + freeSpinsSymbolsMoney[j][i]);
-					resize = (1+i > resize) ? 1+i : resize;
-					report.getCellByPosition(2+l+i, offset+j).setFormula("" + freeSpinsSymbolsMoney[j][i]/(double)lostMoney);
-					setDigits(document, report, 2+l+i, offset+j);
-					resize = (2+l+i > resize) ? 2+l+i : resize;
-				}
-			}
-			offset += freeSpinsSymbolsMoney.length;
-			offset += 1;
-
-			report.getCellByPosition(0, offset).setFormula("Base Game Symbols Frequencies:");
-			offset += 1;
-			for(int i = 0, l=baseGameSymbolsHitFrequency[0].length; i < baseGameSymbolsHitFrequency[0].length; i++) {
-				report.getCellByPosition(1+i, offset).setFormula( "" + i + " of" );
-				resize = (1+i > resize) ? 1+i : resize;
-				report.getCellByPosition(2+l+i, offset).setFormula( "" + i + " of" );
-				resize = (2+l+i > resize) ? 2+l+i : resize;
-			}
-			offset += 1;
-			for(int j = 0; j < symbols.length; j++) {
-				report.getCellByPosition(0, offset+j).setFormula( symbols[j] );
-			}
-			for(int j = 0; j < baseGameSymbolsHitFrequency.length; j++) {
-				for(int i = 0, l=baseGameSymbolsHitFrequency[j].length; i < baseGameSymbolsHitFrequency[j].length; i++) {
-					report.getCellByPosition(1+i, offset+j).setFormula("" + baseGameSymbolsHitFrequency[j][i]);
-					resize = (1+i > resize) ? 1+i : resize;
-					report.getCellByPosition(2+l+i, offset+j).setFormula("" + baseGameSymbolsHitFrequency[j][i]/(double)totalNumberOfGames);
-					setDigits(document, report, 2+l+i, offset+j);
-					resize = (2+l+i > resize) ? 2+l+i : resize;
-				}
-			}
-			offset += baseGameSymbolsHitFrequency.length;
-			offset += 1;
-
-			report.getCellByPosition(0, offset).setFormula("Free Spins Symbols Frequencies:");
-			offset += 1;
-			for(int i = 0, l=freeSpinsSymbolsHitFrequency[0].length; i < freeSpinsSymbolsHitFrequency[0].length; i++) {
-				report.getCellByPosition(1+i, offset).setFormula( "" + i + " of" );
-				resize = (1+i > resize) ? 1+i : resize;
-				report.getCellByPosition(2+l+i, offset).setFormula( "" + i + " of" );
-				resize = (2+l+i > resize) ? 2+l+i : resize;
-			}
-			offset += 1;
-			for(int j = 0; j < symbols.length; j++) {
-				report.getCellByPosition(0, offset+j).setFormula( symbols[j] );
-			}
-			for(int j = 0; j < freeSpinsSymbolsHitFrequency.length; j++) {
-				for(int i = 0, l=freeSpinsSymbolsHitFrequency[j].length; i < freeSpinsSymbolsHitFrequency[j].length; i++) {
-					report.getCellByPosition(1+i, offset+j).setFormula("" + freeSpinsSymbolsHitFrequency[j][i]);
-					resize = (1+i > resize) ? 1+i : resize;
-					report.getCellByPosition(2+l+i, offset+j).setFormula("" + freeSpinsSymbolsHitFrequency[j][i]/(double)totalNumberOfFreeSpins);
-					setDigits(document, report, 2+l+i, offset+j);
-					resize = (2+l+i > resize) ? 2+l+i : resize;
-				}
-			}
-			offset += freeSpinsSymbolsHitFrequency.length;
-			offset += 1;
-
-			autoSizeColums(report, resize);
-		} catch (Exception e) {
-			e.printStackTrace();
+		report.getCellByPosition(0, offset).setFormula("Base Game Symbols Win:");
+		offset += 1;
+		for(int i = 0, l=baseGameSymbolsMoney[0].length; i < baseGameSymbolsMoney[0].length; i++) {
+			report.getCellByPosition(1+i, offset).setFormula( "" + i + " of" );
+			resize = (1+i > resize) ? 1+i : resize;
+			report.getCellByPosition(2+l+i, offset).setFormula( "" + i + " of" );
+			resize = (2+l+i > resize) ? 2+l+i : resize;
 		}
+		offset += 1;
+		for(int j = 0; j < symbols.length; j++) {
+			report.getCellByPosition(0, offset+j).setFormula( symbols[j] );
+		}
+		for(int j = 0; j < baseGameSymbolsMoney.length; j++) {
+			for(int i = 0, l=baseGameSymbolsMoney[j].length; i < baseGameSymbolsMoney[j].length; i++) {
+				report.getCellByPosition(1+i, offset+j).setFormula("" + baseGameSymbolsMoney[j][i]);
+				resize = (1+i > resize) ? 1+i : resize;
+				report.getCellByPosition(2+l+i, offset+j).setFormula("" + baseGameSymbolsMoney[j][i]/(double)lostMoney);
+				setDigits(document, report, 2+l+i, offset+j);
+				resize = (2+l+i > resize) ? 2+l+i : resize;
+			}
+		}
+		offset += baseGameSymbolsMoney.length;
+		offset += 1;
+
+		report.getCellByPosition(0, offset).setFormula("Free Spins Symbols Win:");
+		offset += 1;
+		for(int i = 0, l=freeSpinsSymbolsMoney[0].length; i < freeSpinsSymbolsMoney[0].length; i++) {
+			report.getCellByPosition(1+i, offset).setFormula("" + i + " of");
+			resize = (1+i > resize) ? 1+i : resize;
+			report.getCellByPosition(2+l+i, offset).setFormula( "" + i + " of" );
+			resize = (2+l+i > resize) ? 2+l+i : resize;
+		}
+		offset += 1;
+		for(int j = 0; j < symbols.length; j++) {
+			report.getCellByPosition(0, offset+j).setFormula( symbols[j] );
+		}
+		for(int j = 0; j < freeSpinsSymbolsMoney.length; j++) {
+			for(int i = 0, l=freeSpinsSymbolsMoney[j].length; i < freeSpinsSymbolsMoney[j].length; i++) {
+				report.getCellByPosition(1+i, offset+j).setFormula("" + freeSpinsSymbolsMoney[j][i]);
+				resize = (1+i > resize) ? 1+i : resize;
+				report.getCellByPosition(2+l+i, offset+j).setFormula("" + freeSpinsSymbolsMoney[j][i]/(double)lostMoney);
+				setDigits(document, report, 2+l+i, offset+j);
+				resize = (2+l+i > resize) ? 2+l+i : resize;
+			}
+		}
+		offset += freeSpinsSymbolsMoney.length;
+		offset += 1;
+
+		report.getCellByPosition(0, offset).setFormula("Base Game Symbols Frequencies:");
+		offset += 1;
+		for(int i = 0, l=baseGameSymbolsHitFrequency[0].length; i < baseGameSymbolsHitFrequency[0].length; i++) {
+			report.getCellByPosition(1+i, offset).setFormula( "" + i + " of" );
+			resize = (1+i > resize) ? 1+i : resize;
+			report.getCellByPosition(2+l+i, offset).setFormula( "" + i + " of" );
+			resize = (2+l+i > resize) ? 2+l+i : resize;
+		}
+		offset += 1;
+		for(int j = 0; j < symbols.length; j++) {
+			report.getCellByPosition(0, offset+j).setFormula( symbols[j] );
+		}
+		for(int j = 0; j < baseGameSymbolsHitFrequency.length; j++) {
+			for(int i = 0, l=baseGameSymbolsHitFrequency[j].length; i < baseGameSymbolsHitFrequency[j].length; i++) {
+				report.getCellByPosition(1+i, offset+j).setFormula("" + baseGameSymbolsHitFrequency[j][i]);
+				resize = (1+i > resize) ? 1+i : resize;
+				report.getCellByPosition(2+l+i, offset+j).setFormula("" + baseGameSymbolsHitFrequency[j][i]/(double)totalNumberOfGames);
+				setDigits(document, report, 2+l+i, offset+j);
+				resize = (2+l+i > resize) ? 2+l+i : resize;
+			}
+		}
+		offset += baseGameSymbolsHitFrequency.length;
+		offset += 1;
+
+		report.getCellByPosition(0, offset).setFormula("Free Spins Symbols Frequencies:");
+		offset += 1;
+		for(int i = 0, l=freeSpinsSymbolsHitFrequency[0].length; i < freeSpinsSymbolsHitFrequency[0].length; i++) {
+			report.getCellByPosition(1+i, offset).setFormula( "" + i + " of" );
+			resize = (1+i > resize) ? 1+i : resize;
+			report.getCellByPosition(2+l+i, offset).setFormula( "" + i + " of" );
+			resize = (2+l+i > resize) ? 2+l+i : resize;
+		}
+		offset += 1;
+		for(int j = 0; j < symbols.length; j++) {
+			report.getCellByPosition(0, offset+j).setFormula( symbols[j] );
+		}
+		for(int j = 0; j < freeSpinsSymbolsHitFrequency.length; j++) {
+			for(int i = 0, l=freeSpinsSymbolsHitFrequency[j].length; i < freeSpinsSymbolsHitFrequency[j].length; i++) {
+				report.getCellByPosition(1+i, offset+j).setFormula("" + freeSpinsSymbolsHitFrequency[j][i]);
+				resize = (1+i > resize) ? 1+i : resize;
+				report.getCellByPosition(2+l+i, offset+j).setFormula("" + freeSpinsSymbolsHitFrequency[j][i]/(double)totalNumberOfFreeSpins);
+				setDigits(document, report, 2+l+i, offset+j);
+				resize = (2+l+i > resize) ? 2+l+i : resize;
+			}
+		}
+		offset += freeSpinsSymbolsHitFrequency.length;
+		offset += 1;
+
+		autoSizeColums(report, resize);
 	}
 
 	/**
@@ -1376,7 +1368,11 @@ public class Simulator {
 			}
 		}
 
-		reportStructures(ctx);
-		reportStatistics(ctx);
+		try{
+			reportStructures(ctx);
+			reportStatistics(ctx);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
