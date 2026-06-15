@@ -1,36 +1,26 @@
 package eu.veldsoft.bths;
 
-import java.util.Set;
-import java.util.List;
-import java.util.Locale;
-import java.util.Date;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.ArrayList;
-import java.util.NoSuchElementException;
 import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-import com.sun.star.text.XText;
+import com.sun.star.beans.XPropertySet;
 import com.sun.star.frame.XModel;
-import com.sun.star.frame.XFrame;
-import com.sun.star.frame.XController;
-import com.sun.star.frame.XDispatchHelper;
-import com.sun.star.uno.UnoRuntime;
+import com.sun.star.script.provider.XScriptContext;
 import com.sun.star.sheet.XSpreadsheet;
-import com.sun.star.sheet.XSpreadsheets;
 import com.sun.star.sheet.XSpreadsheetDocument;
-import com.sun.star.table.XCell;
+import com.sun.star.sheet.XSpreadsheets;
 import com.sun.star.table.CellContentType;
+import com.sun.star.table.XCell;
 import com.sun.star.table.XColumnRowRange;
 import com.sun.star.table.XTableColumns;
-import com.sun.star.container.XIndexAccess;
-import com.sun.star.util.URL;
+import com.sun.star.text.XText;
+import com.sun.star.uno.UnoRuntime;
 import com.sun.star.util.XNumberFormats;
-import com.sun.star.util.XNumberFormatTypes;
 import com.sun.star.util.XNumberFormatsSupplier;
-import com.sun.star.beans.XPropertySet;
-import com.sun.star.beans.PropertyValue;
-import com.sun.star.script.provider.XScriptContext;
 
 /**
  * Simulator of the slot machine.
@@ -969,7 +959,7 @@ public class Simulator {
 
 		for (int i = 0; i < view.length; i++) {
 			for (int j = 0; j < view[i].length; j++) {
-				view[i][j] =-1;
+				view[i][j] = -1;
 			}
 		}
 	}
@@ -1055,6 +1045,22 @@ public class Simulator {
 			sheets.insertNewByName(name, index);
 
 			XSpreadsheet structures = UnoRuntime.queryInterface(XSpreadsheet.class,sheets.getByName(name));
+
+			/* Sheet offset for rows. */
+			int offset = 0;
+			int resize = 0;
+
+			structures.getCellByPosition(0, offset).setFormula("Paytable:");
+			offset += 1;
+			for(int j = 0; j < paytable.length; j++) {
+				for(int i = 0, l=paytable[j].length; i < paytable[j].length; i++) {
+					structures.getCellByPosition(i, offset+j).setFormula("" + paytable[j][i]);
+					setDigits(document, structures, 1+l+i, offset+j);
+					resize = (1+l+i > resize) ? 1+l+i : resize;
+				}
+			}
+			offset += paytable.length;
+			offset += 1;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
