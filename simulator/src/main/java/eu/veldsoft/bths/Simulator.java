@@ -410,7 +410,7 @@ public class Simulator {
 		}
 
 		int result[] = {0,0,0};
-		result[0] = paytable[number][wild] * multiplier;
+		result[0] = paytable[wild][number] * multiplier;
 		result[1] = wild;
 		result[2] = number;
 		return result;
