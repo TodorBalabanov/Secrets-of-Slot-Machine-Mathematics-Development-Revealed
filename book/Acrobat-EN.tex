@@ -12,11 +12,11 @@
 % --- Document Geometry for KDP 5.5x8.5 ---
 % Adjust 'inner' (gutter) based on your page count (e.g., 0.625in for 300+ pages)
 \usepackage[
-    paperwidth=5.5in, 
-    paperheight=8.5in, 
+    paperwidth=5.5in,
+    paperheight=8.5in,
     inner=0.75in,   % Gutter: increased to 0.75 for safety/readability
     outer=0.5in,    % Outside margin
-    top=0.75in, 
+    top=0.75in,
     bottom=0.75in,
     includeheadfoot
 ]{geometry}
@@ -36,7 +36,7 @@
 \fancyhead[LO]{\small Secrets of Slot Machine Mathematics Development Revealed} % Book title on odd pages
 \renewcommand{\headrulewidth}{0.1pt}
 \fancyfoot[LE,RO]{}              % Clear outside edges of footers (since page # is in header)
-\fancyfoot[RE]{\small Todor Balabanov $\scriptstyle\blacklozenge$ 2026 \copyright} 
+\fancyfoot[RE]{\small Todor Balabanov $\scriptstyle\blacklozenge$ 2026 \copyright}
 \fancyfoot[LO]{\small Velbazhd Software LLC $\scriptstyle\blacklozenge$ Sofia $\scriptstyle\blacklozenge$ Bulgaria}
 \renewcommand{\footrulewidth}{0.1pt}
 
@@ -131,7 +131,7 @@ Printed by request
 
 % Clear the page and suppress the header/footer for the transition
 \clearpage
-\thispagestyle{empty} 
+\thispagestyle{empty}
 \pagestyle{empty}
 
 LIMIT OF LIABILITY/DISCLAIMER OF WARRANTY: WHILE THE PUBLISHER AND AUTHORS HAVE USED THEIR BEST EFFORTS IN PREPARING THIS WORK, THEY MAKE NO REPRESENTATIONS OR WARRANTIES WITH RESPECT TO THE ACCURACY OR COMPLETENESS OF THE CONTENTS OF THIS WORK AND SPECIFICALLY DISCLAIM ALL WARRANTIES, INCLUDING WITHOUT LIMITATION ANY IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE. NO WARRANTY MAY BE CREATED OR EXTENDED BY SALES REPRESENTATIVES, WRITTEN SALES MATERIALS, OR PROMOTIONAL STATEMENTS FOR THIS WORK. THE FACT THAT AN ORGANIZATION, WEBSITE, OR PRODUCT IS REFERRED TO IN THIS WORK AS A CITATION AND/OR POTENTIAL SOURCE OF FURTHER INFORMATION DOES NOT MEAN THAT THE PUBLISHER AND AUTHORS ENDORSE THE INFORMATION OR SERVICES THE ORGANIZATION, WEBSITE, OR PRODUCT MAY PROVIDE OR RECOMMENDATIONS IT MAY MAKE. THIS WORK IS SOLD WITH THE UNDERSTANDING THAT THE PUBLISHER IS NOT ENGAGED IN RENDERING PROFESSIONAL SERVICES. THE ADVICE AND STRATEGIES CONTAINED HEREIN MAY NOT BE SUITABLE FOR YOUR SITUATION. YOU SHOULD CONSULT WITH A SPECIALIST WHERE APPROPRIATE. FURTHER, READERS SHOULD BE AWARE THAT WEBSITES LISTED IN THIS WORK MAY HAVE CHANGED OR DISAPPEARED BETWEEN WHEN THIS WORK WAS WRITTEN AND WHEN IT IS READ. NEITHER THE PUBLISHER NOR THE AUTHORS SHALL BE LIABLE FOR ANY LOSS OF PROFIT OR ANY OTHER COMMERCIAL DAMAGES, INCLUDING BUT NOT LIMITED TO SPECIAL, INCIDENTAL, CONSEQUENTIAL, OR OTHER DAMAGES.
@@ -269,7 +269,7 @@ All wins are counted from the leftmost reel to the rightmost. Wins are formed on
         \includegraphics[width=\textwidth]{image008}
         \caption{}
     \end{subfigure}
-    
+ 
     \vspace{1ex}
 
     % === ROW 2 ===
@@ -326,7 +326,7 @@ All wins are counted from the leftmost reel to the rightmost. Wins are formed on
     \hfill
     \hspace{0.18\textwidth}
     \hfill
-    \hspace{0.18\textwidth} 
+    \hspace{0.18\textwidth}
 
     \caption{Symbols in Bingo Tropical Hot}
     \label{image004016}
@@ -432,15 +432,15 @@ The only change in the initial free spins reels is the removal of the symbol tha
 
 \chapter{Programming Language Selection}
 
-The gambling industry has widely adopted Microsoft Excel as the standard tool for the mathematical design of slot machine games. While Excel is a powerful resource for creating PAR sheets, LibreOffice Calc can be used even more effectively and is more cost-effective. Calc is compatible with major operating systems such as Windows, macOS, and various Linux distributions. Additionally, Calc offers superior support for programming languages compared to Excel. 
+The gambling industry has widely adopted Microsoft Excel as the standard tool for the mathematical design of slot machine games. While Excel is a powerful resource for creating PAR sheets, LibreOffice Calc can be used even more effectively and is more cost-effective. Calc is compatible with major operating systems such as Windows, macOS, and various Linux distributions. Additionally, Calc offers superior support for programming languages compared to Excel.
 
 The mathematical modeling process for Bingo Tropical Hot will heavily rely on Monte Carlo simulations. Therefore, it’s essential that the simulation source code be closely aligned with Calc's data structures.
 
 \section*{Possible Programming Languages}
 
-LibreOffice Calc supports several scripting languages through its UNO (Universal Network Objects) API. The primary scripting languages available are StarBasic, Python, JavaScript, BeanShell, Java, and other UNO-compatible languages. StarBasic is the most integrated language in LibreOffice and resembles VBA, although it is not entirely compatible with it. 
+LibreOffice Calc supports several scripting languages through its UNO (Universal Network Objects) API. The primary scripting languages available are StarBasic, Python, JavaScript, BeanShell, Java, and other UNO-compatible languages. StarBasic is the most integrated language in LibreOffice and resembles VBA, although it is not entirely compatible with it.
 
-Modern versions of LibreOffice support Python natively, allowing for interaction with LibreOffice Calc through its UNO API. Python scripts can be stored internally within LibreOffice documents. Additionally, LibreOffice supports JavaScript through a Rhino-based variant via the Script Provider, which operates within LibreOffice’s JVM-based scripting framework. BeanShell, a lightweight Java-like scripting language, is also supported through LibreOffice’s Java-based scripting framework. 
+Modern versions of LibreOffice support Python natively, allowing for interaction with LibreOffice Calc through its UNO API. Python scripts can be stored internally within LibreOffice documents. Additionally, LibreOffice supports JavaScript through a Rhino-based variant via the Script Provider, which operates within LibreOffice’s JVM-based scripting framework. BeanShell, a lightweight Java-like scripting language, is also supported through LibreOffice’s Java-based scripting framework.
 
 Java serves as the most advanced programming language for writing macros and extensions in LibreOffice. Since the UNO API is language-independent, scripting can also be performed using C++, .NET, or other languages via the UNO bridge, but these methods are typically used for external programs rather than for embedded macros.
 
@@ -462,7 +462,7 @@ To model the slot math, start by installing the LibreOffice software, which is a
   \label{image022}
 \end{figure}
 
-Slot games are based on combinatorial math models. There are various approaches to designing and simulating these games. A slot game can be developed entirely without a computer, using only a pencil and paper. Most elements of a slot game can be fine-tuned by calculating theoretical parameters. This book adopts a practical approach, recreating the game model through empirical adjustments and Monte Carlo simulations ( \url{https://en.wikipedia.org/wiki/Monte_Carlo_method} ). 
+Slot games are based on combinatorial math models. There are various approaches to designing and simulating these games. A slot game can be developed entirely without a computer, using only a pencil and paper. Most elements of a slot game can be fine-tuned by calculating theoretical parameters. This book adopts a practical approach, recreating the game model through empirical adjustments and Monte Carlo simulations ( \url{https://en.wikipedia.org/wiki/Monte_Carlo_method} ).
 
 \section*{Source Code Repository}
 
@@ -513,12 +513,12 @@ def detectLibreOfficeClassesDir() {
     def candidates = []
 
     if (System.properties['os.name'].toLowerCase().contains('win')) {
-        candidates << 
+        candidates <<
         "${System.getenv('ProgramFiles')}\\LibreOffice\\program\\classes"
-        candidates << 
+        candidates <<
         "${System.getenv('ProgramFiles(x86)')}\\LibreOffice\\program\\classes"
     } else if (System.properties['os.name'].toLowerCase().contains('mac')) {
-        candidates << 
+        candidates <<
         "/Applications/LibreOffice.app/Contents/Resources/java"
     } else {
         // Assume Linux/Unix-like
@@ -533,7 +533,7 @@ def libreOfficeClassesDir = detectLibreOfficeClassesDir()
 
 if (libreOfficeClassesDir == null) {
     throw new GradleException(
-	"Could not find libreoffice.jar - 
+	"Could not find libreoffice.jar -
 	please install LibreOffice or set LIBREOFFICE_HOME.")
 }
 
@@ -670,11 +670,11 @@ public class Simulator {
     public static void simulate(XScriptContext ctx) {
         try {
             XModel model = ctx.getDocument();
-            XSpreadsheetDocument document = 
+            XSpreadsheetDocument document =
             UnoRuntime.queryInterface(XSpreadsheetDocument.class, model);
-            XIndexAccess sheets = 
+            XIndexAccess sheets =
             UnoRuntime.queryInterface(XIndexAccess.class, document.getSheets());
-            XSpreadsheet first = 
+            XSpreadsheet first =
             UnoRuntime.queryInterface(XSpreadsheet.class, sheets.getByIndex(0));
 
 
@@ -708,15 +708,15 @@ import com.sun.star.sheet.XSpreadsheet;
 
 public class Simulator {
         private static final SecureRandom PRNG = new SecureRandom();
-        
+     
     public static void simulate(XScriptContext ctx) {
         try {
             XModel model = ctx.getDocument();
-            XSpreadsheetDocument document = 
+            XSpreadsheetDocument document =
             UnoRuntime.queryInterface(XSpreadsheetDocument.class, model);
-            XIndexAccess sheets = 
+            XIndexAccess sheets =
             UnoRuntime.queryInterface(XIndexAccess.class, document.getSheets());
-            XSpreadsheet first = 
+            XSpreadsheet first =
             UnoRuntime.queryInterface(XSpreadsheet.class, sheets.getByIndex(0));
 
             first.getCellByPosition(0, 0).setFormula("Simulation!");
@@ -731,12 +731,12 @@ The instance of the RNG is private, as it will only be used within the simulatio
 
 \section*{Paytable}
 
-The game paytable is a fundamental element in each slot machine. It shows the payout for each winning combination. Most of the case wins are calculated from left to right. When reels are five, usually wins are formed by 3, 4, or 5 consecutive symbols. The Bingo Tropical Hot paytable can be represented as a two-dimensional array (Listing \ref{listing012}). The first dimension gives the number of consequent symbols. In contrast, the second shows the index of a particular symbol. Each cell in the array provides the prize amount. 
+The game paytable is a fundamental element in each slot machine. It shows the payout for each winning combination. Most of the case wins are calculated from left to right. When reels are five, usually wins are formed by 3, 4, or 5 consecutive symbols. The Bingo Tropical Hot paytable can be represented as a two-dimensional array (Listing \ref{listing012}). The first dimension gives the number of consequent symbols. In contrast, the second shows the index of a particular symbol. Each cell in the array provides the prize amount.
 
 \begin{lstlisting}[language=Java, caption={Paytable array model}, label=listing012]
 private static int paytable[][] = {};
 
-XSpreadsheet paytable = UnoRuntime.queryInterface(XSpreadsheet.class, 
+XSpreadsheet paytable = UnoRuntime.queryInterface(XSpreadsheet.class,
 sheets.getByName("Paytable"));
 int tableRows = 0;
 int tableColumns = 0;
@@ -774,12 +774,12 @@ The game features 9 paylines, with the possibility of winning combinations of x2
 \begin{lstlisting}[language=Java, caption={Pay lines array model}, label=listing013]
 private static int lines[][] = {};
 
-XSpreadsheet lines = UnoRuntime.queryInterface(XSpreadsheet.class, 
+XSpreadsheet lines = UnoRuntime.queryInterface(XSpreadsheet.class,
 sheets.getByName("Lines"));
 Simulator.lines = new int[numberOfBettingLines][numberOfColumns];
 for (int c = 0; c<numberOfColumns; c++) {
 	for (int l = 0; l<numberOfBettingLines; l++) {
-		Simulator.lines[l][c] = 
+		Simulator.lines[l][c] =
 		(int)lines.getCellByPosition(2+c,1+l).getValue();
 	}
 }
@@ -796,7 +796,7 @@ Only the most basic slot games do not offer free spins. Free spins are awarded u
 \begin{lstlisting}[language=Java, caption={Reels array model}, label=listing014]
 private static int baseGameReels[][] = {};
 
-XSpreadsheet baseGameReels = UnoRuntime.queryInterface(XSpreadsheet.class, 
+XSpreadsheet baseGameReels = UnoRuntime.queryInterface(XSpreadsheet.class,
 sheets.getByName("Base Reels"));
 Simulator.baseGameReels = new int[numberOfColumns][];
 for (int c = 0; c<numberOfColumns; c++) {
@@ -814,7 +814,7 @@ for (int c = 0; c<numberOfColumns; c++) {
 
 private static int freeSpinsReels[][] = {};
 
-XSpreadsheet freeSpinsReels = UnoRuntime.queryInterface(XSpreadsheet.class, 
+XSpreadsheet freeSpinsReels = UnoRuntime.queryInterface(XSpreadsheet.class,
 sheets.getByName("Free Reels"));
 Simulator.freeSpinsReels = new int[numberOfColumns][];
 for (int c = 0; c<numberOfColumns; c++) {
@@ -831,7 +831,7 @@ for (int c = 0; c<numberOfColumns; c++) {
 }
 \end{lstlisting}
 
-The length of the reels is a subjective decision, and it is important to note that each reel can have a different length. From a programmer's perspective, varying lengths offer greater flexibility but can also lead to software bugs. Different lengths can help mathematicians more easily achieve the desired statistical parameters for the game. 
+The length of the reels is a subjective decision, and it is important to note that each reel can have a different length. From a programmer's perspective, varying lengths offer greater flexibility but can also lead to software bugs. Different lengths can help mathematicians more easily achieve the desired statistical parameters for the game.
 
 Another key consideration is the length itself. Longer reels offer more options for statistical adjustments. However, they can also be more challenging to arrange. The current simulation model aims to select a prime number around 61 for the reel length, with the hope that this size will provide enough options to meet the game's statistical requirements.
 
@@ -877,9 +877,9 @@ private static int freeSpinsMultiplier = 0;
 private static long numberOfSimulations = 0L;
 \end{lstlisting}
 
-The single bet is stored in a separate variable and is set to 1 coin. For the Monte Carlo simulations, a denomination of 1 coin is considered safe. In a real game, the single bet can vary. The total bet is calculated by multiplying the single bet by the number of betting lines. 
+The single bet is stored in a separate variable and is set to 1 coin. For the Monte Carlo simulations, a denomination of 1 coin is considered safe. In a real game, the single bet can vary. The total bet is calculated by multiplying the single bet by the number of betting lines.
 
-Statistics on total losses and total winnings are crucial for calculating the RTP. The total number of different spins is also used for this RTP calculation, alongside varying RTP values. Wins from the base game, free spins, and bingo bonus game contribute to distinguishing the RTP. 
+Statistics on total losses and total winnings are crucial for calculating the RTP. The total number of different spins is also used for this RTP calculation, alongside varying RTP values. Wins from the base game, free spins, and bingo bonus game contribute to distinguishing the RTP.
 
 While maximum achieved wins are not particularly important, they can be helpful in some comprehensive analyses. Hit frequencies are valuable for estimating the hit rate, which informs the game's volatility. During gameplay, the free spin wheel awards several free spins along with a specific multiplier, and this information is stored in separate variables.
 
@@ -901,23 +901,23 @@ private static int bingoCards[][] = {
 	{ 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 0, 0, 0, 0, 0, 0, 0 },
 };
 private static boolean bingoNumbersOut[][] = {
-	{ false, false, false, false, false, false, false, false, false, false, 
+	{ false, false, false, false, false, false, false, false, false, false,
 	false, false, false, false, false, false, false, false},
-	{ false, false, false, false, false, false, false, false, false, false, 
+	{ false, false, false, false, false, false, false, false, false, false,
 	false, false, false, false, false, false, false, false},
-	{ false, false, false, false, false, false, false, false, false, false, 
+	{ false, false, false, false, false, false, false, false, false, false,
 	false, false, false, false, false, false, false, false},
-	{ false, false, false, false, false, false, false, false, false, false, 
+	{ false, false, false, false, false, false, false, false, false, false,
 	false, false, false, false, false, false, false, false},
-	{ false, false, false, false, false, false, false, false, false, false, 
+	{ false, false, false, false, false, false, false, false, false, false,
 	false, false, false, false, false, false, false, false},
-	{ false, false, false, false, false, false, false, false, false, false, 
+	{ false, false, false, false, false, false, false, false, false, false,
 	false, false, false, false, false, false, false, false},
-	{ false, false, false, false, false, false, false, false, false, false, 
+	{ false, false, false, false, false, false, false, false, false, false,
 	false, false, false, false, false, false, false, false},
-	{ false, false, false, false, false, false, false, false, false, false, 
+	{ false, false, false, false, false, false, false, false, false, false,
 	false, false, false, false, false, false, false, false },
-	{ false, false, false, false, false, false, false, false, false, false, 
+	{ false, false, false, false, false, false, false, false, false, false,
 	false, false, false, false, false, false, false, false },
 };
 private static long baseGameSymbolsMoney[][] = {};
@@ -934,13 +934,13 @@ Once the common data structures have been established, it is time to implement s
 
 \section*{Bingo Bonus Cards}
 
-By having the discrete distribution of bingo cards, a random number is enough to be generated, and values for the line and bing can be calculated (Listing \ref{listing017}). 
+By having the discrete distribution of bingo cards, a random number is enough to be generated, and values for the line and bing can be calculated (Listing \ref{listing017}).
 
 \begin{lstlisting}[language=Java, caption={Bingo bonus cards}, label=listing017]
 private static void shuffleBingoCards() {
 	int length = 0;
 	for (int i = 0; i < bingoCards.length; i++) {
-		for (int last = bingoCards[i].length - 1, r = -1, swap = -1; 
+		for (int last = bingoCards[i].length - 1, r = -1, swap = -1;
 		last > 0; last--) {
 			r = PRNG.nextInt(last + 1);
 			swap = bingoCards[i][last];
@@ -1136,7 +1136,7 @@ private static int scatterWin(int scatter, int multiplier) {
 }
 \end{lstlisting}
 
-The scatter symbol is located at index 16 in the paytable. The scatter symbol at index 15 is specifically used to activate free spins. There is a separate supportive array that contains the identifiers for the scatters. After counting the number of scatters displayed on the screen, it is easy to look up the corresponding prize amount. Keeping track of scatter wins and their frequency can be valuable during the game balance phase. 
+The scatter symbol is located at index 16 in the paytable. The scatter symbol at index 15 is specifically used to activate free spins. There is a separate supportive array that contains the identifiers for the scatters. After counting the number of scatters displayed on the screen, it is easy to look up the corresponding prize amount. Keeping track of scatter wins and their frequency can be valuable during the game balance phase.
 
 \begin{lstlisting}[language=Java, caption={Free spins number and multiplier calculation}, label=listing020]
 private static int[] rewardFreeSpins(int scatter) {
@@ -1223,11 +1223,11 @@ private static int[] lineWin(int line[], int multiplier) {
 }
 \end{lstlisting}
 
-Most of the time, prizes in the game will be given by regular lines. For a particular win, the number of consecutive symbols should be counted. The presence of the wild symbol should also be observed. The number of successive symbols is enough to look up in the paytable and get the prize value (Listing \ref{listing022}). In free spins, the win multiplier is also taken into account. The final result of the line win is determined by the highest winning combination. The winning symbol and number of consecutive occurrences are returned as an output reference parameter for statistics collection. 
+Most of the time, prizes in the game will be given by regular lines. For a particular win, the number of consecutive symbols should be counted. The presence of the wild symbol should also be observed. The number of successive symbols is enough to look up in the paytable and get the prize value (Listing \ref{listing022}). In free spins, the win multiplier is also taken into account. The final result of the line win is determined by the highest winning combination. The winning symbol and number of consecutive occurrences are returned as an output reference parameter for statistics collection.
 
 \section*{Lines Wins Calculation}
 
-In most games, Monte Carlo simulation can be done only for a single betting line (mainly the central one). The simulation will be conducted for all 9 lines in this book to enhance confidence in handling scatter wins and free spins (Listing \ref{listing023}). 
+In most games, Monte Carlo simulation can be done only for a single betting line (mainly the central one). The simulation will be conducted for all 9 lines in this book to enhance confidence in handling scatter wins and free spins (Listing \ref{listing023}).
 
 \begin{lstlisting}[language=Java, caption={All lines wins calculation}, label=listing023]
 private static int linesWin() {
@@ -1241,9 +1241,9 @@ private static int linesWin() {
 
 		int result[] = {0, -1, 0};
 		/* Get bigger win. */ {
-			int result1[] = lineWin(line.clone(), 
+			int result1[] = lineWin(line.clone(),
 			(freeSpinsAmount > 0 ? freeSpinsMultiplier : 1) );
-			int result2[] = wildLineWin(line.clone(), line[0], 
+			int result2[] = wildLineWin(line.clone(), line[0],
 			(freeSpinsAmount > 0 ? freeSpinsMultiplier : 1) );
 			result = (result1[0] > result2[0]) ? result1 : result2;
 		}
@@ -1269,7 +1269,7 @@ private static int linesWin() {
 }
 \end{lstlisting}
 
-Each betting line is extracted as a separate single-dimension array. The information for the index offset is taken from the lines data structure. Statistics for the wins from lines are kept at this point. 
+Each betting line is extracted as a separate single-dimension array. The information for the index offset is taken from the lines data structure. Statistics for the wins from lines are kept at this point.
 
 \section*{Single Reels Run}
 
@@ -1298,13 +1298,13 @@ private static void setupFreeSpins() {
 		}
 
 		freeSpinsAmount += parameters[0];
-		freeSpinsMultiplier = Math.max(freeSpinsMultiplier, 
+		freeSpinsMultiplier = Math.max(freeSpinsMultiplier,
 		parameters[1]);
 	}
 }
 \end{lstlisting}
 
-To run the free spins, the condition is that at least 3 free spin scatters appear on the screen. If it is in the base game, the number of free spins and multiplier value are taken from the array distributions. When free spins are awarded during free spins, the multiplier is kept the same, and the newly awarded number of free spins is the same amount as the pointed in the array. Statistics of free spins starts and restarts are also collected. 
+To run the free spins, the condition is that at least 3 free spin scatters appear on the screen. If it is in the base game, the number of free spins and multiplier value are taken from the array distributions. When free spins are awarded during free spins, the multiplier is kept the same, and the newly awarded number of free spins is the same amount as the pointed in the array. Statistics of free spins starts and restarts are also collected.
 
 \begin{lstlisting}[language=Java, caption={Single free spin}, label=listing025]
 private static void singleFreeSpin() {
@@ -1405,7 +1405,7 @@ private static void singleBaseGame() {
 }
 \end{lstlisting}
 
-The base game goes similarly to free spins (Listing \ref{listing026}). First, the reels are rotated. Second, the calculation of the win from the four components is handled. Third, statistics for total won money, money won in the base game, hit frequency, and maximum win statistics are collected. If there were free spins, set up for the free spins, and execution of all free spins is performed. 
+The base game goes similarly to free spins (Listing \ref{listing026}). First, the reels are rotated. Second, the calculation of the win from the four components is handled. Third, statistics for total won money, money won in the base game, hit frequency, and maximum win statistics are collected. If there were free spins, set up for the free spins, and execution of all free spins is performed.
 
 \begin{lstlisting}[language=Java, caption={Monte Carlo simulation run}, label=listing027]
 public static void simulate(XScriptContext ctx) {
@@ -1434,7 +1434,7 @@ The Monte Carlo simulation involves a large number of game plays (Listing \ref{l
 
 \chapter{Simulation Results Reporting}
 
-Two standard reports from the simulation are needed - a data structures report and a calculated statistics report (Listing \ref{listing028}). 
+Two standard reports from the simulation are needed - a data structures report and a calculated statistics report (Listing \ref{listing028}).
 
 \begin{lstlisting}[language=Java, caption={Simulation and reports run}, label=listing028]
 public static void simulate(XScriptContext ctx) {
@@ -1462,7 +1462,7 @@ public static void simulate(XScriptContext ctx) {
 
 \section*{Data Structures}
 
-Printing data structures is necessary to verify the information used during the simulation (Listing \ref{listing029}). 
+Printing data structures is necessary to verify the information used during the simulation (Listing \ref{listing029}).
 
 \begin{lstlisting}[language=Java, caption={Data structures report}, label=listing029]
 private static void reportStructures(XScriptContext ctx) {
@@ -1516,7 +1516,7 @@ private static void reportStructures(XScriptContext ctx) {
 		setFormula("Base Game Reels:");
 		offset += 1;
 		for(int j = 0; j < baseGameReels.length; j++) {
-			for(int i = 0, l=baseGameReels[j].length; i < 
+			for(int i = 0, l=baseGameReels[j].length; i <
 			baseGameReels[j].length; i++) {
 				structures.getCellByPosition(i, offset+j).
 				setFormula("" + baseGameReels[j][i]);
@@ -1531,7 +1531,7 @@ private static void reportStructures(XScriptContext ctx) {
 		setFormula("Free Spin Reels:");
 		offset += 1;
 		for(int j = 0; j < freeSpinsReels.length; j++) {
-			for(int i = 0, l=freeSpinsReels[j].length; i < 
+			for(int i = 0, l=freeSpinsReels[j].length; i <
 			freeSpinsReels[j].length; i++) {
 				structures.getCellByPosition(i, offset+j).
 				setFormula("" + freeSpinsReels[j][i]);
@@ -1542,13 +1542,13 @@ private static void reportStructures(XScriptContext ctx) {
 		offset += freeSpinsReels.length;
 		offset += 1;
 
-		int[][] freeSpinsSetup = new int[][]{rewardFreeSpins, 
+		int[][] freeSpinsSetup = new int[][]{rewardFreeSpins,
 		freeSpinsMultipliers};
 		structures.getCellByPosition(0, offset).
 		setFormula("Free Spin Setup:");
 		offset += 1;
 		for(int j = 0; j < freeSpinsSetup.length; j++) {
-			for(int i = 0, l=freeSpinsSetup[j].length; i < 
+			for(int i = 0, l=freeSpinsSetup[j].length; i <
 			freeSpinsSetup[j].length; i++) {
 				structures.getCellByPosition(i, offset+j).
 				setFormula("" + freeSpinsSetup[j][i]);
@@ -1564,7 +1564,7 @@ private static void reportStructures(XScriptContext ctx) {
 }
 \end{lstlisting}
 
-All common data structures are printed - paytable, lines, raw symbols on the reels, counted symbols on the reels, free and bonus coefficients. The most valuable part of the Monte Carlo simulation is the statistical report (Listing \ref{listing030}). 
+All common data structures are printed - paytable, lines, raw symbols on the reels, counted symbols on the reels, free and bonus coefficients. The most valuable part of the Monte Carlo simulation is the statistical report (Listing \ref{listing030}).
 
 \section*{Collected Statistics}
 
@@ -1730,7 +1730,7 @@ private static void reportStatistics(XScriptContext ctx) {
 
 		report.getCellByPosition(0, offset).
 		setFormula("Bingo Full House RTP [%]:");
-		report.getCellByPosition(1, offset).setFormula("" + 
+		report.getCellByPosition(1, offset).setFormula("" +
 		( (double)bingoFullHouseMoney / (double)lostMoney ) );
 		setPercent(document, report, 1, offset);
 		offset += 2;
@@ -1750,7 +1750,7 @@ private static void reportStatistics(XScriptContext ctx) {
 		report.getCellByPosition(0, offset).
 		setFormula("Base Game Symbols Win:");
 		offset += 1;
-		for(int i = 0, l=baseGameSymbolsMoney[0].length; i < 
+		for(int i = 0, l=baseGameSymbolsMoney[0].length; i <
 		baseGameSymbolsMoney[0].length; i++) {
 			report.getCellByPosition(1+i, offset).
 			setFormula( "" + i + " of" );
@@ -1765,7 +1765,7 @@ private static void reportStatistics(XScriptContext ctx) {
 			setFormula( symbols[j] );
 		}
 		for(int j = 0; j < baseGameSymbolsMoney.length; j++) {
-			for(int i = 0, l=baseGameSymbolsMoney[j].length; i < 
+			for(int i = 0, l=baseGameSymbolsMoney[j].length; i <
 			baseGameSymbolsMoney[j].length; i++) {
 				report.getCellByPosition(1+i, offset+j).
 				setFormula("" + baseGameSymbolsMoney[j][i]);
@@ -1783,7 +1783,7 @@ private static void reportStatistics(XScriptContext ctx) {
 		report.getCellByPosition(0, offset).
 		setFormula("Free Spins Symbols Win:");
 		offset += 1;
-		for(int i = 0, l=freeSpinsSymbolsMoney[0].length; i < 
+		for(int i = 0, l=freeSpinsSymbolsMoney[0].length; i <
 		freeSpinsSymbolsMoney[0].length; i++) {
 			report.getCellByPosition(1+i, offset).
 			setFormula("" + i + " of");
@@ -1798,7 +1798,7 @@ private static void reportStatistics(XScriptContext ctx) {
 			setFormula( symbols[j] );
 		}
 		for(int j = 0; j < freeSpinsSymbolsMoney.length; j++) {
-			for(int i = 0, l=freeSpinsSymbolsMoney[j].length; i < 
+			for(int i = 0, l=freeSpinsSymbolsMoney[j].length; i <
 			freeSpinsSymbolsMoney[j].length; i++) {
 				report.getCellByPosition(1+i, offset+j).
 				setFormula("" + freeSpinsSymbolsMoney[j][i]);
@@ -1816,7 +1816,7 @@ private static void reportStatistics(XScriptContext ctx) {
 		report.getCellByPosition(0, offset).
 		setFormula("Base Game Symbols Frequencies:");
 		offset += 1;
-		for(int i = 0, l=baseGameSymbolsHitFrequency[0].length; i < 
+		for(int i = 0, l=baseGameSymbolsHitFrequency[0].length; i <
 		baseGameSymbolsHitFrequency[0].length; i++) {
 			report.getCellByPosition(1+i, offset).
 			setFormula( "" + i + " of" );
@@ -1831,14 +1831,14 @@ private static void reportStatistics(XScriptContext ctx) {
 			setFormula( symbols[j] );
 		}
 		for(int j = 0; j < baseGameSymbolsHitFrequency.length; j++) {
-			for(int i = 0, l=baseGameSymbolsHitFrequency[j].length; 
+			for(int i = 0, l=baseGameSymbolsHitFrequency[j].length;
 			i < baseGameSymbolsHitFrequency[j].length; i++) {
 				report.getCellByPosition(1+i, offset+j).
-				setFormula("" + 
+				setFormula("" +
 				baseGameSymbolsHitFrequency[j][i]);
 				resize = (1+i > resize) ? 1+i : resize;
 				report.getCellByPosition(2+l+i, offset+j).
-				setFormula("" + 
+				setFormula("" +
 				baseGameSymbolsHitFrequency[j][i]/
 				(double)totalNumberOfGames);
 				setDigits(document, report, 2+l+i, offset+j);
@@ -1851,12 +1851,12 @@ private static void reportStatistics(XScriptContext ctx) {
 		report.getCellByPosition(0, offset).
 		setFormula("Free Spins Symbols Frequencies:");
 		offset += 1;
-		for(int i = 0, l=freeSpinsSymbolsHitFrequency[0].length; i < 
+		for(int i = 0, l=freeSpinsSymbolsHitFrequency[0].length; i <
 		freeSpinsSymbolsHitFrequency[0].length; i++) {
-			report.getCellByPosition(1+i, offset).setFormula( "" + i 
+			report.getCellByPosition(1+i, offset).setFormula( "" + i
 			+ " of" );
 			resize = (1+i > resize) ? 1+i : resize;
-			report.getCellByPosition(2+l+i, offset).setFormula( "" + 
+			report.getCellByPosition(2+l+i, offset).setFormula( "" +
 			i + " of" );
 			resize = (2+l+i > resize) ? 2+l+i : resize;
 		}
@@ -1866,14 +1866,14 @@ private static void reportStatistics(XScriptContext ctx) {
 			setFormula( symbols[j] );
 		}
 		for(int j = 0; j < freeSpinsSymbolsHitFrequency.length; j++) {
-			for(int i = 0, l=freeSpinsSymbolsHitFrequency[j].length; 
+			for(int i = 0, l=freeSpinsSymbolsHitFrequency[j].length;
 			i < freeSpinsSymbolsHitFrequency[j].length; i++) {
 				report.getCellByPosition(1+i, offset+j).
-				setFormula("" + 
+				setFormula("" +
 				freeSpinsSymbolsHitFrequency[j][i]);
 				resize = (1+i > resize) ? 1+i : resize;
 				report.getCellByPosition(2+l+i, offset+j).
-				setFormula("" + 
+				setFormula("" +
 				freeSpinsSymbolsHitFrequency[j][i]/
 				(double)totalNumberOfFreeSpins);
 				setDigits(document, report, 2+l+i, offset+j);
@@ -1890,21 +1890,21 @@ private static void reportStatistics(XScriptContext ctx) {
 }
 \end{lstlisting}
 
-The most important values are lost money and won money. The ratio of won to lost games, multiplied by 100, gives the RTP. The RTP, differentiated by base game, free spins, and different components, is also reported. Such differentiation can be extremely valuable in bug hunting. 
+The most important values are lost money and won money. The ratio of won to lost games, multiplied by 100, gives the RTP. The RTP, differentiated by base game, free spins, and different components, is also reported. Such differentiation can be extremely valuable in bug hunting.
 
 \chapter{Manual Paytable Design}
 
-The paytable of a slot game lies at the core of the game model. The paytable lists the prize for each symbol combination that appears on the screen. Usually, there are low-paying symbols, high-paying symbols, and special symbols. Special symbols can be Wilds, Scatters, or some other kind of symbols related to specific bonus games. 
+The paytable of a slot game lies at the core of the game model. The paytable lists the prize for each symbol combination that appears on the screen. Usually, there are low-paying symbols, high-paying symbols, and special symbols. Special symbols can be Wilds, Scatters, or some other kind of symbols related to specific bonus games.
 
 The paytable is at the core of the game because it is involved in prize calculation. It is a common instrument for adjusting a game's RTP and volatility. When a low-volatility game is required, symbols pay less in order for the winning combinations to appear more often. The paytable can be given in its base form, considering a single bet, or it can include the total bet.
 
-Scatter symbols do not participate in line combination. Scatters can appear everywhere on the screen. Because of these specifics, scatter symbols form the win without a relation to the single bet value. 
+Scatter symbols do not participate in line combination. Scatters can appear everywhere on the screen. Because of these specifics, scatter symbols form the win without a relation to the single bet value.
 
 In some games, wild symbols reward a prize, but it can be tricky because only the high-paying combination is usually paid. Such a complication can be bypassed by removing the Wild symbol in the first reel. In the common case, the Wild symbol does not substitute the Scatter symbol.
 
 The idea in the paytable is that high-paying symbols will appear less frequently on the reels. The information listed in the paytable is publicly available. Each player is familiar with the outcome of the different winning combinations. Because the paytable is not considered a trade secret, examples of different paytables can be found on the public Internet.
 
-For the Bingo Tropical Hot game, a basic paytable is proposed. It will be a low-volatility game, and different prizes will be relatively small. The paytable will include information on scatter wins. The Wild symbol will not pay. The paytable will also include the values for the Bingo bonus game. The numbers have no special meaning, but the rule for exponential or semi-exponential price increases is maintained. The slot has nine fixed betting lines, and it is reasonable to expect the minimum prize to be at least 9 (Figure \ref{image029}). The paytable is one of the elements of a slot game that can be optimized. 
+For the Bingo Tropical Hot game, a basic paytable is proposed. It will be a low-volatility game, and different prizes will be relatively small. The paytable will include information on scatter wins. The Wild symbol will not pay. The paytable will also include the values for the Bingo bonus game. The numbers have no special meaning, but the rule for exponential or semi-exponential price increases is maintained. The slot has nine fixed betting lines, and it is reasonable to expect the minimum prize to be at least 9 (Figure \ref{image029}). The paytable is one of the elements of a slot game that can be optimized.
 
 \begin{figure}[htbp]
   \centering
@@ -1924,121 +1924,121 @@ The simulation is only a tool that helps game designers and mathematicians build
 
 Game reels are usually considered trade secrets of the game manufacturer. There is no problem with this information being revealed to players, but it keeps the game's mystery high, and gambling companies are hiding their reels very zealously. The art of slot game modeling comes in arranging the numbers on the reels.
 
-The main goal in reel design is to achieve an RTP closer to the widely accepted levels (95.00\% for example). With the initialization of the reels, as shown in Listing \ref{listing031}, the achieved RTP is roughly in the range (96.17\%). The reason for this is how reels are initialized. The symbols are distributed relatively less often when winning combinations are high. 
+The main goal in reel design is to achieve an RTP closer to the widely accepted levels (95.00\% for example). With the initialization of the reels, as shown in Listing \ref{listing031}, the achieved RTP is roughly in the range (96.17\%). The reason for this is how reels are initialized. The symbols are distributed relatively less often when winning combinations are high.
 
 \begin{lstlisting}[language=bash, caption={Initial reels (histogram)}, label=listing031]
-Base Game Symbol Frequencies:					
-0	0	0	0	0	
-1	1	1	1	1	
-0	0	0	0	0	
-1	1	1	1	1	
-2	2	2	2	2	
-3	3	3	3	3	
-4	4	4	4	4	
-3	5	5	5	7	
-7	5	5	5	3	
-5	5	8	2	5	
-7	7	4	10	7	
-15	4	9	9	10	
-5	14	9	9	10	
-0	0	0	0	0	
-0	0	0	0	0	
-0	1	1	1	0	
-0	1	1	1	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-					
+Base Game Symbol Frequencies:
+0	0	0	0	0
+1	1	1	1	1
+0	0	0	0	0
+1	1	1	1	1
+2	2	2	2	2
+3	3	3	3	3
+4	4	4	4	4
+3	5	5	5	7
+7	5	5	5	3
+5	5	8	2	5
+7	7	4	10	7
+15	4	9	9	10
+5	14	9	9	10
+0	0	0	0	0
+0	0	0	0	0
+0	1	1	1	0
+0	1	1	1	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+
 53	53	53	53	53	418195493
-					
-Free Spins Symbol Frequencies:					
-0	0	0	0	0	
-0	1	1	1	0	
-0	0	0	0	0	
-1	1	1	1	1	
-2	2	2	2	2	
-3	3	3	3	3	
-4	4	4	4	4	
-5	5	5	5	5	
-5	5	5	5	5	
-5	5	5	5	5	
-7	7	7	7	7	
-10	9	9	9	10	
-11	10	10	10	11	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	1	1	1	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-0	0	0	0	0	
-					
+
+Free Spins Symbol Frequencies:
+0	0	0	0	0
+0	1	1	1	0
+0	0	0	0	0
+1	1	1	1	1
+2	2	2	2	2
+3	3	3	3	3
+4	4	4	4	4
+5	5	5	5	5
+5	5	5	5	5
+5	5	5	5	5
+7	7	7	7	7
+10	9	9	9	10
+11	10	10	10	11
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	1	1	1	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+0	0	0	0	0
+
 53	53	53	53	53	418195493
 \end{lstlisting}
 
@@ -2046,7 +2046,7 @@ There are different ways to form initial reels. The simplest method is to place 
 
 The base game reels and free spins reels are almost the same. Changes are made in both sets. The major difference is that free spins can not be retriggered from the free spins themselves. The free spins scatter is missing in the free spins reels.
 
-After numerous manual adjustments, the triggering of free spins and scatter wins was significantly improved, and the total RTP reached 96.17\%. The problem in this stage is that symbols are still relatively sorted in the reels (Listing \ref{listing032}). After shuffling, the statistical parameters will not be the same. 
+After numerous manual adjustments, the triggering of free spins and scatter wins was significantly improved, and the total RTP reached 96.17\%. The problem in this stage is that symbols are still relatively sorted in the reels (Listing \ref{listing032}). After shuffling, the statistical parameters will not be the same.
 
 \begin{lstlisting}[language=bash, caption={Initial reels (raw data)}, label=listing032]
 Base Game Reels:
@@ -2276,7 +2276,7 @@ Free Spins Reels:
 12	7	12	9	10
 \end{lstlisting}
 
-After shuffling the symbols on the reels, the RTP decreases slightly to 96.06\% (Listing \ref{listing033}). 
+After shuffling the symbols on the reels, the RTP decreases slightly to 96.06\% (Listing \ref{listing033}).
 
 \chapter{Volatility Analysis}
 
@@ -2291,7 +2291,7 @@ Free spins can be skipped for a low-volatility version of the designed math, and
 \begin{lstlisting}[language=bash, caption={Low volatile reels (raw data)}, label=listing034]
 \end{lstlisting}
 
-Reels are used in 30 independent game simulations (Figure \ref{image021}). The number 30 is taken empirically from the statistics and the theory of the Normal Probability Distribution. As it is seen, there is a funnel representing the RTP convergence. Measurements are done in increments of 10 thousand base game spins for a total of 1 million spins. 
+Reels are used in 30 independent game simulations (Figure \ref{image021}). The number 30 is taken empirically from the statistics and the theory of the Normal Probability Distribution. As it is seen, there is a funnel representing the RTP convergence. Measurements are done in increments of 10 thousand base game spins for a total of 1 million spins.
 
 \begin{figure}[htbp]
   \centering
@@ -2306,7 +2306,7 @@ High-volatility reels can be designed by skipping the free spins and offering on
 \begin{lstlisting}[language=bash, caption={Highly volatile reels (raw data)}, label=listing035]
 \end{lstlisting}
 
-Once again, 30 independent spins are done (Figure \ref{image018}). The funnel is much wider because the prizes are more distant from the central tendency. 
+Once again, 30 independent spins are done (Figure \ref{image018}). The funnel is much wider because the prizes are more distant from the central tendency.
 
 \begin{figure}[htbp]
   \centering
@@ -2316,7 +2316,7 @@ Once again, 30 independent spins are done (Figure \ref{image018}). The funnel is
   \label{image018}
 \end{figure}
 
-An additional 30 independent runs are simulated using the original reels (Figure \ref{image020}). 
+An additional 30 independent runs are simulated using the original reels (Figure \ref{image020}).
 
 \begin{figure}[htbp]
   \centering
@@ -2346,7 +2346,7 @@ The convergence funnels are in different colors. The blue line shows the highly 
 
 This book introduces the practical aspects of mathematical modeling in slot machine games. For the base of the modeling, a Monte Carlo simulation is used. Even though a theoretical approach can be applied, when the games are very complicated, the Monte Carlo simulation remains the only option. The book shows only the standard steps for creating a mathematical model. There are many other factors to consider in actual industrial production. Game studio managers may require many parameters to have values within particular ranges, except for the RTP. It is up to the reader to extend the knowledge acquired from this book.
 
-The authors would like to thank all readers for taking the time to read this book. The reader is encouraged to develop his/her knowledge and skills in this field and to share discoveries with the authors if they wish. 
+The authors would like to thank all readers for taking the time to read this book. The reader is encouraged to develop his/her knowledge and skills in this field and to share discoveries with the authors if they wish.
 
 % --- BACK MATTER ---
 \backmatter
