@@ -1,6 +1,7 @@
 package eu.veldsoft.bths;
 
 import java.security.SecureRandom;
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -1097,6 +1098,76 @@ public class Simulator {
 		offset += freeSpinsReels.length;
 		offset += 1;
 
+		structures.getCellByPosition(0, offset).setFormula("Base Game Symbol Frequencies:");
+		offset += 1;
+		{
+			long counters[][] = Arrays.stream(baseGameReels)
+                              .map(row -> new long[row.length])
+                              .toArray(long[][]::new);
+			for (int i = 0; i < baseGameReels.length; i++) {
+				for (int j = 0; j < baseGameReels[i].length; j++) {
+					counters[i][baseGameReels[i][j]]++;
+				}
+			}
+
+			int maxLength = 0;
+			long combinations = 1L;
+			for (int i = 0; i < counters.length; i++) {
+				maxLength = Math.max(maxLength, counters[i].length);
+				for (int j = 0; j < counters[i].length; j++) {
+					structures.getCellByPosition(j, offset).setFormula("" + counters[i][j]);
+				}
+
+				int sum = 0;
+				for (int j = 0; j < counters[i].length; j++) {
+					sum += counters[i][j];
+				}
+				structures.getCellByPosition(counters[i].length+1, offset).setFormula("" + sum);
+				combinations *= sum;
+
+				offset += 1;
+			}
+
+			structures.getCellByPosition(maxLength+1, offset).setFormula("" + combinations);
+			offset += 1;
+		}
+		offset += 1;
+
+		structures.getCellByPosition(0, offset).setFormula("Free Spins Symbol Frequencies:");
+		offset += 1;
+		{
+			long counters[][] = Arrays.stream(freeSpinsReels)
+                              .map(row -> new long[row.length])
+                              .toArray(long[][]::new);
+			for (int i = 0; i < freeSpinsReels.length; i++) {
+				for (int j = 0; j < freeSpinsReels[i].length; j++) {
+					counters[i][freeSpinsReels[i][j]]++;
+				}
+			}
+
+			int maxLength = 0;
+			long combinations = 1L;
+			for (int i = 0; i < freeSpinsReels.length; i++) {
+				maxLength = Math.max(maxLength, freeSpinsReels[i].length);
+				for (int j = 0; j < freeSpinsReels[i].length; j++) {
+					structures.getCellByPosition(j, offset).setFormula("" + counters[i][j]);
+				}
+
+				int sum = 0;
+				for (int j = 0; j < counters[i].length; j++) {
+					sum += counters[i][j];
+				}
+				structures.getCellByPosition(counters[i].length+1, offset).setFormula("" + sum);
+				combinations *= sum;
+
+				offset += 1;
+			}
+
+			structures.getCellByPosition(maxLength+1, offset).setFormula("" + combinations);
+			offset += 1;
+		}
+		offset += 1;
+		
 		int[][] freeSpinsSetup = new int[][]{rewardFreeSpins, freeSpinsMultipliers};
 		structures.getCellByPosition(0, offset).setFormula("Free Spin Setup:");
 		offset += 1;
