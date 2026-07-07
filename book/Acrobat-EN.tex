@@ -1902,314 +1902,396 @@ Scatter symbols do not participate in line combination. Scatters can appear ever
 
 In some games, wild symbols reward a prize, but it can be tricky because only the high-paying combination is usually paid. Such a complication can be bypassed by removing the Wild symbol in the first reel. In the common case, the Wild symbol does not substitute the Scatter symbol.
 
-The idea in the paytable is that high-paying symbols will appear less frequently on the reels.
+The idea in the paytable is that high-paying symbols will appear less frequently on the reels. The information listed in the paytable is publicly available. Each player is familiar with the outcome of the different winning combinations. Because the paytable is not considered a trade secret, examples of different paytables can be found on the public Internet.
 
-\chapter{?? - Manual Reels Design}
+For the Bingo Tropical Hot game, a basic paytable is proposed. It will be a low-volatility game, and different prizes will be relatively small. The paytable will include information on scatter wins. The Wild symbol will not pay. The paytable will also include the values for the Bingo bonus game. The numbers have no special meaning, but the rule for exponential or semi-exponential price increases is maintained. The slot has nine fixed betting lines, and it is reasonable to expect the minimum prize to be at least 9 (Figure \ref{image029}). The paytable is one of the elements of a slot game that can be optimized. 
 
-The simulation is only a tool that helps game designers and mathematicians build the game model. There have been some attempts at automating game model building, but this work is still done manually. The Wheel distribution was roughly designed. Because it is a book example, no special attention will be given in this direction. The wheel distribution could be used for fine adjustment if it were a real-life production product. 
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{image029}
+  \caption{Initial values for prizes in the paytable}
+  \url{}
+  \label{image029}
+\end{figure}
+
+The scatter, which triggers free spins, also does not reward a prize. It is easier to calculate the total win in each betting spin this way. It also keeps the RTP lower.
+
+\chapter{Manual Reels Design}
+
+The simulation is only a tool that helps game designers and mathematicians build the game model. There have been some attempts at automating game model building, but this work is still done manually. The free spins distribution was roughly designed. Because it is a book example, no special attention will be given to this. The free spins distribution could be used for fine adjustment if it were a real-life product.
 
 \section*{Initial Reels}
 
-The main goal in reel design is to achieve an RTP closer to the stated in the original game (96.24%).  With the initialization of the reels, as shown in Listing 5.6, the achieved RTP is exceptionally high (27,479.5 %). The reason for this is how reels are initialized. The first 10 elements are initialized with the given numbers, and all the rest are zeros. On index 0 is the mask that scatters the highest-paying symbol in the game. 
+Game reels are usually considered trade secrets of the game manufacturer. There is no problem with this information being revealed to players, but it keeps the game's mystery high, and gambling companies are hiding their reels very zealously. The art of slot game modeling comes in arranging the numbers on the reels.
 
-Listing 8.1 - First attempt for reels (histogram)
-\begin{lstlisting}
+The main goal in reel design is to achieve an RTP closer to the widely accepted levels (95.00\% for example). With the initialization of the reels, as shown in Listing \ref{listing031}, the achieved RTP is roughly in the range (96.17\%). The reason for this is how reels are initialized. The symbols are distributed relatively less often when winning combinations are high. 
+
+\begin{lstlisting}[language=bash, caption={Initial reels (histogram)}, label=listing031]
+Base Game Symbol Frequencies:					
+0	0	0	0	0	
+1	1	1	1	1	
+0	0	0	0	0	
+1	1	1	1	1	
+2	2	2	2	2	
+3	3	3	3	3	
+4	4	4	4	4	
+3	5	5	5	7	
+7	5	5	5	3	
+5	5	8	2	5	
+7	7	4	10	7	
+15	4	9	9	10	
+5	14	9	9	10	
+0	0	0	0	0	
+0	0	0	0	0	
+0	1	1	1	0	
+0	1	1	1	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+					
+53	53	53	53	53	418195493
+					
+Free Spins Symbol Frequencies:					
+0	0	0	0	0	
+0	1	1	1	0	
+0	0	0	0	0	
+1	1	1	1	1	
+2	2	2	2	2	
+3	3	3	3	3	
+4	4	4	4	4	
+5	5	5	5	5	
+5	5	5	5	5	
+5	5	5	5	5	
+7	7	7	7	7	
+10	9	9	9	10	
+11	10	10	10	11	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	1	1	1	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+0	0	0	0	0	
+					
+53	53	53	53	53	418195493
+\end{lstlisting}
+
+There are different ways to form initial reels. The simplest method is to place symbols randomly. Random placement will lead to an almost equal distribution of each symbol. According to the paytable, it is not rational to expect an equal distribution of symbols. A more effective approach is subjective placement based on the intuition of each symbol's significance. In this initial version of the distribution, all symbols are grouped and sorted in each reel.
+
+The base game reels and free spins reels are almost the same. Changes are made in both sets. The major difference is that free spins can not be retriggered from the free spins themselves. The free spins scatter is missing in the free spins reels.
+
+After numerous manual adjustments, the triggering of free spins and scatter wins was significantly improved, and the total RTP reached 96.17\%. The problem in this stage is that symbols are still relatively sorted in the reels (Listing \ref{listing032}). After shuffling, the statistical parameters will not be the same. 
+
+\begin{lstlisting}[language=bash, caption={Initial reels (raw data)}, label=listing032]
 Base Game Reels:
-        Reel 1        Reel 2        Reel 3        Reel 4        Reel 5
-0        1        1        1        1        1        
-1        1        1        1        1        1        
-2        3        3        3        3        3        
-3        4        4        4        4        4        
-4        5        5        5        5        5        
-5        9        9        9        9        9        
-6        12        12        12        12        12        
-7        12        12        12        12        12        
-8        16        16        16        16        16        
-9        25        25        25        25        25        
-10        25        25        25        25        25        
----------------------------------------------
-Total:        113        113        113        113        113        
----------------------------------------------
+1	1	1	1	1
+3	3	3	3	3
+4	4	4	4	4
+4	4	4	4	4
+5	5	5	5	5
+5	5	5	5	5
+5	5	5	5	5
+6	6	6	6	6
+6	6	6	6	6
+6	6	6	6	6
+6	6	6	6	6
+7	7	7	7	7
+7	7	7	7	7
+7	7	7	7	7
+8	7	7	7	7
+8	7	7	7	7
+8	8	8	8	7
+8	8	8	8	7
+8	8	8	8	8
+8	8	8	8	8
+8	8	8	8	8
+9	9	9	9	9
+9	9	9	9	9
+9	9	9	10	9
+9	9	9	10	9
+9	9	9	10	9
+10	10	9	10	10
+10	10	9	10	10
+10	10	9	10	10
+10	10	10	10	10
+10	10	10	10	10
+10	10	10	10	10
+10	10	10	10	10
+11	11	11	11	11
+11	11	11	11	11
+11	11	11	11	11
+11	11	11	11	11
+11	12	11	11	11
+11	12	11	11	11
+11	12	11	11	11
+11	12	11	11	11
+11	12	11	11	11
+11	12	12	12	11
+11	12	12	12	12
+11	12	12	12	12
+11	12	12	12	12
+11	12	12	12	12
+11	12	12	12	12
+12	12	12	12	12
+12	12	12	12	12
+12	12	12	12	12
+12	15	15	15	12
+12	16	16	16	12
 
 Free Spins Reels:
-        Reel 1        Reel 2        Reel 3        Reel 4        Reel 5
-0        1        1        1        1        1        
-1        1        1        1        1        1        
-2        3        3        3        3        3        
-3        4        4        4        4        4        
-4        5        5        5        5        5        
-5        9        9        9        9        9        
-6        12        12        12        12        12        
-7        12        12        12        12        12        
-8        16        16        16        16        16        
-9        25        25        25        25        25        
-10        25        25        25        25        25        
----------------------------------------------
-Total:        113        113        113        113        113        
----------------------------------------------
-Combinations:        18424351793
+3	1	1	1	3
+4	3	3	3	4
+4	4	4	4	4
+5	4	4	4	5
+5	5	5	5	5
+5	5	5	5	5
+6	5	5	5	6
+6	6	6	6	6
+6	6	6	6	6
+6	6	6	6	6
+7	6	6	6	7
+7	7	7	7	7
+7	7	7	7	7
+7	7	7	7	7
+7	7	7	7	7
+8	7	7	7	8
+8	8	8	8	8
+8	8	8	8	8
+8	8	8	8	8
+8	8	8	8	8
+9	8	8	8	9
+9	9	9	9	9
+9	9	9	9	9
+9	9	9	9	9
+9	9	9	9	9
+10	9	9	9	10
+10	10	10	10	10
+10	10	10	10	10
+10	10	10	10	10
+10	10	10	10	10
+10	10	10	10	10
+10	10	10	10	10
+11	10	10	10	11
+11	11	11	11	11
+11	11	11	11	11
+11	11	11	11	11
+11	11	11	11	11
+11	11	11	11	11
+11	11	11	11	11
+11	11	11	11	11
+11	11	11	11	11
+11	11	11	11	11
+12	12	12	12	12
+12	12	12	12	12
+12	12	12	12	12
+12	12	12	12	12
+12	12	12	12	12
+12	12	12	12	12
+12	12	12	12	12
+12	12	12	12	12
+12	12	12	12	12
+12	12	12	12	12
+12	16	16	16	12
 \end{lstlisting}
 
-There are different ways in which initial reels can be formed. The simplest method is to place symbols randomly. Random placement will lead to an almost equal distribution of each symbol. According to the paytable, it is not rational to expect an equal distribution of symbols. A more effective approach is subjective placement based on the intuition of each symbol's significance (Listing 8.1). In this initial version of the distribution, all symbols are grouped and sorted in each reel. The RTP decreased significantly in this second attempt, to 29.2029%. 
+\section*{Shuffling and Final Adjustment}
 
-Mask Scatters
+Partially sorted reels are now handy in a real game. Because of this, each reel should be shuffled, and some rules should be observed. Shuffling can be done in many different ways, including manual inclusion. Developed reels are shuffled by putting reels in LibreOffice Calc as columns and adding an extra column with randomly generated numbers. Consecutive sortings are done by giving the sorting order from the randomly generated numbers column. It is not industry-reliable shuffling, but it is acceptable as a quick example.
 
-The RTP is still far away from the desired one. Most importantly, in these reels, the free spins scatter appears on the first and fifth reels, which is not according to the rules. On the other hand, there are a total of 5 masks in the reels. With such a distribution, 9 masks cannot appear on the screen. The situation can be improved by replacing spin scatters with mask scatters in the first and fifth reels (Listing 8.2). 
-
-Listing 8.2 - Second attempt for reels (histogram)
-\begin{lstlisting}
+\begin{lstlisting}[language=bash, caption={Shuffled reels (raw data)}, label=listing033]
 Base Game Reels:
-        Reel 1        Reel 2        Reel 3        Reel 4        Reel 5
-0        2        1        1        1        2        
-1        0        1        1        1        0        
-2        3        3        3        3        3        
-3        4        4        4        4        4        
-4        5        5        5        5        5        
-5        9        9        9        9        9        
-6        12        12        12        12        12        
-7        12        12        12        12        12        
-8        16        16        16        16        16        
-9        25        25        25        25        25        
-10        25        25        25        25        25        
----------------------------------------------
-Total:        113        113        113        113        113        
----------------------------------------------
+7	10	12	7	9
+3	5	12	5	9
+11	16	5	5	7
+7	8	11	16	4
+11	10	9	6	6
+11	10	11	5	12
+6	12	4	6	10
+10	12	6	11	12
+10	12	7	7	6
+5	10	6	12	9
+12	9	9	10	10
+8	11	10	12	10
+4	8	11	12	9
+10	12	9	1	10
+10	12	7	4	10
+11	7	7	6	11
+11	8	11	11	4
+12	12	9	8	12
+8	10	7	12	12
+8	6	11	10	12
+12	7	7	10	9
+5	12	12	6	1
+11	12	3	8	6
+11	7	11	12	8
+9	6	12	9	6
+6	4	6	8	11
+8	12	8	10	10
+4	10	4	9	7
+9	15	8	12	11
+9	12	12	12	11
+11	11	8	11	5
+11	9	11	4	11
+11	7	11	10	12
+9	12	9	11	10
+8	4	12	10	7
+7	8	5	11	11
+6	9	9	8	12
+11	11	6	11	5
+11	6	11	7	7
+12	3	9	15	3
+10	6	8	11	11
+10	5	12	7	7
+12	1	1	7	7
+10	12	12	12	12
+1	11	10	12	12
+11	9	12	10	11
+8	8	8	3	5
+9	5	5	8	7
+6	10	10	11	11
+11	12	15	10	8
+11	9	16	11	11
+8	12	10	10	12
+5	7	9	10	8
 
 Free Spins Reels:
-        Reel 1        Reel 2        Reel 3        Reel 4        Reel 5
-0        2        1        1        1        2        
-1        0        1        1        1        0        
-2        3        3        3        3        3        
-3        4        4        4        4        4        
-4        5        5        5        5        5        
-5        9        9        9        9        9        
-6        12        12        12        12        12        
-7        12        12        12        12        12        
-8        16        16        16        16        16        
-9        25        25        25        25        25        
-10        25        25        25        25        25        
----------------------------------------------
-Total:        113        113        113        113        113        
----------------------------------------------
-Combinations:        18424351793
+7	11	8	11	9
+8	10	7	12	12
+6	12	12	10	9
+9	8	9	12	12
+10	12	9	12	5
+6	10	4	9	8
+11	11	1	9	7
+12	11	11	7	11
+11	11	5	6	9
+4	8	10	7	8
+12	8	9	12	12
+12	12	6	12	11
+9	11	10	9	10
+10	12	12	10	12
+5	10	12	1	9
+10	7	3	6	7
+10	12	8	12	4
+10	4	4	11	7
+10	11	6	10	11
+12	9	7	9	12
+8	6	6	3	10
+4	4	10	4	10
+9	5	12	6	9
+11	12	16	10	12
+7	12	10	8	11
+11	5	11	8	12
+12	9	9	8	6
+11	16	7	10	11
+12	7	10	11	8
+6	11	11	8	10
+11	6	6	12	8
+8	10	7	10	5
+9	3	5	12	12
+12	5	12	7	12
+7	10	12	11	7
+12	9	11	11	12
+3	7	12	4	7
+12	12	12	12	6
+11	12	11	11	11
+9	11	10	5	12
+7	10	7	11	6
+8	7	11	10	10
+11	6	8	11	8
+5	12	11	16	11
+12	9	8	12	4
+11	9	8	5	11
+8	6	11	11	10
+5	1	12	7	11
+10	8	5	6	6
+11	8	9	5	5
+7	11	11	7	11
+6	10	10	8	3
+12	7	12	9	10
 \end{lstlisting}
 
-Until this stage, the base game reels and free spins reels are the same. Changes are made in both sets. The RTP increases slightly from the previous one (29.6204%). The reason is that masks 6 and 7 can appear. The appearance of the 8 and 9 masks is still not possible. 
+After shuffling the symbols on the reels, the RTP decreases slightly to 96.06\% (Listing \ref{listing033}). 
 
-Listing 8.3 - Third attempt for reels (histogram)
-\begin{lstlisting}
-Base Game Reels:
-        Reel 1        Reel 2        Reel 3        Reel 4        Reel 5
-0        2        2        1        2        2        
-1        0        1        2        1        0        
-2        3        3        3        3        3        
-3        4        4        4        4        4        
-4        5        5        5        5        5        
-5        9        8        8        8        9        
-6        12        12        12        12        12        
-7        12        12        12        12        12        
-8        16        16        16        16        16        
-9        25        25        25        25        25        
-10        25        25        25        25        25        
----------------------------------------------
-Total:        113        113        113        113        113        
----------------------------------------------
+\chapter{Volatility Analysis}
 
-Free Spins Reels:
-        Reel 1        Reel 2        Reel 3        Reel 4        Reel 5
-0        2        2        1        2        2        
-1        0        1        2        1        0        
-2        3        3        3        3        3        
-3        4        4        4        4        4        
-4        5        5        5        5        5        
-5        9        8        8        8        9        
-6        12        12        12        12        12        
-7        12        12        12        12        12        
-8        16        16        16        16        16        
-9        25        25        25        25        25        
-10        25        25        25        25        25        
----------------------------------------------
-Total:        113        113        113        113        113        
----------------------------------------------
-Combinations:        18424351793
+Slot game volatility is a key aspect of the game's mathematical design. Generally, game volatility is rated from 1 (low) to 5 (high) stars in published games. Low volatility is typically associated with games offering small prizes, but often given, while high volatility is associated with games offering big prizes, but given rarely. Volatility is essential for the markets in which the game will be operated. Markets with risk-taking players are proper for high-volatility games. Markets with no risk-taking players are appropriate for low-volatility games. Here comes the question of how volatility is to be estimated.
+
+\section*{Low and High Volatility Reels}
+
+An engineering approach to estimating a game's volatility is to arrange high- and low-volatility reels. By analyzing RTP dynamics across designed game reels and high/low-volatility reels, the game can be categorized under the 5-star scheme.
+
+Free spins can be skipped for a low-volatility version of the designed math, and only a low-paying symbol can form winning combinations. Free spins will not be awarded if the free spins scatter symbol is not presented on the reels (Listing \ref{listing034}).
+
+\begin{lstlisting}[language=bash, caption={Low volatile reels (raw data)}, label=listing034]
 \end{lstlisting}
 
-The situation is improved by replacing the element with index 5 with the element at index 0 in the second and fourth reels (Listing 8.3). In this way, 9 masks can be seen on the screen. Additionally, one symbol with index 5 in the third reel is replaced with a symbol with index 1. Symbols with index 5 were replaced because they are in a higher number on the reels. The RTP has no significant change (29.0438%). 
-
-Raising the RTP
-
-The free spins RTP component is very low (0.0297059%). It means that free spins triggering happens very rarely. Some symbols on the reels should be replaced with symbols of index 1 to increase the frequency of free spins.
-
-Listing 8.4 - Fourth attempt for reels (histogram)
-\begin{lstlisting}
-Base Game Reels:
-        Reel 1        Reel 2        Reel 3        Reel 4        Reel 5
-0        10        6        5        6        10        
-1        0        8        9        8        0        
-2        9        5        5        5        9        
-3        3        3        3        3        3        
-4        5        5        5        5        5        
-5        7        7        7        7        7        
-6        11        11        11        11        11        
-7        11        11        11        11        11        
-8        15        15        15        15        15        
-9        21        21        21        21        21        
-10        21        21        21        21        21        
----------------------------------------------
-Total:        113        113        113        113        113        
----------------------------------------------
-
-Free Spins Reels:
-        Reel 1        Reel 2        Reel 3        Reel 4        Reel 5
-0        10        6        5        6        10        
-1        0        8        9        8        0        
-2        9        5        5        5        9        
-3        3        3        3        3        3        
-4        5        5        5        5        5        
-5        7        7        7        7        7        
-6        11        11        11        11        11        
-7        11        11        11        11        11        
-8        15        15        15        15        15        
-9        21        21        21        21        21        
-10        21        21        21        21        21        
----------------------------------------------
-Total:        113        113        113        113        113        
----------------------------------------------
-Combinations:        18424351793
-\end{lstlisting}
-
-After numerous manual adjustments, the triggering of free spins was significantly improved, and the total RTP reached 96.5012% (Listing 8.4). The problem in this stage is that symbols are still relatively sorted in the reels (Listing 8.5). After shuffling, statistical parameters will not be the same. 
-
-Listing 8.4 - Fourth attempt for reels (raw data)
-\begin{lstlisting}
-int baseGameReels[5][113] = {
-{0,0,2,2,2,3,3,2,3,4,4,4,4,4,0,5,2,5,5,5,5,5,5,0,6,6,6,6,6,6,6,6,6,6,6,0,7,7,7,7,7,7,7,7,7,7,7,0,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,0,9,0,9,2,9,2,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,0,10,0,10,2,10,2,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,},
-        {0,1,2,2,2,3,3,2,3,4,4,4,4,4,0,5,2,5,5,5,5,5,5,1,6,6,6,6,6,6,6,6,6,6,6,1,7,7,7,7,7,7,7,7,7,7,7,1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,1,9,1,9,0,9,0,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,1,10,1,10,0,10,0,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,},
-        {0,1,2,2,2,3,3,2,3,4,4,4,4,4,1,5,2,5,5,5,5,5,5,1,6,6,6,6,6,6,6,6,6,6,6,1,7,7,7,7,7,7,7,7,7,7,7,1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,1,9,1,9,0,9,0,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,1,10,1,10,0,10,0,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,},
-        {0,1,2,2,2,3,3,2,3,4,4,4,4,4,0,5,2,5,5,5,5,5,5,1,6,6,6,6,6,6,6,6,6,6,6,1,7,7,7,7,7,7,7,7,7,7,7,1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,1,9,1,9,0,9,0,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,1,10,1,10,0,10,0,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,},
-        {0,0,2,2,2,3,3,2,3,4,4,4,4,4,0,5,2,5,5,5,5,5,5,0,6,6,6,6,6,6,6,6,6,6,6,0,7,7,7,7,7,7,7,7,7,7,7,0,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,0,9,0,9,2,9,2,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,0,10,0,10,2,10,2,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,},
-};
-
-int freeSpinsReels[5][113] = {
-{0,0,2,2,2,3,3,2,3,4,4,4,4,4,0,5,2,5,5,5,5,5,5,0,6,6,6,6,6,6,6,6,6,6,6,0,7,7,7,7,7,7,7,7,7,7,7,0,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,0,9,0,9,2,9,2,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,0,10,0,10,2,10,2,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,},
-        {0,1,2,2,2,3,3,2,3,4,4,4,4,4,0,5,2,5,5,5,5,5,5,1,6,6,6,6,6,6,6,6,6,6,6,1,7,7,7,7,7,7,7,7,7,7,7,1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,1,9,1,9,0,9,0,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,1,10,1,10,0,10,0,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,},
-        {0,1,2,2,2,3,3,2,3,4,4,4,4,4,1,5,2,5,5,5,5,5,5,1,6,6,6,6,6,6,6,6,6,6,6,1,7,7,7,7,7,7,7,7,7,7,7,1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,1,9,1,9,0,9,0,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,1,10,1,10,0,10,0,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,},
-        {0,1,2,2,2,3,3,2,3,4,4,4,4,4,0,5,2,5,5,5,5,5,5,1,6,6,6,6,6,6,6,6,6,6,6,1,7,7,7,7,7,7,7,7,7,7,7,1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,1,9,1,9,0,9,0,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,1,10,1,10,0,10,0,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,},
-        {0,0,2,2,2,3,3,2,3,4,4,4,4,4,0,5,2,5,5,5,5,5,5,0,6,6,6,6,6,6,6,6,6,6,6,0,7,7,7,7,7,7,7,7,7,7,7,0,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,0,9,0,9,2,9,2,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,0,10,0,10,2,10,2,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,},
-};
-\end{lstlisting}
-
-Shuffling and Final Adjustment
-
-Partially sorted reels are now handy in a real game. Because of this, each reel should be shuffled, and some rules should be observed. The main danger is letting more than 9 masks appear on the screen. Shuffling can be done in many different ways, including manual inclusion. Developed reels are shuffled by putting reels in LibreOffice Calc as columns and adding an extra column with randomly generated numbers. Consecutive sortings are done by giving the sorting order from the randomly generated numbers column. It is not industry-reliable shuffling, but it is acceptable as a quick example. 
-
-Listing 8.5 - Fifth attempt for reels (raw data)
-\begin{lstlisting}
-int baseGameReels[5][113] = {
-{8,2,6,9,6,2,6,0,9,8,7,9,10,9,7,6,10,4,10,4,8,6,10,2,9,7,9,5,8,6,8,9,4,2,5,0,2,0,5,0,5,0,7,0,10,8,9,3,6,5,9,6,3,8,9,5,10,4,10,2,9,10,0,10,0,9,10,2,8,10,8,7,8,10,8,4,10,8,2,3,10,8,10,7,10,7,10,6,9,2,8,7,6,10,5,9,10,9,0,9,0,7,10,9,6,9,7,9,8,9,10,7,9,},
-
-{9,10,9,4,5,6,8,6,7,8,6,9,10,9,6,0,1,0,10,3,10,5,9,10,1,10,1,10,9,8,9,3,8,6,7,10,2,1,9,7,6,10,9,6,8,1,10,2,8,2,8,10,9,8,9,7,8,6,0,8,0,10,6,10,7,3,10,8,1,10,7,5,9,4,5,2,0,10,0,8,7,9,7,5,9,7,9,1,8,5,10,9,1,10,5,4,9,4,9,10,9,4,10,2,10,8,6,8,6,9,7,9,7,},
-
-{10,5,9,10,4,10,3,0,1,10,0,7,10,8,4,8,5,9,8,9,6,9,5,10,0,1,6,2,4,7,9,1,9,8,3,9,10,9,10,8,1,10,5,10,3,10,9,7,10,1,8,9,7,9,6,10,6,1,9,2,9,7,10,9,1,9,8,2,8,9,10,2,8,0,6,7,5,6,8,6,9,7,6,8,7,10,4,9,8,9,5,6,1,8,10,8,10,8,1,7,6,2,9,4,7,9,10,0,6,10,5,10,7,},
-
-{5,9,1,9,2,9,10,6,5,8,5,8,9,10,4,6,5,10,9,2,8,6,10,6,10,6,9,10,3,2,9,8,10,4,10,8,1,10,9,7,10,8,6,10,7,6,7,8,1,10,7,1,8,7,4,10,1,0,8,0,10,0,9,4,7,9,8,1,8,7,8,5,4,8,3,6,9,8,9,5,2,9,3,10,9,10,9,0,2,0,10,0,9,7,10,1,5,9,6,10,7,10,9,8,9,6,1,7,9,6,10,7,9,},
-
-{8,9,10,2,10,2,9,5,8,10,8,7,0,10,0,2,9,5,8,10,8,5,9,4,9,7,9,8,7,9,8,10,7,9,7,10,9,10,0,9,0,10,2,0,10,0,10,8,2,10,8,10,5,4,7,6,10,7,6,7,6,10,6,9,8,6,8,10,5,10,7,8,9,7,9,8,9,0,9,0,3,0,8,6,9,0,2,10,4,10,7,10,9,10,6,4,5,2,9,4,6,9,6,2,6,5,3,9,3,8,9,2,6,},
-};
-
-int freeSpinsReels[5][113] = {
-{2,7,8,6,3,6,2,6,7,6,3,5,9,5,10,7,9,2,8,5,6,7,10,7,9,10,2,10,6,9,8,10,8,10,8,10,8,10,9,5,9,10,8,6,8,4,8,0,9,0,3,8,9,6,9,7,2,9,0,5,0,9,2,9,10,9,10,2,2,10,4,9,0,5,0,4,8,4,2,7,10,0,10,7,8,7,8,9,10,9,5,0,8,4,10,6,8,9,10,7,10,9,7,0,6,0,9,6,10,9,10,9,10,},
-
-{9,2,8,2,8,9,1,10,5,9,5,9,1,6,1,7,9,7,8,10,7,10,7,10,8,6,8,6,10,6,9,10,8,1,9,7,6,7,10,6,7,10,9,10,6,9,2,10,5,4,10,8,4,10,3,10,9,10,2,1,7,4,8,10,1,10,9,1,9,7,9,8,9,1,9,8,0,3,0,5,0,8,5,7,9,8,9,8,10,2,9,4,6,7,6,4,10,6,8,0,9,0,10,0,9,5,9,8,10,3,10,5,6,},
-
-{5,9,1,3,8,9,0,10,7,9,4,9,6,10,6,10,7,8,10,1,10,4,10,6,1,8,7,5,7,9,0,10,9,10,2,10,6,9,7,6,10,8,2,10,9,7,9,8,6,0,5,9,5,6,7,9,8,10,1,6,7,10,8,9,8,1,2,9,6,7,9,8,10,2,9,1,5,10,9,10,9,5,9,0,6,3,10,0,8,9,8,4,7,10,3,4,7,10,8,2,4,8,6,8,10,1,9,8,1,9,5,1,10,},
-
-{7,2,7,10,2,7,10,7,8,7,10,1,0,10,0,9,7,9,6,9,8,9,4,8,9,8,0,8,0,10,9,10,7,10,1,10,5,7,6,4,9,6,8,6,9,8,10,5,7,1,6,2,9,1,6,9,1,9,5,9,3,9,6,9,10,1,9,5,10,8,10,1,6,8,7,6,3,6,4,10,0,10,0,9,10,1,10,8,10,9,8,10,4,9,2,9,10,8,9,5,10,8,3,7,2,4,5,8,10,5,9,6,8,},
-
-{7,10,9,10,8,10,6,8,9,6,7,6,7,0,10,2,0,2,6,8,2,7,9,2,9,5,10,9,2,10,8,4,9,10,9,10,9,10,5,3,7,9,0,5,0,5,7,6,7,10,4,10,8,6,9,3,10,9,8,9,10,9,2,9,0,4,0,8,7,10,10,9,10,9,3,9,2,9,10,0,7,0,8,10,8,9,6,8,9,8,7,8,6,8,0,5,9,8,4,6,2,7,10,6,10,4,0,6,5,8,2,10,5,},
-};
-\end{lstlisting}
-
-After shuffling the symbols on the reels, the RTP decreases significantly to 75.9827% (Listing 8.5). 
-
-Listing 8.6 - Sixth attempt for reels (histogram)
-\begin{lstlisting}
-Base Game Reels:
-        Reel 1        Reel 2        Reel 3        Reel 4        Reel 5
-0        10        6        5        6        10        
-1        0        8        9        8        0        
-2        13        9        9        9        13        
-3        3        3        3        3        3        
-4        5        5        5        5        5        
-5        7        7        7        7        7        
-6        11        11        11        11        11        
-7        11        11        11        11        11        
-8        13        13        13        13        13        
-9        20        20        20        20        20        
-10        20        20        20        20        20        
----------------------------------------------
-Total:        113        113        113        113        113        
----------------------------------------------
-
-Free Spins Reels:
-        Reel 1        Reel 2        Reel 3        Reel 4        Reel 5
-0        10        6        5        6        10        
-1        0        8        9        8        0        
-2        10        6        6        6        10        
-3        3        3        3        3        3        
-4        5        5        5        5        5        
-5        7        7        7        7        7        
-6        11        11        11        11        11        
-7        11        11        11        11        11        
-8        14        14        14        14        14        
-9        21        21        21        21        21        
-10        21        21        21        21        21        
----------------------------------------------
-Total:        113        113        113        113        113        
----------------------------------------------
-Combinations:        18424351793
-\end{lstlisting}
-
-With some final adjustments by replacing regular symbols with wild, the RTP went close to the desired one of 96.1063% (Listing 8.6).
-
-\chapter{?? - Volatility Analysis}
-
-Slot game volatility is a key aspect of the game's mathematical design. Generally, the game volatility is marked from 1 (low) to 5 (high) stars in the published games. Low volatility is typically associated with games offering small prizes, but often given, while high volatility is associated with games offering big prizes, but given rarely. Volatility is essential for the markets in which the game will be operated. Markets with risk-taking players are proper for highly volatile games. Markets with no risk-taking players are appropriate for low-volatility games. Here comes the question of how volatility is to be estimated. 
-
-Low and High Volatility Reels
-
-A way to estimate a game's volatility is by arranging high-volatility and low-volatility reels. Analyzing RTP dynamics in designed game reels and high/low volatile reels, the game can be categorized into 5 5-star scheme. 
-
-Free spins can be skipped for a low-volatility version of the designed math, and only a low-paying symbol can form winning combinations. Free spins will not be awarded if the free spins scatter symbol is not presented on the reels (Listing 9.1).
-
-Listing 9.1 - Low volatile reels (raw data)
-\begin{lstlisting}
-int baseGameReels[5][113] = {
-{8,8,8,8,8,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,},
-
-{6,6,6,6,6,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,},
-
-{7,7,7,7,7,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,},
-
-{8,8,8,8,8,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,},
-
-{6,6,6,6,6,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,},
-};
-
-int freeSpinsReels[5][113] = {
-{6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,},
-
-{7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,},
-
-{8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,},
-
-{9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,},
-
-{10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,},
-};
-\end{lstlisting}
-
-Reels are used in 30 independent game simulations (Figure 9.1). The number 30 is taken empirically from the statistics and the theory of the Normal Probability Distribution. As it is seen, there is a funnel representing the RTP convergence. Measurements are done in increments of 10 thousand base game spins for a total of 1 million spins. 
+Reels are used in 30 independent game simulations (Figure \ref{image021}). The number 30 is taken empirically from the statistics and the theory of the Normal Probability Distribution. As it is seen, there is a funnel representing the RTP convergence. Measurements are done in increments of 10 thousand base game spins for a total of 1 million spins. 
 
 \begin{figure}[htbp]
   \centering
@@ -2219,36 +2301,12 @@ Reels are used in 30 independent game simulations (Figure 9.1). The number 30 is
   \label{image021}
 \end{figure}
 
-High-volatility reels can be designed by skipping the free spins and offering only prizes from the highest-paying symbol (Listing 9.2). According to the paytable used, such a symbol is the wild.
+High-volatility reels can be designed by skipping the free spins and offering only prizes from the highest-paying symbol (Listing \ref{listing035}). According to the paytable used, such a symbol is the wild.
 
-Listing 9.2 - Highly volatile reels (raw data)
-\begin{lstlisting}
-int baseGameReels[5][113] = {
-{1,6,6,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,},
-
-{3,7,7,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,},
-
-{4,8,8,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,},
-
-{5,9,9,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,},
-
-{0,10,10,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,},
-};
-
-int freeSpinsReels[5][113] = {
-{6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,},
-
-{7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,},
-
-{8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,},
-
-{9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,},
-
-{10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,},
-};
+\begin{lstlisting}[language=bash, caption={Highly volatile reels (raw data)}, label=listing035]
 \end{lstlisting}
 
-Once again, 30 independent spins are done (Figure 9.2). The funnel is much wider because the prizes are more distant from the central tendency. 
+Once again, 30 independent spins are done (Figure \ref{image018}). The funnel is much wider because the prizes are more distant from the central tendency. 
 
 \begin{figure}[htbp]
   \centering
@@ -2258,7 +2316,7 @@ Once again, 30 independent spins are done (Figure 9.2). The funnel is much wider
   \label{image018}
 \end{figure}
 
-An additional 30 independent runs are simulated using the original reels (Figure 9.3). 
+An additional 30 independent runs are simulated using the original reels (Figure \ref{image020}). 
 
 \begin{figure}[htbp]
   \centering
@@ -2268,9 +2326,9 @@ An additional 30 independent runs are simulated using the original reels (Figure
   \label{image020}
 \end{figure}
 
-Comparison of Volatilities
+\section*{Comparison of Volatilities}
 
-A comparison of volatilities can estimate the volatility achieved by designed reels. Such comparisons can be made numerically, but only visual analysis is given in the current situation (Figure 9.4).
+A comparison of volatilities can estimate the volatility achieved by designed reels. Such comparisons can be made numerically, but only visual analysis is given in the current situation (Figure \ref{image019}).
 
 \begin{figure}[htbp]
   \centering
@@ -2284,7 +2342,7 @@ The convergence funnels are in different colors. The blue line shows the highly 
 
 \chapter{?? - Analytical RTP}
 
-Final Remarks
+\chapter*{Final Remarks}
 
 This book introduces the practical aspects of mathematical modeling in slot machine games. For the base of the modeling, a Monte Carlo simulation is used. Even though a theoretical approach can be applied, when the games are very complicated, the Monte Carlo simulation remains the only option. The book shows only the standard steps for creating a mathematical model. There are many other factors to consider in actual industrial production. Game studio managers may require many parameters to have values within particular ranges, except for the RTP. It is up to the reader to extend the knowledge acquired from this book.
 
