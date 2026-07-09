@@ -763,6 +763,9 @@ public class Simulator {
 	/** How many Monte Carlo cycles to be executed. */
 	private static long numberOfSimulations = 0L;
 
+	/** How many bets to be executed between RTP measurements. */
+	private static long rtpMeasurementInterval = 0L;
+
 	/**
 	 * Read data structures from the spreadsheets.
 	 *
@@ -774,12 +777,13 @@ public class Simulator {
 			XSpreadsheetDocument document = UnoRuntime.queryInterface(XSpreadsheetDocument.class, model);
 			XSpreadsheets sheets = UnoRuntime.queryInterface(XSpreadsheets.class, document.getSheets());
 
-			/* Reed game parameters. */
+			/* Read game parameters. */
 			XSpreadsheet summary = UnoRuntime.queryInterface(XSpreadsheet.class, sheets.getByName("Summary"));
 			int numberOfRows = (int)summary.getCellByPosition(1,1).getValue();
 			int numberOfColumns = (int)summary.getCellByPosition(1,2).getValue();
 			int numberOfBettingLines = (int)summary.getCellByPosition(1,3).getValue();
 			numberOfSimulations = (long)summary.getCellByPosition(1,10).getValue();
+			rtpMeasurementInterval = (long)summary.getCellByPosition(1,11).getValue();
 
 			view = new int[numberOfColumns][numberOfRows];
 
@@ -839,7 +843,7 @@ public class Simulator {
 				}
 			}
 
-			/* Reed base game reels. */
+			/* Read base game reels. */
 			XSpreadsheet baseGameReels = UnoRuntime.queryInterface(XSpreadsheet.class, sheets.getByName("Base Reels"));
 			Simulator.baseGameReels = new int[numberOfColumns][];
 			for (int c = 0; c<numberOfColumns; c++) {
@@ -853,7 +857,7 @@ public class Simulator {
 				}
 			}
 
-			/* Reed free spins reels. */
+			/* Read free spins reels. */
 			XSpreadsheet freeSpinsReels = UnoRuntime.queryInterface(XSpreadsheet.class, sheets.getByName("Free Reels"));
 			Simulator.freeSpinsReels = new int[numberOfColumns][];
 			for (int c = 0; c<numberOfColumns; c++) {
@@ -867,7 +871,7 @@ public class Simulator {
 				}
 			}
 
-			/* Reed free spins parameters. */
+			/* Read free spins parameters. */
 			XSpreadsheet freeSpinsParameters = UnoRuntime.queryInterface(XSpreadsheet.class, sheets.getByName("Free Spins"));
 			{
 				List<Integer> values = new ArrayList<>();
@@ -1033,6 +1037,8 @@ public class Simulator {
 	 * Report data structures into a new sheet.
 	 *
 	 * @param ctx Script context.
+	 * 
+	 * @throws Exception If reporting fails.
 	 */
 	private static void reportStructures(XScriptContext ctx) throws Exception {
 		XModel model = ctx.getDocument();
@@ -1186,6 +1192,8 @@ public class Simulator {
 	 * Report simulation statistics into a new sheet.
 	 *
 	 * @param ctx Script context.
+	 * 
+	 * @throws Exception If reporting fails.
 	 */
 	private static void reportStatistics(XScriptContext ctx) throws Exception {
 		XModel model = ctx.getDocument();
@@ -1417,6 +1425,38 @@ public class Simulator {
 	}
 
 	/**
+	 * Report convergence into a new sheet.
+	 *
+	 * @param ctx Script context.
+	 * @param rtpLog Convergence log.
+	 * 
+	 * @throws Exception If reporting fails.
+	 */
+	private static void reportConvergence(XScriptContext ctx, StringBuilder rtpLog) throws Exception {
+		if(rtpMeasurementInterval <= 0) {
+			return;
+		}
+
+		XModel model = ctx.getDocument();
+		XSpreadsheetDocument document = UnoRuntime.queryInterface(XSpreadsheetDocument.class, model);
+		XSpreadsheets sheets = document.getSheets();
+
+		/* Convergence report sheet. */
+		short index = (short)sheets.getElementNames().length;
+		String name = "Convergence Report - " + (new Date()).toString().replace(":", " ");
+		sheets.insertNewByName(name, index);
+
+		XSpreadsheet report = UnoRuntime.queryInterface(XSpreadsheet.class,sheets.getByName(name));
+
+		String[] lines = rtpLog.toString().split("\n");
+		for(int i = 0; i < lines.length; i++) {
+			String[] values = lines[i].split("\t");
+			report.getCellByPosition(0, i).setFormula(values[0]);
+			report.getCellByPosition(1, i).setFormula(values[1]);
+		}
+	}
+
+	/**
 	 * Macro simulation function.
 	 *
 	 * @param ctx Script context.
@@ -1425,23 +1465,36 @@ public class Simulator {
 		readDataStructures(ctx);
 		resetStatistics();
 
+		StringBuilder rtpLog = new StringBuilder();
+
 		for(int g=0; g<numberOfSimulations; g++) {
 			long beforePlay = wonMoney;
+
 			lostMoney += totalBet;
+
 			singleBaseGame();
+
 			while(freeSpinsAmount > 0) {
 				singleFreeSpin();
 				freeSpinsAmount--;
 			}
+
 			long roundWin = wonMoney - beforePlay;
+
 			if(maxWin < roundWin) {
 				maxWin = roundWin;
+			}
+
+			if(rtpMeasurementInterval > 0 && g > 0 && g % rtpMeasurementInterval == 0) {
+				rtpLog.append(g).append("\t").
+						append((double)wonMoney / (double)lostMoney).append("\n");
 			}
 		}
 
 		try{
 			reportStructures(ctx);
 			reportStatistics(ctx);
+			reportConvergence(ctx, rtpLog);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
