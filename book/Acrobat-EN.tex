@@ -1434,7 +1434,7 @@ The Monte Carlo simulation involves a large number of game plays (Listing \ref{l
 
 \chapter{Simulation Results Reporting}
 
-Two standard reports from the simulation are needed - a data structures report and a calculated statistics report (Listing \ref{listing028}).
+Input data reading and two standard reports from the simulation are needed - a data structures report and a calculated statistics report (Listing \ref{listing028}).
 
 \begin{lstlisting}[language=Java, caption={Simulation and reports run}, label=listing028]
 public static void simulate(XScriptContext ctx) {
@@ -1457,6 +1457,174 @@ public static void simulate(XScriptContext ctx) {
 
 	reportStructures(ctx);
 	reportStatistics(ctx);
+}
+\end{lstlisting}
+
+\section*{Input Information}
+
+In the game math modeling process, the most convenient way is to present the model as separate electronic table sheets. Such representation should be read and presented into the Java simulation objects (Listing \ref{listing036}).
+
+\begin{lstlisting}[language=Java, caption={Input information reading}, label=listing036]
+private static void readDataStructures(XScriptContext ctx) @throws Exception {
+	XModel model = ctx.getDocument();
+	XSpreadsheetDocument document =
+	UnoRuntime.queryInterface(XSpreadsheetDocument.class, model);
+	XSpreadsheets sheets = UnoRuntime.queryInterface(XSpreadsheets.class,
+	document.getSheets());
+
+	XSpreadsheet summary = UnoRuntime.queryInterface(XSpreadsheet.class,
+	sheets.getByName("Summary"));
+	int numberOfRows = (int)summary.getCellByPosition(1,1).getValue();
+	int numberOfColumns = (int)summary.getCellByPosition(1,2).getValue();
+	int numberOfBettingLines =
+	(int)summary.getCellByPosition(1,3).getValue();
+	numberOfSimulations = (long)summary.getCellByPosition(1,10).getValue();
+	rtpMeasurementInterval =
+	(long)summary.getCellByPosition(1,11).getValue();
+
+	view = new int[numberOfColumns][numberOfRows];
+
+	XSpreadsheet paytable = UnoRuntime.queryInterface(XSpreadsheet.class,
+	sheets.getByName("Paytable"));
+	int tableRows = 0;
+	int tableColumns = 0;
+	for (int c = 4;
+	paytable.getCellByPosition(c,1).getType()!=CellContentType.EMPTY; c++) {
+		tableColumns++;
+	}
+	for (int r = 1; paytable.getCellByPosition(4,
+	r).getType()!=CellContentType.EMPTY; r++) {
+		tableRows++;
+	}
+	Simulator.paytable = new int[tableRows][tableColumns];
+	for (int c = 0; c<tableColumns; c++) {
+		for (int r = 0; r<tableRows; r++) {
+			Simulator.paytable[r][c] =
+			(int)paytable.getCellByPosition(4+c,1+r).getValue();
+		}
+	}
+	wilds = new HashSet<>();
+	payingScatters = new HashSet<>();
+	freeSpinsTrigerScatters = new HashSet<>();
+	bingoLineSymbols = new HashSet<>();
+	bingoFullHouseSymbols = new HashSet<>();
+	for (int r = 0; r<tableRows; r++) {
+		if(UnoRuntime.queryInterface(XText.class,
+		paytable.getCellByPosition(2,1+r)).getString().equals("wild")) {
+			wilds.add( (int)paytable.getCellByPosition(3,1+r).
+			getValue() );
+		}
+		if(UnoRuntime.queryInterface(XText.class,
+		paytable.getCellByPosition(2,1+r)).getString().
+		equals("scatter")) {
+			payingScatters.add(
+			(int)paytable.getCellByPosition(3,1+r).getValue() );
+		}
+		if(UnoRuntime.queryInterface(XText.class,
+		paytable.getCellByPosition(2,1+r)).getString().equals("free")) {
+			freeSpinsTrigerScatters.add(
+			(int)paytable.getCellByPosition(3,1+r).getValue() );
+		}
+		if(UnoRuntime.queryInterface(XText.class,
+		paytable.getCellByPosition(2,1+r)).getString().equals("bonus")) {
+			if(UnoRuntime.queryInterface(XText.class,
+			paytable.getCellByPosition(1,1+r)).getString().
+			equals("Line Bonus")) {
+				bingoLineSymbols.add((int)
+				paytable.getCellByPosition(3,1+r).getValue() );
+			}
+		}
+		if(UnoRuntime.queryInterface(XText.class,
+		paytable.getCellByPosition(2,1+r)).getString().equals("bonus")) {
+			if(UnoRuntime.queryInterface(XText.class,
+			paytable.getCellByPosition(1,1+r)).getString().
+			equals("Bingo Bonus")) {
+				bingoFullHouseSymbols.add((int)
+				paytable.getCellByPosition(3,1+r).getValue() );
+			}
+		}
+	}
+	symbols = new String[tableRows];
+	for (int r = 0; r<tableRows; r++) {
+		symbols[r] = UnoRuntime.queryInterface(XText.class,
+		paytable.getCellByPosition(1,1+r)).getString();
+	}
+
+	XSpreadsheet lines = UnoRuntime.queryInterface(XSpreadsheet.class,
+	sheets.getByName("Lines"));
+	Simulator.lines = new int[numberOfBettingLines][numberOfColumns];
+	for (int c = 0; c<numberOfColumns; c++) {
+		for (int l = 0; l<numberOfBettingLines; l++) {
+			Simulator.lines[l][c] =
+			(int)lines.getCellByPosition(2+c,1+l).getValue();
+		}
+	}
+
+	XSpreadsheet baseGameReels =
+	UnoRuntime.queryInterface(XSpreadsheet.class, sheets.
+	getByName("Base	Reels"));
+	Simulator.baseGameReels = new int[numberOfColumns][];
+	for (int c = 0; c<numberOfColumns; c++) {
+		int length = 0;
+		for (int r = 1;
+		baseGameReels.getCellByPosition(c,r).getType()!=CellContentType.
+		EMPTY; r++) {
+			length++;
+		}
+		Simulator.baseGameReels[c] = new int[length];
+		for (int r = 0; r<length; r++) {
+			Simulator.baseGameReels[c][r] =
+			(int)baseGameReels.getCellByPosition(c,1+r).getValue();
+		}
+	}
+
+	XSpreadsheet freeSpinsReels =
+	UnoRuntime.queryInterface(XSpreadsheet.class, sheets.
+	getByName("Free	Reels"));
+	Simulator.freeSpinsReels = new int[numberOfColumns][];
+	for (int c = 0; c<numberOfColumns; c++) {
+		int length = 0;
+		for (int r = 1;
+		freeSpinsReels.getCellByPosition(c,r).getType()!=CellContentType.
+		EMPTY; r++) {
+			length++;
+		}
+		Simulator.freeSpinsReels[c] = new int[length];
+		for (int r = 0; r<length; r++) {
+			Simulator.freeSpinsReels[c][r] =
+			(int)freeSpinsReels.getCellByPosition(c,1+r).getValue();
+		}
+	}
+
+	XSpreadsheet freeSpinsParameters =
+	UnoRuntime.queryInterface(XSpreadsheet.class,
+	sheets.getByName("Free	Spins"));
+	{
+		List<Integer> values = new ArrayList<>();
+		for (int c = 1;
+		freeSpinsParameters.getCellByPosition(c,1).getType()!=
+		CellContentType.EMPTY; c++) {
+			values.add((int)freeSpinsParameters.
+			getCellByPosition(c,1).	getValue());
+		}
+		Simulator.rewardFreeSpins = new int[values.size()];
+		for (int i = 0; i < values.size(); i++) {
+			Simulator.rewardFreeSpins[i] = values.get(i);
+		}
+	}
+	{
+		List<Integer> values = new ArrayList<>();
+		for (int c = 1;
+		freeSpinsParameters.getCellByPosition(c,2).getType()!=
+		CellContentType.EMPTY; c++) {
+			values.add((int)freeSpinsParameters.
+			getCellByPosition(c,2).	getValue());
+		}
+		Simulator.freeSpinsMultipliers = new int[values.size()];
+		for (int i = 0; i < values.size(); i++) {
+			Simulator.freeSpinsMultipliers[i] = values.get(i);
+		}
+	}
 }
 \end{lstlisting}
 
