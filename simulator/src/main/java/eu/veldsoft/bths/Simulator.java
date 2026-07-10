@@ -22,6 +22,22 @@ import com.sun.star.text.XText;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.util.XNumberFormats;
 import com.sun.star.util.XNumberFormatsSupplier;
+import com.sun.star.awt.Rectangle;
+import com.sun.star.chart.ChartLegendPosition;
+import com.sun.star.chart.X3DDisplay;
+import com.sun.star.chart.XAxisXSupplier;
+import com.sun.star.chart.XAxisYSupplier;
+import com.sun.star.chart.XChartDocument;
+import com.sun.star.chart.XDiagram;
+import com.sun.star.container.XNameAccess;
+import com.sun.star.lang.XMultiServiceFactory;
+import com.sun.star.table.CellRangeAddress;
+import com.sun.star.table.XTableChart;
+import com.sun.star.table.XTableCharts;
+import com.sun.star.table.XTableChartsSupplier;
+import com.sun.star.document.XEmbeddedObjectSupplier;
+import com.sun.star.drawing.FillStyle;
+import com.sun.star.drawing.XShape;
 
 /**
  * Simulator of the slot machine.
@@ -761,10 +777,13 @@ public class Simulator {
 	}
 
 	/** How many Monte Carlo cycles to be executed. */
-	private static long numberOfSimulations = 0L;
+	private static long numberOfGames = 0L;
 
 	/** How many bets to be executed between RTP measurements. */
 	private static long rtpMeasurementInterval = 0L;
+
+	/** How many simulations to be executed. */
+	private static int numberOfSimulations = 1;
 
 	/**
 	 * Read data structures from the spreadsheets.
@@ -773,7 +792,7 @@ public class Simulator {
 	 * 
 	 * @throws Exception If reading is not possible.
 	 */
-	private static void readDataStructures(XScriptContext ctx) @throws Exception {
+	private static void readDataStructures(XScriptContext ctx) throws Exception {
 		XModel model = ctx.getDocument();
 		XSpreadsheetDocument document = UnoRuntime.queryInterface(XSpreadsheetDocument.class, model);
 		XSpreadsheets sheets = UnoRuntime.queryInterface(XSpreadsheets.class, document.getSheets());
@@ -783,8 +802,9 @@ public class Simulator {
 		int numberOfRows = (int)summary.getCellByPosition(1,1).getValue();
 		int numberOfColumns = (int)summary.getCellByPosition(1,2).getValue();
 		int numberOfBettingLines = (int)summary.getCellByPosition(1,3).getValue();
-		numberOfSimulations = (long)summary.getCellByPosition(1,10).getValue();
+		numberOfGames = (long)summary.getCellByPosition(1,10).getValue();
 		rtpMeasurementInterval = (long)summary.getCellByPosition(1,11).getValue();
+		numberOfSimulations = (int)summary.getCellByPosition(1,12).getValue();
 
 		view = new int[numberOfColumns][numberOfRows];
 
@@ -1423,6 +1443,100 @@ public class Simulator {
 	}
 
 	/**
+     * Creates a Line Chart in the provided spreadsheet.
+	 * 
+     * @param sheet The XSpreadsheet where the chart will be created.
+     * @param index The index of the sheet (0 for the first sheet).
+	 * 
+	 * @throws Exception If chart creation fails.
+     */
+    public static void createLineChart(XSpreadsheet sheet, short index, int columns, int rows) throws Exception {
+		XTableChartsSupplier chartsSupplier = UnoRuntime.queryInterface(
+				XTableChartsSupplier.class, sheet);
+		XTableCharts tableCharts = chartsSupplier.getCharts();
+
+		Rectangle rectangle = new Rectangle();
+		rectangle.X = 0;  
+		rectangle.Y = 0;
+		rectangle.Width = 35000;
+		rectangle.Height = 30000;
+
+		CellRangeAddress[] rangeAddresses = new CellRangeAddress[1];
+		rangeAddresses[0] = new CellRangeAddress();
+		rangeAddresses[0].Sheet = index;
+		rangeAddresses[0].StartColumn = 0; 
+		rangeAddresses[0].StartRow = 0;    
+		rangeAddresses[0].EndColumn = columns - 1;   
+		rangeAddresses[0].EndRow = rows - 1;      
+
+		String chartName = "RTP Convergence";
+		tableCharts.addNewByName(chartName, rectangle, rangeAddresses, true, true);
+
+		XNameAccess chartsAccess = UnoRuntime.queryInterface(XNameAccess.class, tableCharts);
+		Object chartObj = chartsAccess.getByName(chartName);
+		XTableChart tableChart = UnoRuntime.queryInterface(XTableChart.class, chartObj);
+
+		XEmbeddedObjectSupplier eos = UnoRuntime.queryInterface(
+				XEmbeddedObjectSupplier.class, tableChart);
+		
+		XChartDocument chartDocument = UnoRuntime.queryInterface(
+				XChartDocument.class, eos.getEmbeddedObject());
+		
+		XMultiServiceFactory chartDocFactory = UnoRuntime.queryInterface(
+				XMultiServiceFactory.class, chartDocument);
+
+		XDiagram lineDiagram = UnoRuntime.queryInterface(
+				XDiagram.class, chartDocFactory.createInstance("com.sun.star.chart.LineDiagram"));
+		chartDocument.setDiagram(lineDiagram);
+
+		XPropertySet chartAreaProps = chartDocument.getArea();
+		chartAreaProps.setPropertyValue("FillStyle", FillStyle.SOLID);
+		chartAreaProps.setPropertyValue("FillColor", 0xFFFFFF);
+
+		X3DDisplay x3dDisplay = UnoRuntime.queryInterface(X3DDisplay.class, lineDiagram);
+		XPropertySet wallProps = x3dDisplay.getWall();
+		wallProps.setPropertyValue("FillStyle", FillStyle.SOLID);
+		wallProps.setPropertyValue("FillColor", 0xFFFFFF);
+
+		for (int seriesIndex = 0; seriesIndex < columns-1; seriesIndex++) {
+			lineDiagram.getDataRowProperties(seriesIndex).setPropertyValue("LineWidth", 50);
+		}
+
+		XPropertySet chartDocProps = UnoRuntime.queryInterface(
+				XPropertySet.class, chartDocument);
+		chartDocProps.setPropertyValue("HasLegend", true);
+		chartDocProps.setPropertyValue("HasMainTitle", true);
+		XPropertySet legendProps = UnoRuntime.queryInterface(
+				XPropertySet.class, chartDocument.getLegend());
+		legendProps.setPropertyValue("Alignment", ChartLegendPosition.RIGHT);
+		legendProps.setPropertyValue("FillStyle", FillStyle.SOLID);
+		legendProps.setPropertyValue("FillColor", 0xFFFFFF);
+		XShape mainTitleShape = chartDocument.getTitle();
+		XPropertySet mainTitleProps = UnoRuntime.queryInterface(
+				XPropertySet.class, mainTitleShape);
+		mainTitleProps.setPropertyValue("String", "RTP Convergence");
+
+		XPropertySet diagramProps = UnoRuntime.queryInterface(
+				XPropertySet.class, lineDiagram);
+		diagramProps.setPropertyValue("HasXAxisTitle", true);
+		diagramProps.setPropertyValue("HasYAxisTitle", true);
+		
+		XAxisXSupplier xAxisSupplier = UnoRuntime.queryInterface(
+				XAxisXSupplier.class, lineDiagram);
+		XShape xAxisTitleShape = xAxisSupplier.getXAxisTitle();
+		XPropertySet xAxisTitleProps = UnoRuntime.queryInterface(
+				XPropertySet.class, xAxisTitleShape);
+		xAxisTitleProps.setPropertyValue("String", "Measurement Interval");
+		
+		XAxisYSupplier yAxisSupplier = UnoRuntime.queryInterface(
+				XAxisYSupplier.class, lineDiagram);
+		XShape yAxisTitleShape = yAxisSupplier.getYAxisTitle();
+		XPropertySet yAxisTitleProps = UnoRuntime.queryInterface(
+				XPropertySet.class, yAxisTitleShape);
+		yAxisTitleProps.setPropertyValue("String", "RTP Value");
+	}
+
+	/**
 	 * Report convergence into a new sheet.
 	 *
 	 * @param ctx Script context.
@@ -1430,7 +1544,7 @@ public class Simulator {
 	 * 
 	 * @throws Exception If reporting fails.
 	 */
-	private static void reportConvergence(XScriptContext ctx, StringBuilder rtpLog) throws Exception {
+	private static void reportConvergence(XScriptContext ctx, List<StringBuilder> logs) throws Exception {
 		if(rtpMeasurementInterval <= 0) {
 			return;
 		}
@@ -1446,30 +1560,58 @@ public class Simulator {
 
 		XSpreadsheet report = UnoRuntime.queryInterface(XSpreadsheet.class,sheets.getByName(name));
 
-		String[] lines = rtpLog.toString().split("\n");
-		for(int i = 0; i < lines.length; i++) {
-			String[] values = lines[i].split("\t");
-			report.getCellByPosition(0, i).setFormula(values[0]);
-			report.getCellByPosition(1, i).setFormula(values[1]);
+		report.getCellByPosition(0, 0).setFormula("Interval \\ Experiment");
+
+		for(int column = 0; column < logs.size(); column++) {
+			report.getCellByPosition(column+1, 0).setFormula("'"+String.format("%08d", column+1));
 		}
+
+		int column = 0;
+		int maxRows = 0;
+		for(StringBuilder log : logs) {
+			String[] lines = log.toString().split("\n");
+			for(int row = 0; row < lines.length; row++) {
+				String[] values = lines[row].split("\t");
+				if(column == 0){
+					String suffix = "";
+					long value = Long.parseLong(values[0]);
+					if(rtpMeasurementInterval >= 1_000) {
+						value /= 1_000;
+						suffix = "K";
+					} else if(rtpMeasurementInterval >= 1_000_000) {
+						value /= 1_000_000;
+						suffix = "M";
+					} else if(rtpMeasurementInterval >= 1_000_000_000) {
+						value /= 1_000_000_000;
+						suffix = "B";
+					}
+					report.getCellByPosition(column, row+1).setFormula(String.valueOf(value)+suffix);
+				}
+				report.getCellByPosition(column + 1, row+1).setFormula(values[1]);
+			}
+			column++;
+
+			if(lines.length > maxRows) {
+				maxRows = lines.length;
+			}
+		}
+		maxRows++;
+
+		
+		/* Convergence chart sheet. */
+		index = (short)sheets.getElementNames().length;
+		name = "RTP Convergence Chart - " + (new Date()).toString().replace(":", " ");
+		sheets.insertNewByName(name, index);
+		XSpreadsheet chart = UnoRuntime.queryInterface(XSpreadsheet.class,sheets.getByName(name));
+		createLineChart(chart, (short)(index-1), logs.size()+1, maxRows);
 	}
 
-	/**
-	 * Macro simulation function.
-	 *
-	 * @param ctx Script context.
-	 */
-	public static void simulate(XScriptContext ctx) {
-		try {
-			readDataStructures(ctx);
-			resetStatistics();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return;
-		}
+	private static StringBuilder singleSimulation(XScriptContext ctx) {
+		resetStatistics();
 
 		StringBuilder rtpLog = new StringBuilder();
-		for(int g=0; g<numberOfSimulations; g++) {
+
+		for(int g=0; g<numberOfGames; g++) {
 			long beforePlay = wonMoney;
 
 			lostMoney += totalBet;
@@ -1491,10 +1633,34 @@ public class Simulator {
 			}
 		}
 
+		return rtpLog;
+	}
+
+	/**
+	 * Macro simulation function.
+	 *
+	 * @param ctx Script context.
+	 */
+	public static void simulate(XScriptContext ctx) {
+		try {
+			readDataStructures(ctx);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return;
+		}
+
+		List<StringBuilder> logs = new ArrayList<>();
+		for(int s=0; s<Simulator.numberOfSimulations; s++) {
+			logs.add(singleSimulation(ctx));
+		}
+
 		try{
-			reportStructures(ctx);
-			reportStatistics(ctx);
-			reportConvergence(ctx, rtpLog);
+			if(numberOfSimulations == 1) {
+				reportStructures(ctx);
+				reportStatistics(ctx);
+			} else if(numberOfSimulations > 1) {
+				reportConvergence(ctx, logs);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
