@@ -1576,18 +1576,18 @@ public class Simulator {
 				String[] values = lines[row].split("\t");
 				if(column == 0){
 					String suffix = "";
-					long value = Long.parseLong(values[0]);
-					if(value >= 1_000_000_000) {
-						value /= 1_000_000_000;
+					double value = Long.parseLong(values[0]);
+					if(value >= 1_000_000_000D) {
+						value /= 1_000_000_000D;
 						suffix = "B";
-					} else if(value >= 1_000_000) {
-						value /= 1_000_000;
+					} else if(value >= 1_000_000D) {
+						value /= 1_000_000D;
 						suffix = "M";
-					} else if(value >= 1_000) {
-						value /= 1_000;
+					} else if(value >= 1_000D) {
+						value /= 1_000D;
 						suffix = "K";
 					}
-					report.getCellByPosition(column, row+1).setFormula(String.valueOf(value)+suffix);
+					report.getCellByPosition(column, row+1).setFormula(String.format("%.2f",value)+suffix);
 				}
 				report.getCellByPosition(column + 1, row+1).setFormula(values[1]);
 			}
