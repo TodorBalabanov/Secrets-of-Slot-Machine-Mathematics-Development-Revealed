@@ -2457,9 +2457,63 @@ An engineering approach to estimating a game's volatility is to arrange high- an
 Free spins can be skipped for a low-volatility version of the designed math, and only a low-paying symbol can form winning combinations. Free spins will not be awarded if the free spins scatter symbol is not presented on the reels (Listing \ref{listing034}).
 
 \begin{lstlisting}[language=bash, caption={Low volatile reels (raw data)}, label=listing034]
+Base Game Reels:
+12	11	10	9	8
+12	11	10	9	8
+12	11	10	9	8
+12	12	10	9	8
+12	11	10	9	8
+12	11	10	9	8
+12	12	10	9	8
+12	11	10	9	8
+12	11	10	9	8
+12	11	12	9	8
+12	11	10	9	8
+12	11	12	9	8
+12	11	10	9	8
+12	11	10	9	8
+12	11	12	9	8
+12	12	10	9	8
+12	12	10	9	8
+12	11	10	9	8
+12	11	10	9	8
+12	11	10	9	8
+12	12	10	9	8
+12	11	12	9	8
+12	11	10	9	8
+12	11	10	9	8
+12	12	12	9	8
+12	11	10	9	8
+12	12	10	9	8
+12	12	10	9	8
+12	11	10	9	8
+12	11	10	9	8
+12	11	10	9	8
+12	11	10	9	8
+12	11	12	9	8
+12	11	12	9	8
+12	11	10	9	8
+12	11	12	9	8
+12	11	10	9	8
+12	12	10	9	8
+12	11	10	9	8
+12	11	10	9	8
+12	12	12	9	8
+12	11	10	9	8
+12	11	12	9	8
+12	11	12	9	8
+12	12	10	9	8
+12	12	10	9	8
+12	11	10	9	8
+12	11	10	9	8
+12	11	10	9	8
+12	11	10	9	8
+12	11	10	9	8
+12	11	10	9	8
+12	11	12	9	8
 \end{lstlisting}
 
-Reels are used in 30 independent game simulations (Figure \ref{image021}). The number 30 is taken empirically from the statistics and the theory of the Normal Probability Distribution. As it is seen, there is a funnel representing the RTP convergence. Measurements are done in increments of 10 thousand base game spins for a total of 1 million spins.
+Reels are used in 30 independent game simulations (Figure \ref{image021}). The number 30 is taken empirically from the statistics and the theory of the Normal Probability Distribution. As it is seen, there is a funnel representing the RTP convergence. Measurements are done in increments of 10 thousand base game spins for a total of 10 million spins.
 
 \begin{figure}[htbp]
   \centering
@@ -2469,9 +2523,63 @@ Reels are used in 30 independent game simulations (Figure \ref{image021}). The n
   \label{image021}
 \end{figure}
 
-High-volatility reels can be designed by skipping the free spins and offering only prizes from the highest-paying symbol (Listing \ref{listing035}). According to the paytable used, such a symbol is the wild.
+High-volatility reels can be designed by skipping the free spins and offering only prizes from the highest-paying symbol (Listing \ref{listing035}). According to the paytable used, such a symbol is the Seven.
 
 \begin{lstlisting}[language=bash, caption={Highly volatile reels (raw data)}, label=listing035]
+Base Game Reels:
+4	5	3	3	3
+4	5	6	3	3
+4	5	3	3	3
+4	5	3	3	3
+4	5	3	3	3
+4	5	3	3	3
+4	5	3	3	3
+4	5	3	3	3
+4	5	3	3	3
+4	5	3	3	3
+4	5	3	3	3
+4	5	3	3	3
+4	5	3	3	3
+4	5	3	3	3
+4	5	3	3	3
+4	5	6	3	3
+4	5	3	3	3
+4	5	6	3	3
+4	5	6	3	3
+4	5	3	3	3
+4	5	3	3	3
+4	5	3	3	3
+4	5	3	3	3
+4	5	6	3	3
+4	5	3	3	3
+4	5	3	3	3
+4	5	3	3	3
+4	5	3	3	3
+4	5	3	3	3
+4	5	3	3	3
+4	5	3	3	3
+4	5	3	3	3
+4	5	3	3	3
+4	5	3	3	3
+4	5	3	3	3
+4	5	6	3	3
+4	5	3	3	3
+4	5	6	3	3
+4	5	3	3	3
+4	5	3	3	3
+4	5	3	3	3
+4	5	3	3	3
+4	5	3	3	3
+4	5	3	3	3
+3	5	3	3	3
+4	5	3	3	3
+4	5	3	3	3
+4	5	3	3	3
+4	5	3	3	3
+4	3	3	3	3
+4	5	3	3	3
+4	5	3	3	3
+4	5	3	3	3
 \end{lstlisting}
 
 Once again, 30 independent spins are done (Figure \ref{image018}). The funnel is much wider because the prizes are more distant from the central tendency.
@@ -2506,23 +2614,25 @@ A comparison of volatilities can estimate the volatility achieved by designed re
   \label{image019}
 \end{figure}
 
-The convergence funnels are in different colors. The blue line shows the highly volatile reels, the red line shows the low volatile reels, and the green line shows the designed reels. The central tendency differs slightly on the graph. The reason is that the target RTP was not followed strictly. The main accent was RTP deviation. By examining the graph, it is evident that designed reels are suitable for relatively low volatility. Volatility can be adjusted by redesigning the reels further, which involves raising the number of big prizes and lowering the number of small prizes. Another way to adjust for volatility is by regulating the triggering of free spins.
+The convergence funnels are in different colors and dot patterns. The blue line (marked as High in the legend) shows the highly volatile reels, the red line (marked as Low in the legend) shows the low volatile reels, and the green line (marked as Regular in the legend) shows the designed reels. The central tendency differs slightly on the graph. The reason is that the target RTP was not followed strictly. The main accent was RTP deviation. By examining the graph, it is evident that designed reels are suitable for relatively low volatility. Volatility can be adjusted by redesigning the reels further, which involves raising the number of big prizes and lowering the number of small prizes. Another way to adjust for volatility is by regulating the scatter win frequency.
 
-\chapter{?? - Analytical RTP}
+\chapter{Analytical RTP}
+
+
 
 \chapter*{Final Remarks}
 
 This book introduces the practical aspects of mathematical modeling in slot machine games. For the base of the modeling, a Monte Carlo simulation is used. Even though a theoretical approach can be applied, when the games are very complicated, the Monte Carlo simulation remains the only option. The book shows only the standard steps for creating a mathematical model. There are many other factors to consider in actual industrial production. Game studio managers may require many parameters to have values within particular ranges, except for the RTP. It is up to the reader to extend the knowledge acquired from this book.
 
-The authors would like to thank all readers for taking the time to read this book. The reader is encouraged to develop his/her knowledge and skills in this field and to share discoveries with the authors if they wish.
+The author would like to thank all readers for taking the time to read this book. The reader is encouraged to develop his/her knowledge and skills in this field and to share discoveries with the author if they wish.
 
 % --- BACK MATTER ---
 \backmatter
 
 \chapter*{About the Author}
-Todor has a Ph.D. in Informatics and Computer Sciences. He also has an MSc in Internet Software Technologies, a BSc in Computer Systems and Technologies, and a BSc in Informatics. Currently, he is an associate at the Institute of Information and Communication Technologies, part of the Bulgarian Academy of Sciences. He has taught at some of the most highly rated Bulgarian universities, like New Bulgarian University, Technical University of Sofia, and Sofia University. He has written books about software development and applied statistics. Todor has many scientific publications. What he likes the most are good challenges. In his leisure time, he enjoys traveling and going out with friends. He is unmarried and has one child.
+Todor has a Ph.D. in Informatics and Computer Sciences. He also has an MSc in Internet Software Technologies, an MSc in Data Analysis with Specialized Software, a BSc in Computer Systems and Technologies, and a BSc in Informatics. Currently, he is an associate at the Institute of Information and Communication Technologies, part of the Bulgarian Academy of Sciences. He has taught at some of the most highly rated Bulgarian universities, like New Bulgarian University, Technical University of Sofia, and Sofia University. He has written books about software development and applied statistics. Todor has many scientific publications. What he likes the most are good challenges. In his leisure time, he enjoys traveling and going out with friends. He is unmarried and has one child.
 
-\begin{thebibliography}{9}
+\begin{thebibliography}{99}
 \bibitem{Parvanov-2021} Parvanov, D., Mateeva, G., Balabanov, T.: Classification of Images for Reverse Engineering of Slot Machines, Abstracts of the 16th Annual Meeting of the Bulgarian Section of SIAM, Fastumprint, 36-37, 2021, ISSN 1313-3357
 \bibitem{Balabanov-2021a} Balabanov, T.: Volatility Index Estimation by Reverse Engineering, Proceedings of the International Scientific Conference UNITECH, vol. 1, 229-234, 2021, ISSN 1313-230X
 \bibitem{Balabanov-2021b} Balabanov, T.: Estimation of Volatility based on the Estimation of Segmentation, Problems of Engineering Cybernetics and Robotics, vol. 77, 3-10, 2021, ISSN 2738-7356
