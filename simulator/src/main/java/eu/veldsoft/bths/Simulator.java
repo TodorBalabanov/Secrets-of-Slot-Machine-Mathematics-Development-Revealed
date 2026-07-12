@@ -1127,12 +1127,16 @@ public class Simulator {
         structures.getCellByPosition(0, offset).setFormula("Base Game Symbol Frequencies:");
         offset += 1;
         {
-            long counters[][] = Arrays.stream(baseGameReels)
-                                .map(row -> new long[row.length])
-                                .toArray(long[][]::new);
+            long counters[][] = new long[paytable.length][];
+            for(int i = 0; i < paytable.length; i++) {
+                counters[i] = new long[paytable[i].length];
+                for(int j = 0; j < paytable[i].length; j++) {
+                    counters[i][j] = 0L;
+                }
+            }
             for (int i = 0; i < baseGameReels.length; i++) {
                 for (int j = 0; j < baseGameReels[i].length; j++) {
-                    counters[i][baseGameReels[i][j]]++;
+                    counters[baseGameReels[i][j]][i]++;
                 }
             }
 
@@ -1149,7 +1153,7 @@ public class Simulator {
                     sum += counters[i][j];
                 }
                 structures.getCellByPosition(counters[i].length+1, offset).setFormula("" + sum);
-                combinations *= sum;
+                combinations *= (sum>0) ? sum : 1;
 
                 offset += 1;
             }
@@ -1162,20 +1166,24 @@ public class Simulator {
         structures.getCellByPosition(0, offset).setFormula("Free Spins Symbol Frequencies:");
         offset += 1;
         {
-            long counters[][] = Arrays.stream(freeSpinsReels)
-                                .map(row -> new long[row.length])
-                                .toArray(long[][]::new);
-            for (int i = 0; i < freeSpinsReels.length; i++) {
-                for (int j = 0; j < freeSpinsReels[i].length; j++) {
-                    counters[i][freeSpinsReels[i][j]]++;
+            long counters[][] = new long[paytable.length][];
+            for(int i = 0; i < paytable.length; i++) {
+                counters[i] = new long[paytable[i].length];
+                for(int j = 0; j < paytable[i].length; j++) {
+                    counters[i][j] = 0L;
+                }
+            }
+            for (int i = 0; i < counters.length; i++) {
+                for (int j = 0; j < counters[i].length; j++) {
+                    counters[freeSpinsReels[i][j]][i]++;
                 }
             }
 
             int maxLength = 0;
             long combinations = 1L;
-            for (int i = 0; i < freeSpinsReels.length; i++) {
+            for (int i = 0; i < counters.length; i++) {
                 maxLength = Math.max(maxLength, freeSpinsReels[i].length);
-                for (int j = 0; j < freeSpinsReels[i].length; j++) {
+                for (int j = 0; j < counters[i].length; j++) {
                     structures.getCellByPosition(j, offset).setFormula("" + counters[i][j]);
                 }
 
@@ -1184,7 +1192,7 @@ public class Simulator {
                     sum += counters[i][j];
                 }
                 structures.getCellByPosition(counters[i].length+1, offset).setFormula("" + sum);
-                combinations *= sum;
+                combinations *= (sum>0) ? sum : 1;
 
                 offset += 1;
             }
