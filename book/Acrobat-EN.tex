@@ -2618,7 +2618,100 @@ The convergence funnels are in different colors and dot patterns. The blue line 
 
 \chapter{Analytical RTP}
 
+Calculating the analytical RTP is the most complex part of creating the slot game's mathematical model. The successful analytical RTP calculation is based on the art of counting. The probabilities are based on the observed combinations of all possibilities. The combinatorics itself is based on the art of counting. 
 
+When analytical RTP is calculated, the total RTP is broken down into its constituent elements. The base game has its contribution. The free spins make their contribution. Scatter wins contribute differently from the regular symbols. Bonus games have their own contribution. 
+
+The total RTP is the cumulative sum of all individual RTPs. In the base game and free spins, each win combination has its own RTP contribution. When game simulators are written, simulations must provide as many statistics as possible. Simulation results must be approved with analytical calculations. It is very usual for mathematicians and programmers to introduce model mistakes that are very difficult to catch. By checking each RTP component from the simulation with analytical values, such mistakes are greatly reduced.
+
+During the game development process, the initial stage is analytical model calculation. After that, a separate simulator is created. The final stage is embedding the math model into the production software. All three calculation results must match. Even the production source code should be capable of running in Monte Carlo simulation mode. Mistakes are possible in all three types of calculations.
+
+\section*{Base Game Calculations}
+
+The base game is where each game round starts. The player bets, spins the reels, and then gameplay begins. The base game RTP is the most common, and it is related to the game's volatility. The model developed here has 5 reels in the base game. Each reel has 53 positions. At each spin, each reel stops at a particular position from the 53 possible. For each first-reel position, 53 possible stops are available on the second reel. For each combination of first- and second-reel stops, there are 53 possible stops for the third reel. Continuing, the total number of possible screens is $53^5 = 418195493$.
+
+Each probability in the base game is related to the total possible different screens. The probability is calculated by counting how many times a particular event occurs and dividing by the total number of possible screen combinations.
+
+\subsection*{Base Game Scatters}
+
+Inside the base game, the easiest event to calculate is the scatter win. The Scatter symbol appears only once on the second, third, and fourth reels. The scatter win is calculated without consideration of where Scatter symbols are on the screen. Scatter wins are easier to calculate than regular symbol line wins.
+
+There are wins for a single Scatter on the screen, two Scatters on the screen, and three Scatters on the screen. Because of these three possibilities, the probability of a single, two, or three Scatters should be calculated. Counting can be done in two major ways - by paper and pencil or by brute-force enumeration of all possibilities.
+
+Doing counting by paper and pencil is a metaphor. In the modern world, such calculations are done in Excel spreadsheets using combinatorial formulas. The use of tools like Microsoft Excel does not make counting much simpler than the regular paper-and-pencil approach. That is why the brute-force approach will be used wherever possible throughout this writing.
+
+The easiest win to calculate is 3 Scatters, because the Wild symbol does not substitute for the Scatter. The first reel does not contain Scatter so that it will participate in all 53 possibilities. The same applies to the fifth reel, and it will also participate in all 53 positions. Only 3 particular stops will show the Scatter on the screen for the second reel. That is why it will participate in the combinatorial calculation with 3. The same applies to the third and fourth reels. All possible screens with 3 Scatters are calculated as follows: $53 * 3 * 3 * 3 * 53 = 75843$.
+
+The probability of having 3 Scatters on the screen is calculated as the number of desired screens divided by the number of all possible screens: $75843 / 418195493 =  0.000181357765134977$. According to the paytable, 3 Scatters pay 900. The Scatter contribution in the base game RTP will be the probability of appearance multiplied by the prize of 3 Scatters: $0.000181357765134977 * 900 = 0.16322198862$.
+
+Calculating two Scatters on the screen is more complicated. It comes from the fact that there are three combinations - Scatter on the second and third reel, Scatter on the second and fourth reel, and Scatter on the third and fourth reel.
+
+When Scatters are on the second and third reels, there are 53 positions for the first reel, 3 positions for the second reel, 3 positions for the third reel, 50 positions for the fourth (3 positions are excluded because they will hold Scatters), and 53 positions for the fifth reel. In this way, the first possibility of two Scatters counts to: $53 * 3 * 3 * 50 * 53$. To this number, the possibilities of two Scatters on the second and fourth reels should be added $53 * 3  * 50 * 3 * 53$. Finally, the number of the third possibility should be added: $53 * 50 * 3 * 3 * 53$. The total number of screens with 2 visible Scatters is: $53 * 3 * 3 * 50 * 53 + 53 * 3 * 50 * 3 * 53 + 53 * 50 * 3 * 3 * 53 = 3792150$. The probability of 2 Scatters' appearance becomes: $3792150 / 418195493 = 0.00906788825$. The prize for 2 Scatters is 90, and the contribution of 2 Scatters into the base games is calculated to: $0.00906788825 * 90 = 0.8161099425$.
+
+Having only 1 Scatter on the screen is calculated similarly to when there are 2 Scatters. The possibilities are again three - Scatter on the second reel, Scatter on the third reel, or Scatter on the fourth reel. The exclusion is done for two of the three reels: $53 * 3 * 50 * 50 * 53 + 53 * 50 * 3 * 50 * 53 + 53 * 50 * 50 * 3 * 53 = 63202500$. The probability of having 1 Scatter on the screen of the base game is: $63202500 / 418195493 = 0.15113147094$. The prize for 1 Scatter is 9, and the contribution to the base game RTP is: $0.15113147094 * 9 = 1.36018323846$.
+
+\subsection*{Brute-Force Counting}
+
+Writing combinatorial formulas is an extremely difficult mathematical task, even more so when the models are very complicated. Such complexity can be greatly reduced by relying on brute-force generation of all possibilities. The counting is done by creating all possible screens and checking exactly what is on them (Listing \ref{listing037}).
+
+\begin{lstlisting}[language=Java, caption={Brute-force generation of all base game screens}, label=listing037]
+long total = 0;
+int symbols[][] = new int[20][6];
+for (int a = 0; a < base[0].length; a++) {
+	for (int b = 0; b < base[1].length; b++) {
+		for(int c = 0; c < base[2].length; c++) {
+			for (int d = 0; d < base[3].length; d++) {
+				for (int e = 0; e < base[4].length; e++) {
+					int stops[] = {a, b, c, d, e};
+
+					int view[][] = new int[5][3];
+					for(int col = 0; col < 5; col++) {
+						for(int row = 0; row < 3; row++) 
+						{
+							view[col][row] = 
+							base[col][(stops[col]+
+							row)%base[col].length];
+						}
+					}
+
+					for(int symbol : check) {
+						int count = 0;
+						for(int col = 0; col < 5; col++) 
+						{
+							for(int row = 0; row < 3; 
+							row++) {
+								if (view[col]
+								[row] == symbol) 
+								{
+									count++;
+								}
+							}
+						}
+
+						if (count > 0) {
+							symbols[symbol][count]++;
+						}
+					}
+
+					total++;
+				}
+			}
+		}
+	}
+}
+\end{lstlisting}
+
+The counting is done for the Scatter and Treasure symbols. The Wild symbol substitutes neither, and both can appear everywhere on the screen. The Treasure symbol is responsible for triggering free spins. The probabilities of the Treasure symbol indicate the percentage of Free Spins' contribution to the total RTP. Brute-force counting is much easier, error-proof, and confirms the previous calculations (Listing \ref{listing038}).
+
+\begin{lstlisting}[language=bash, caption={Counting of Scatters and Treasures}, label=listing038]
+Total Combinations: 418195493
+Number of Observations: [
+	[0, 63202500, 3792150, 75843, 0, 0],
+	[0, 63202500, 3792150, 75843, 0, 0],
+]
+\end{lstlisting}
+
+\subsection*{}
 
 \chapter*{Final Remarks}
 
