@@ -2713,48 +2713,164 @@ Number of Observations: [
 
 \subsection*{Base Game Sevens}
 
-The paper-and-pencil counting will be illustrated once again by calculating the probability of having 5 Sevens on the screen. The first option is to get a straight line that only holds Sevens. There is only a single Seven in each of the five reels. The Seven can appear on the screen in 3 different positions for each reel. This makes $3^5 = 243$ possible combinations.
+The paper-and-pencil counting will be illustrated once again by calculating the probability of having 5 Sevens on a single line on the screen. The first option is to get a straight line that only holds Sevens. There is only a single Seven in each of the five reels. The Seven can appear on the screen at 1 position per reel. This makes $1^5 = 1$ possible combinations.
 
 \begin{lstlisting}[language=bash, caption={All possible combinations of 5 Sevens}, label=listing039]
-Have a line like S-S-S-S-S:	3 * 3 * 3 * 3 * 3 = 243
-Have a line like S-S-S-S-W:	3 * 3 * 3 * 3 * 3 = 243
-Have a line like S-S-S-W-S:	3 * 3 * 3 * 3 * 3 = 243
-Have a line like S-S-S-W-W:	3 * 3 * 3 * 3 * 3 = 243
-Have a line like S-S-W-S-S:	3 * 3 * 3 * 3 * 3 = 243
-Have a line like S-S-W-S-W:	3 * 3 * 3 * 3 * 3 = 243
-Have a line like S-S-W-W-S:	3 * 3 * 3 * 3 * 3 = 243
-Have a line like S-S-W-W-W:	3 * 3 * 3 * 3 * 3 = 243
-Have a line like S-W-S-S-S:	3 * 3 * 3 * 3 * 3 = 243
-Have a line like S-W-S-S-W:	3 * 3 * 3 * 3 * 3 = 243
-Have a line like S-W-S-W-S:	3 * 3 * 3 * 3 * 3 = 243
-Have a line like S-W-S-W-W:	3 * 3 * 3 * 3 * 3 = 243
-Have a line like S-W-W-S-S:	3 * 3 * 3 * 3 * 3 = 243
-Have a line like S-W-W-S-W:	3 * 3 * 3 * 3 * 3 = 243
-Have a line like S-W-W-W-S:	3 * 3 * 3 * 3 * 3 = 243
-Have a line like S-W-W-W-W:	3 * 3 * 3 * 3 * 3 = 243
-Have a line like W-S-S-S-S:	3 * 3 * 3 * 3 * 3 = 243
-Have a line like W-S-S-S-W:	3 * 3 * 3 * 3 * 3 = 243
-Have a line like W-S-S-W-S:	3 * 3 * 3 * 3 * 3 = 243
-Have a line like W-S-S-W-W:	3 * 3 * 3 * 3 * 3 = 243
-Have a line like W-S-W-S-S:	3 * 3 * 3 * 3 * 3 = 243
-Have a line like W-S-W-S-W:	3 * 3 * 3 * 3 * 3 = 243
-Have a line like W-S-W-W-S:	3 * 3 * 3 * 3 * 3 = 243
-Have a line like W-S-W-W-W:	3 * 3 * 3 * 3 * 3 = 243
-Have a line like W-W-S-S-S:	3 * 3 * 3 * 3 * 3 = 243
-Have a line like W-W-S-S-W:	3 * 3 * 3 * 3 * 3 = 243
-Have a line like W-W-S-W-S:	3 * 3 * 3 * 3 * 3 = 243
-Have a line like W-W-S-W-W:	3 * 3 * 3 * 3 * 3 = 243
-Have a line like W-W-W-S-S:	3 * 3 * 3 * 3 * 3 = 243
-Have a line like W-W-W-S-W:	3 * 3 * 3 * 3 * 3 = 243
-Have a line like W-W-W-W-S:	3 * 3 * 3 * 3 * 3 = 243
-------------------------------------------------------------
-					 234 * 31 = 7254
+Have a line like S-S-S-S-S:	1 * 1 * 1 * 1 * 1 = 1
+Have a line like S-S-S-S-W:	1 * 1 * 1 * 1 * 1 = 1
+Have a line like S-S-S-W-S:	1 * 1 * 1 * 1 * 1 = 1
+Have a line like S-S-S-W-W:	1 * 1 * 1 * 1 * 1 = 1
+Have a line like S-S-W-S-S:	1 * 1 * 1 * 1 * 1 = 1
+Have a line like S-S-W-S-W:	1 * 1 * 1 * 1 * 1 = 1
+Have a line like S-S-W-W-S:	1 * 1 * 1 * 1 * 1 = 1
+Have a line like S-S-W-W-W:	1 * 1 * 1 * 1 * 1 = 1
+Have a line like S-W-S-S-S:	1 * 1 * 1 * 1 * 1 = 1
+Have a line like S-W-S-S-W:	1 * 1 * 1 * 1 * 1 = 1
+Have a line like S-W-S-W-S:	1 * 1 * 1 * 1 * 1 = 1
+Have a line like S-W-S-W-W:	1 * 1 * 1 * 1 * 1 = 1
+Have a line like S-W-W-S-S:	1 * 1 * 1 * 1 * 1 = 1
+Have a line like S-W-W-S-W:	1 * 1 * 1 * 1 * 1 = 1
+Have a line like S-W-W-W-S:	1 * 1 * 1 * 1 * 1 = 1
+Have a line like S-W-W-W-W:	1 * 1 * 1 * 1 * 1 = 1
+Have a line like W-S-S-S-S:	1 * 1 * 1 * 1 * 1 = 1
+Have a line like W-S-S-S-W:	1 * 1 * 1 * 1 * 1 = 1
+Have a line like W-S-S-W-S:	1 * 1 * 1 * 1 * 1 = 1
+Have a line like W-S-S-W-W:	1 * 1 * 1 * 1 * 1 = 1
+Have a line like W-S-W-S-S:	1 * 1 * 1 * 1 * 1 = 1
+Have a line like W-S-W-S-W:	1 * 1 * 1 * 1 * 1 = 1
+Have a line like W-S-W-W-S:	1 * 1 * 1 * 1 * 1 = 1
+Have a line like W-S-W-W-W:	1 * 1 * 1 * 1 * 1 = 1
+Have a line like W-W-S-S-S:	1 * 1 * 1 * 1 * 1 = 1
+Have a line like W-W-S-S-W:	1 * 1 * 1 * 1 * 1 = 1
+Have a line like W-W-S-W-S:	1 * 1 * 1 * 1 * 1 = 1
+Have a line like W-W-S-W-W:	1 * 1 * 1 * 1 * 1 = 1
+Have a line like W-W-W-S-S:	1 * 1 * 1 * 1 * 1 = 1
+Have a line like W-W-W-S-W:	1 * 1 * 1 * 1 * 1 = 1
+Have a line like W-W-W-W-S:	1 * 1 * 1 * 1 * 1 = 1
+------------------------------------------------------------	
+					   1 * 31 = 31
 \end{lstlisting}
 
-By the current design, there is a single Wild on each reel. The Wild can be substituted in each combination, forming 5 Sevens. The only exception is the combination of 5 Wilds (see Listing \ref{listing039}). The total sum of 5 Sevens combinations in the base game is $234 * 31 = 7254$. The probability of 5 Seven combinations is calculated based on all possible screen combinations: $7254 / 418195493 = 0.00001734595$. The prize for 5 Sevens is 1500, which makes the 5 Sevens contritution ot the RTP of the base game: $0.00001734595 * 1500 = 0.026018925$.
+By the current design, there is a single Wild on each reel. The Wild can be substituted in each combination, forming 5 Sevens. The only exception is the combination of 5 Wilds (see Listing \ref{listing039}). The total sum of 5 Sevens combinations in the base game is $1 * 31 = 31$. The probability of 5 Seven combinations is calculated based on all possible screen combinations: $31 / 418195493 = 0.0000000741280107483128689$. The prize for 5 Sevens is 1500, which makes the 5 Sevens contribution to the RTP of the base game: $0.0000000741280107483128689 * 1500 = 0.00011119201$.
 
-\subsection*{Brute-Force Counting of Scatters}
+For the calculation of 4 Sevens, the last reel participates with 51 symbols, which are different from Seven and Wild (Listing \ref{listing040}).
 
+\begin{lstlisting}[language=bash, caption={All possible combinations of 4 Sevens}, label=listing040]
+Have a line like S-S-S-S-X:	1 * 1 * 1 * 1 * 51 = 51
+Have a line like S-S-S-W-X:	1 * 1 * 1 * 1 * 51 = 51
+Have a line like S-S-W-S-X:	1 * 1 * 1 * 1 * 51 = 51
+Have a line like S-S-W-W-X:	1 * 1 * 1 * 1 * 51 = 51
+Have a line like S-W-S-S-X:	1 * 1 * 1 * 1 * 51 = 51
+Have a line like S-W-S-W-X:	1 * 1 * 1 * 1 * 51 = 51
+Have a line like S-W-W-S-X:	1 * 1 * 1 * 1 * 51 = 51
+Have a line like S-W-W-W-X:	1 * 1 * 1 * 1 * 51 = 51
+Have a line like W-S-S-S-X:	1 * 1 * 1 * 1 * 51 = 51
+Have a line like W-S-S-W-X:	1 * 1 * 1 * 1 * 51 = 51
+Have a line like W-S-W-S-X:	1 * 1 * 1 * 1 * 51 = 51
+Have a line like W-S-W-W-X:	1 * 1 * 1 * 1 * 51 = 51
+Have a line like W-W-S-S-X:	1 * 1 * 1 * 1 * 51 = 51
+Have a line like W-W-S-W-X:	1 * 1 * 1 * 1 * 51 = 51
+Have a line like W-W-W-S-X:	1 * 1 * 1 * 1 * 51 = 51
+------------------------------------------------------------
+					   51 * 15 = 765
+\end{lstlisting}
+
+The total sum of 4 Sevens combinations in the base game is $51 * 15 = 765$. The probability of 4 Seven combinations is calculated based on all possible screen combinations: $765 / 418195493 = 0.00000182928$. The prize for 4 Sevens is 600, which makes the 4 Sevens contribution to the RTP of the base game: $0.00000182928 * 600 = 0.001097568$.
+
+For the calculation of 3 Sevens, the fourth reel participates with 51 symbols, which are different from Seven and Wild. However, the fifth reel participates with 53 because the fourth reel interrupts the line, which means that Sevens and Wilds in the fifth reel do not count as part of a winning combination (Listing \ref{listing041}).
+
+\begin{lstlisting}[language=bash, caption={All possible combinations of 3 Sevens}, label=listing041]
+Have a line like S-S-S-X-X:	1 * 1 * 1 * 51 * 53 = 2703
+Have a line like S-S-W-X-X:	1 * 1 * 1 * 51 * 53 = 2703
+Have a line like S-W-S-X-X:	1 * 1 * 1 * 51 * 53 = 2703
+Have a line like S-W-W-X-X:	1 * 1 * 1 * 51 * 53 = 2703
+Have a line like W-S-S-X-X:	1 * 1 * 1 * 51 * 53 = 2703
+Have a line like W-S-W-X-X:	1 * 1 * 1 * 51 * 53 = 2703
+Have a line like W-W-S-X-X:	1 * 1 * 1 * 51 * 53 = 2703
+------------------------------------------------------------
+					   2703 * 7 = 18921
+\end{lstlisting}
+
+The total sum of 3 Sevens combinations in the base game is $2703 * 7 = 18921$. The probability of 3 Seven combinations is calculated based on all possible screen combinations: $18921 / 418195493 = 0.00004524439$. The prize for 3 Sevens is 30, which makes the 3 Sevens contribution to the RTP of the base game: $0.00004524439 * 30 = 0.0013573317$.
+
+\subsection*{Brute-Force Counting of Regular Symbols}
+
+The paper-and-pencil approach can be applied to all regular symbols in the game model. The calculations are getting harder and harder with the more complicated model. If there is more than one wild symbol, it will further complicate the paper-and-pencil approach. When the wild symbol has a prize of its own, it will be another complication. If extending or exploding wilds are added to the model, the analytical calculations become impossible.
+
+\begin{lstlisting}[language=Java, caption={Brute-force generation of all line winnings}, label=listing042]
+if(base[0][a] == 1 && base[1][b] == 1 && base[2][c] == 1 && 
+   base[3][d] == 1 && base[4][e] == 1) {
+	continue;
+}
+
+for(int symbol : regular) {
+	int count = 0;
+	if(base[0][a] != 1) {
+		for(int col = 0; col < 5; col++) {
+			if (base[col][stops[col]] == symbol || 
+			    base[col][stops[col]] == 1) {
+				count++;
+			} else {
+				break;
+			}
+		}
+	} else if(base[0][a] == 1) {
+		int substitute = 0;
+		for(int col = 0; col < 5; col++) {
+			if(base[col][stops[col]] != 1) {
+				substitute = base[col][stops[col]];
+				break;
+			}
+		}
+
+		for(int col = 0; substitute==symbol && col < 5; col++) {
+			if (base[col][stops[col]] == substitute || 
+			    base[col][stops[col]] == 1) {
+				count++;
+			} else {
+				break;
+			}
+		}
+	}
+
+	if (count >= 3) {
+		freqencies[symbol][count]++;
+	}
+}
+\end{lstlisting}
+
+The brute-force counting (Listing \ref{listing042}) easily shows the frequency of each possible winning combination. All probabilities can be calculated from the counted events.
+
+\begin{lstlisting}[language=bash, caption={All possible combinations of regular symbols}, label=listing043]
+Total Combinations: 418195493
+Number of Observations: [
+ [0, 0, 0, 18921, 765, 31],
+ [0, 0, 0, 68900, 4000, 242],
+ [0, 0, 0, 163611, 12495, 1023],
+ [0, 0, 0, 315456, 29952, 3124],
+ [0, 0, 0, 356213, 38835, 6911],
+ [0, 0, 0, 714917, 84623, 6911],
+ [0, 0, 0, 855950, 45637, 5831],
+ [0, 0, 0, 710094, 158355, 28159],
+ [0, 0, 0, 1820921, 335958, 87999],
+ [0, 0, 0, 2048821, 377958, 98999],
+]
+\end{lstlisting}
+
+The numbers for the highest paying regular symbol (the Seven) are shown in the first row (Listing \ref{listing043}). Brute-force counting approves the calculations done by the paper-and-pencil approach.
+
+\section*{Free Spins Calculations}
+
+The analysis of the free spins reels is done in absolutely the same way as it is done for the base game. Free spins reels are loaded as regular base game reels. The major difference is that there is a multiplier, and the RTP will be much higher above 100\%. The RTP is higher because the frequency of entering free spins is relatively low. The free spins RTP is multiplied by the probability of entering free spins to get the free spins contribution to the total RTP.
+
+\section*{Bonus Game Calculations}
+
+Different kinds of bonus games have their specific combinatorial models. The analytical calculation of a bonus game RTP is highly dependent on its mechanics. When bonus games are very complicated, analytical calculation is not possible, and the contribution of such components to the total RTP is calculated using Monte Carlo simulations.
+
+Even when achievable, the analytical calculation of the total RTP is a time-consuming task that requires highly skilled mathematicians. Such complexity leads many modern slot game manufacturers to skip the analytical calculations.
+Different kinds of bonus games have their specific combinatorial models. The analytical calculation of a bonus game RTP is highly dependent on its mechanics. When bonus games are very complicated, analytical calculation is not possible, and the contribution of such components to the total RTP is calculated using Monte Carlo simulations.
+
+Even when achievable, the analytical calculation of the total RTP is a time-consuming task that requires highly skilled mathematicians. Such complexity leads many modern slot game manufacturers to skip the analytical calculations.
 \chapter*{Final Remarks}
 
 This book introduces the practical aspects of mathematical modeling in slot machine games. For the base of the modeling, a Monte Carlo simulation is used. Even though a theoretical approach can be applied, when the games are very complicated, the Monte Carlo simulation remains the only option. The book shows only the standard steps for creating a mathematical model. There are many other factors to consider in actual industrial production. Game studio managers may require many parameters to have values within particular ranges, except for the RTP. It is up to the reader to extend the knowledge acquired from this book.
