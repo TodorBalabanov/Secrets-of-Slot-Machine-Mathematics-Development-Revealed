@@ -2650,7 +2650,7 @@ When Scatters are on the second and third reels, there are 53 positions for the 
 
 Having only 1 Scatter on the screen is calculated similarly to when there are 2 Scatters. The possibilities are again three - Scatter on the second reel, Scatter on the third reel, or Scatter on the fourth reel. The exclusion is done for two of the three reels: $53 * 3 * 50 * 50 * 53 + 53 * 50 * 3 * 50 * 53 + 53 * 50 * 50 * 3 * 53 = 63202500$. The probability of having 1 Scatter on the screen of the base game is: $63202500 / 418195493 = 0.15113147094$. The prize for 1 Scatter is 9, and the contribution to the base game RTP is: $0.15113147094 * 9 = 1.36018323846$.
 
-\subsection*{Brute-Force Counting}
+\subsection*{Brute-Force Counting of Scatters}
 
 Writing combinatorial formulas is an extremely difficult mathematical task, even more so when the models are very complicated. Such complexity can be greatly reduced by relying on brute-force generation of all possibilities. The counting is done by creating all possible screens and checking exactly what is on them (Listing \ref{listing037}).
 
@@ -2711,7 +2711,49 @@ Number of Observations: [
 ]
 \end{lstlisting}
 
-\subsection*{}
+\subsection*{Base Game Sevens}
+
+The paper-and-pencil counting will be illustrated once again by calculating the probability of having 5 Sevens on the screen. The first option is to get a straight line that only holds Sevens. There is only a single Seven in each of the five reels. The Seven can appear on the screen in 3 different positions for each reel. This makes $3^5 = 243$ possible combinations.
+
+\begin{lstlisting}[language=bash, caption={All possible combinations of 5 Sevens}, label=listing039]
+Have a line like S-S-S-S-S:	3 * 3 * 3 * 3 * 3 = 243
+Have a line like S-S-S-S-W:	3 * 3 * 3 * 3 * 3 = 243
+Have a line like S-S-S-W-S:	3 * 3 * 3 * 3 * 3 = 243
+Have a line like S-S-S-W-W:	3 * 3 * 3 * 3 * 3 = 243
+Have a line like S-S-W-S-S:	3 * 3 * 3 * 3 * 3 = 243
+Have a line like S-S-W-S-W:	3 * 3 * 3 * 3 * 3 = 243
+Have a line like S-S-W-W-S:	3 * 3 * 3 * 3 * 3 = 243
+Have a line like S-S-W-W-W:	3 * 3 * 3 * 3 * 3 = 243
+Have a line like S-W-S-S-S:	3 * 3 * 3 * 3 * 3 = 243
+Have a line like S-W-S-S-W:	3 * 3 * 3 * 3 * 3 = 243
+Have a line like S-W-S-W-S:	3 * 3 * 3 * 3 * 3 = 243
+Have a line like S-W-S-W-W:	3 * 3 * 3 * 3 * 3 = 243
+Have a line like S-W-W-S-S:	3 * 3 * 3 * 3 * 3 = 243
+Have a line like S-W-W-S-W:	3 * 3 * 3 * 3 * 3 = 243
+Have a line like S-W-W-W-S:	3 * 3 * 3 * 3 * 3 = 243
+Have a line like S-W-W-W-W:	3 * 3 * 3 * 3 * 3 = 243
+Have a line like W-S-S-S-S:	3 * 3 * 3 * 3 * 3 = 243
+Have a line like W-S-S-S-W:	3 * 3 * 3 * 3 * 3 = 243
+Have a line like W-S-S-W-S:	3 * 3 * 3 * 3 * 3 = 243
+Have a line like W-S-S-W-W:	3 * 3 * 3 * 3 * 3 = 243
+Have a line like W-S-W-S-S:	3 * 3 * 3 * 3 * 3 = 243
+Have a line like W-S-W-S-W:	3 * 3 * 3 * 3 * 3 = 243
+Have a line like W-S-W-W-S:	3 * 3 * 3 * 3 * 3 = 243
+Have a line like W-S-W-W-W:	3 * 3 * 3 * 3 * 3 = 243
+Have a line like W-W-S-S-S:	3 * 3 * 3 * 3 * 3 = 243
+Have a line like W-W-S-S-W:	3 * 3 * 3 * 3 * 3 = 243
+Have a line like W-W-S-W-S:	3 * 3 * 3 * 3 * 3 = 243
+Have a line like W-W-S-W-W:	3 * 3 * 3 * 3 * 3 = 243
+Have a line like W-W-W-S-S:	3 * 3 * 3 * 3 * 3 = 243
+Have a line like W-W-W-S-W:	3 * 3 * 3 * 3 * 3 = 243
+Have a line like W-W-W-W-S:	3 * 3 * 3 * 3 * 3 = 243
+------------------------------------------------------------
+					 234 * 31 = 7254
+\end{lstlisting}
+
+By the current design, there is a single Wild on each reel. The Wild can be substituted in each combination, forming 5 Sevens. The only exception is the combination of 5 Wilds (see Listing \ref{listing039}). The total sum of 5 Sevens combinations in the base game is $234 * 31 = 7254$. The probability of 5 Seven combinations is calculated based on all possible screen combinations: $7254 / 418195493 = 0.00001734595$. The prize for 5 Sevens is 1500, which makes the 5 Sevens contritution ot the RTP of the base game: $0.00001734595 * 1500 = 0.026018925$.
+
+\subsection*{Brute-Force Counting of Scatters}
 
 \chapter*{Final Remarks}
 
